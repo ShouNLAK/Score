@@ -77,14 +77,9 @@ Score.exe
 
 ---
 
-## 📷 Screenshot
-
-![Screenshot bảng điểm đẹp mắt](https://user-images.githubusercontent.com/your-screenshot.png)
-
----
-
 ## 🏆 Đóng Góp
 
 Mọi ý kiến đóng góp, báo lỗi hoặc cải tiến UI, vui lòng tạo issue hoặc pull request!
 
 ---
+>  *Sản phẩm của ShouNLAK - Giá trị chỉ nên dùng để tham khảo chứ không thể khẳng định tính chính xác 100% do cách tính riêng mỗi trường*
