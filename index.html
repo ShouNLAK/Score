@@ -11,33 +11,95 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #667eea;
+            --primary-dark: #4c51bf;
+            --accent: #764ba2;
+            --accent-strong: #5b3a8c;
+            --surface: rgba(255, 255, 255, 0.9);
+            --shadow-soft: 0 18px 40px rgba(102, 126, 234, 0.25);
+            --border-subtle: rgba(255, 255, 255, 0.45);
+            --text-muted: #6c728c;
+            --radius-lg: 20px;
+            --radius-sm: 10px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(130deg, #5e72eb 0%, #3f51c6 35%, #764ba2 70%, #9a4dce 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 20s ease infinite;
             min-height: 100vh;
-            padding: 20px;
+            padding: 24px;
             color: #333;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: rgba(102, 126, 234, 0.35);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 100px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
             overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            position: relative;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 40%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
             color: white;
-            padding: 30px;
+            padding: 36px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.55), transparent 55%);
+            opacity: 0.65;
+            pointer-events: none;
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 32px;
             margin-bottom: 10px;
+            letter-spacing: 0.02em;
+            text-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
         }
 
         .header p {
@@ -46,18 +108,20 @@
         }
 
         .content {
-            padding: 30px;
+            padding: 36px;
         }
 
         .input-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(244, 247, 255, 0.95));
+            padding: 22px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 35px;
             display: flex;
-            gap: 10px;
+            gap: 16px;
             flex-wrap: wrap;
             align-items: flex-end;
+            border: 1px solid rgba(102, 126, 234, 0.12);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.12);
         }
 
         .form-group {
@@ -69,53 +133,78 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #667eea;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.06em;
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: border-color 0.3s;
+            padding: 12px 14px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border-color 0.3s ease, box-shadow 0.35s ease;
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--primary);
+            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.25);
+            background: #fff;
         }
 
         button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #677bff 0%, #6f4df5 50%, #8d4ff1 100%);
             color: white;
             border: none;
-            padding: 10px 30px;
-            border-radius: 5px;
+            padding: 12px 32px;
+            border-radius: 999px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
             height: fit-content;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 65%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 16px 35px rgba(102, 126, 234, 0.35);
+        }
+
+        button:hover::after {
+            opacity: 1;
         }
 
         button:active {
-            transform: translateY(0);
+            transform: translateY(0) scale(0.99);
+            box-shadow: 0 6px 14px rgba(102, 126, 234, 0.25);
         }
 
         .student-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(249, 250, 255, 0.95));
+            padding: 22px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 36px;
             display: none;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.12);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.12);
         }
 
         .student-info.show {
@@ -123,10 +212,17 @@
         }
 
         .info-item {
-            background: white;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.12);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(102, 126, 234, 0.2);
         }
 
         .info-item label {
@@ -144,7 +240,7 @@
         }
 
         .semester-section {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
             display: none;
         }
 
@@ -153,45 +249,60 @@
         }
 
         .semester-title {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.92) 0%, rgba(118, 75, 162, 0.92) 100%);
             color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            margin-bottom: 15px;
+            padding: 18px 24px;
+            border-radius: 14px;
+            margin-bottom: 18px;
             font-size: 16px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            box-shadow: 0 18px 40px rgba(102, 126, 234, 0.25);
         }
 
         .grades-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            margin-bottom: 24px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 24px 40px rgba(102, 126, 234, 0.12);
+            background: rgba(255, 255, 255, 0.95);
         }
 
         .grades-table thead {
-            background: #f0f2f5;
-            color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.18));
+            color: var(--primary-dark);
             font-weight: 600;
+            letter-spacing: 0.02em;
         }
 
         .grades-table th {
-            padding: 12px;
+            padding: 14px;
             text-align: left;
             font-size: 13px;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.18);
         }
 
         .grades-table td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
+            padding: 14px;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.1);
             font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .grades-table tbody tr {
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
 
         .grades-table tbody tr:hover {
-            background: #f8f9fa;
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.15);
         }
 
         .grades-table tbody tr:last-child td {
@@ -199,36 +310,45 @@
         }
 
         .excluded {
-            background: #fff3cd;
-            opacity: 0.8;
+            background: rgba(255, 243, 205, 0.9);
+            opacity: 0.95;
         }
 
         .excluded-badge {
             display: inline-block;
-            background: #ffc107;
-            color: #333;
-            padding: 2px 8px;
-            border-radius: 3px;
+            background: rgba(255, 193, 7, 0.15);
+            color: #805c00;
+            padding: 3px 8px;
+            border-radius: 10px;
             font-size: 11px;
             font-weight: 600;
-            margin-left: 5px;
+            margin-left: 6px;
+            border: 1px solid rgba(255, 193, 7, 0.35);
         }
 
         .semester-summary {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 5px;
+            gap: 18px;
+            margin-bottom: 22px;
+            padding: 18px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(246, 248, 255, 0.95));
+            border-radius: 14px;
+            border: 1px solid rgba(102, 126, 234, 0.12);
         }
 
         .summary-item {
-            background: white;
-            padding: 12px;
-            border-radius: 5px;
-            border-left: 3px solid #667eea;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.12);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .summary-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 32px rgba(102, 126, 234, 0.18);
         }
 
         .summary-item label {
@@ -246,12 +366,20 @@
         }
 
         .overall-summary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95));
             color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-top: 30px;
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 32px;
             text-align: center;
+            box-shadow: 0 25px 45px rgba(102, 126, 234, 0.3);
+            transform: translateY(0);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .overall-summary:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 35px 60px rgba(102, 126, 234, 0.32);
         }
 
         .overall-summary h3 {
@@ -266,10 +394,11 @@
         }
 
         .overall-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 5px;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.18);
+            padding: 18px;
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
         }
 
         .overall-item label {
@@ -286,12 +415,14 @@
         }
 
         .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+            background: rgba(255, 204, 204, 0.9);
+            color: #8a1f2d;
+            padding: 16px 18px;
+            border-radius: 12px;
+            margin-bottom: 24px;
             display: none;
+            border: 1px solid rgba(255, 77, 109, 0.2);
+            box-shadow: 0 18px 30px rgba(217, 83, 79, 0.18);
         }
 
         .error.show {
@@ -300,7 +431,7 @@
 
         .loading {
             text-align: center;
-            padding: 20px;
+            padding: 24px;
             display: none;
         }
 
@@ -309,13 +440,14 @@
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 4px solid rgba(255, 255, 255, 0.35);
+            border-top: 4px solid rgba(102, 126, 234, 0.95);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 12px auto;
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.25);
         }
 
         @keyframes spin {
@@ -356,6 +488,200 @@
             border-radius: 3px;
         }
 
+        .current-badge {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .trial-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: #eef2ff;
+            border: 1px dashed rgba(102, 126, 234, 0.5);
+            border-radius: 8px;
+        }
+
+        .trial-section h4 {
+            font-size: 15px;
+            color: #4c51bf;
+            margin-bottom: 12px;
+        }
+
+        .trial-note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .trial-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .trial-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .trial-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4c51bf;
+            text-transform: uppercase;
+        }
+
+        .trial-group input,
+        .trial-group select {
+            padding: 8px;
+            border: 1px solid #cbd5f5;
+            border-radius: 5px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .trial-group input:focus,
+        .trial-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .trial-final-ratio {
+            padding: 8px;
+            border: 1px solid #cbd5f5;
+            border-radius: 5px;
+            background: white;
+            font-weight: 600;
+            color: #4c51bf;
+        }
+
+        .trial-results {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .trial-results span {
+            font-weight: 700;
+            color: #4c51bf;
+        }
+
+        .trial-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .trial-entry {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(102, 126, 234, 0.15);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 18px 35px rgba(102, 126, 234, 0.15);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .trial-entry:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 40px rgba(102, 126, 234, 0.22);
+        }
+
+        .trial-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #4c51bf;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .trial-remove-button {
+            background: transparent;
+            border: none;
+            color: #d32f2f;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .trial-remove-button:hover {
+            text-decoration: underline;
+        }
+
+        .trial-add-button {
+            margin-top: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            padding: 11px 22px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 18px 30px rgba(102, 126, 234, 0.22);
+        }
+
+        .trial-add-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 24px 38px rgba(102, 126, 234, 0.28);
+        }
+
+        .trial-result-value {
+            color: #d32f2f !important;
+            font-weight: 700;
+        }
+
+        .trial-meta {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .trial-meta span {
+            font-weight: 600;
+            color: #1a237e;
+        }
+
+        .animate-in {
+            opacity: 0;
+            animation: fadeUp 0.65s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(26px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
             .input-section {
                 flex-direction: column;
@@ -371,7 +697,7 @@
 
             .grades-table th,
             .grades-table td {
-                padding: 8px;
+                padding: 10px;
             }
 
             .header h1 {
@@ -397,7 +723,6 @@
                         type="url" 
                         id="urlInput" 
                         placeholder="https://sinhvien.huit.edu.vn/tra-cuu/ket-qua-hoc-tap.html?k=..."
-                        value="https://sinhvien.huit.edu.vn/tra-cuu/ket-qua-hoc-tap.html?k=8aHLMmdB9Fnp2XD1oZ3JLTSiFUhseeIZKObGyDPq-W0"
                     >
                 </div>
                 <button onclick="fetchStudentData()">Tra Cứu</button>
@@ -475,6 +800,74 @@
         ];
 
         const JINA_API = 'https://r.jina.ai/';
+        const SCORE_TOLERANCE = 0.15;
+
+        let currentStudentData = null;
+
+        function convertScoreToGPA(score) {
+            const numeric = Number(score);
+            if (!Number.isFinite(numeric)) return null;
+            const rounded = Math.round(numeric * 10) / 10;
+            if (rounded >= 8.5) return 4.0;
+            if (rounded >= 8.0) return 3.5;
+            if (rounded >= 7.0) return 3.0;
+            if (rounded >= 6.0) return 2.0;
+            if (rounded >= 5.0) return 1.0;
+            return 0.0;
+        }
+
+        function formatNumber(value, decimals = 2) {
+            if (value === null || value === undefined || value === '') return '-';
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) return '-';
+            return numeric.toFixed(decimals);
+        }
+
+        function pickNumber(...values) {
+            for (const value of values) {
+                if (value === null || value === undefined || value === '') continue;
+                const numeric = Number(value);
+                if (Number.isFinite(numeric)) return numeric;
+            }
+            return null;
+        }
+
+        function sanitizeNumberString(raw) {
+            if (!raw || typeof raw !== 'string') return null;
+            const normalized = raw
+                .replace(/\s+/g, '')
+                .replace(',', '.');
+            const numeric = parseFloat(normalized);
+            return Number.isFinite(numeric) ? numeric : null;
+        }
+
+        function roundRatio(value) {
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) return null;
+            const clamped = Math.min(100, Math.max(0, numeric));
+            return Math.round(clamped / 10) * 10;
+        }
+
+        function escapeHtml(value) {
+            if (value === null || value === undefined) return '';
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function applyCascadeAnimation(elements, baseDelay = 0.07) {
+            if (!elements) return;
+            const items = Array.from(elements).filter(Boolean);
+            items.forEach((el, idx) => {
+                el.classList.remove('animate-in');
+                void el.offsetWidth; // force reflow to restart animation
+                el.style.animationDelay = `${idx * baseDelay}s`;
+                el.classList.add('animate-in');
+            });
+        }
 
         class StudentGradeParser {
             constructor(htmlContent) {
@@ -491,14 +884,56 @@
             }
 
             scoreToGPA(score) {
-                if (score === null || score === undefined || isNaN(score)) return null;
-                score = parseFloat(score);
-                if (score >= 8.5) return 4.0;
-                if (score >= 8.0) return 3.5;
-                if (score >= 7.0) return 3.0;
-                if (score >= 6.0) return 2.0;
-                if (score >= 5.0) return 1.0;
-                return 0.0;
+                return convertScoreToGPA(score);
+            }
+
+            parseScoreCell(value) {
+                if (value === null || value === undefined || value === '') return null;
+                if (typeof value === 'number') {
+                    return Number.isFinite(value) ? value : null;
+                }
+                if (typeof value === 'string') {
+                    const numeric = sanitizeNumberString(value);
+                    return Number.isFinite(numeric) ? numeric : null;
+                }
+                return null;
+            }
+
+            assignRatios(subject) {
+                subject.midtermRatio = null;
+                subject.finalRatio = null;
+
+                const midterm = Number.isFinite(subject.midterm) ? subject.midterm : null;
+                const final = Number.isFinite(subject.final) ? subject.final : null;
+                const total = Number.isFinite(subject.total) ? subject.total : null;
+
+                if (final !== null && total !== null && (midterm === null || midterm === undefined)) {
+                    if (Math.abs(final - total) <= SCORE_TOLERANCE) {
+                        subject.finalRatio = 100;
+                    }
+                    return;
+                }
+
+                if (midterm === null || final === null || total === null) {
+                    return;
+                }
+
+                let bestRatio = null;
+                let smallestDiff = Number.POSITIVE_INFINITY;
+
+                for (let ratio = 0; ratio <= 100; ratio += 10) {
+                    const calculated = (midterm * ratio + final * (100 - ratio)) / 100;
+                    const diff = Math.abs(calculated - total);
+                    if (diff <= SCORE_TOLERANCE && diff < smallestDiff) {
+                        smallestDiff = diff;
+                        bestRatio = ratio;
+                    }
+                }
+
+                if (bestRatio !== null) {
+                    subject.midtermRatio = bestRatio;
+                    subject.finalRatio = 100 - bestRatio;
+                }
             }
 
             parseStudentInfo() {
@@ -564,10 +999,10 @@
                     // Phát hiện kết thúc học kỳ
                     if (currentSemester && (line.includes('Điểm trung bình học kỳ') || line.includes('HK'))) {
                         if (line.includes('Điểm trung bình')) {
-                            const avgMatch = line.match(/Điểm trung bình học kỳ hệ 10:\s*([\d.]+)/);
-                            const gpaMatch = line.match(/Điểm trung bình học kỳ hệ 4:\s*([\d.]+)/);
-                            if (avgMatch) currentSemester.avgScore = parseFloat(avgMatch[1]);
-                            if (gpaMatch) currentSemester.avgGPA = parseFloat(gpaMatch[1]);
+                            const avgMatch = line.match(/Điểm trung bình học kỳ hệ 10:\s*([\d.,]+)/);
+                            const gpaMatch = line.match(/Điểm trung bình học kỳ hệ 4:\s*([\d.,]+)/);
+                            if (avgMatch) currentSemester.avgScore = sanitizeNumberString(avgMatch[1]);
+                            if (gpaMatch) currentSemester.avgGPA = sanitizeNumberString(gpaMatch[1]);
                         }
                         
                         if (line.match(/HK\d+\s*\(/)) {
@@ -597,73 +1032,74 @@
             }
 
             parseSubjectLine(line) {
-                // Phân tích dòng bảng: | STT | Mã | Tên | Tín | Giữa | ... | Cuối | TK | GPA | ...
-                const cells = line.split('|').map(c => c.trim()).filter(c => c);
-                
-                if (cells.length < 8) return null;
+                const rawCells = line.split('|');
+                if (rawCells.length < 6) return null;
 
-                // Trích xuất thông tin
-                const stt = parseInt(cells[0]);
-                const code = cells[1];
-                const name = cells[2];
-                const credits = parseInt(cells[3]) || 0;
-                
-                // Tìm các cột điểm
-                let midterm = null, final = null, total = null, gpa = null;
-                
-                // Cách tính: thường Giữa KỳLà cột 4, Cuối kỳ cột 6, TK cột 7, GPA cột 8
-                // Nhưng cấu trúc có thể khác nhau, nên tìm số thập phân
-                const numbers = cells.slice(4).map(c => {
-                    const num = parseFloat(c);
-                    return isNaN(num) ? null : num;
-                });
+                const getCell = (idx) => {
+                    if (idx < 0 || idx >= rawCells.length) return '';
+                    return rawCells[idx].replace(/\s+/g, ' ').trim();
+                };
 
-                // Lấy các số hợp lệ
-                const validNumbers = numbers.filter(n => n !== null && n >= 0);
-                
-                if (validNumbers.length >= 2) {
-                    // Giả sử: Giữa kỳ, Cuối kỳ, TK, GPA
-                    // Từ bảng, cột cuối cùng là điểm GPA hệ 4
-                    gpa = parseFloat(cells[cells.length - 2]);
-                    total = parseFloat(cells[cells.length - 3]);
-                    
-                    // Tìm giữa kỳ và cuối kỳ từ các số có thập phân
-                    if (validNumbers.length >= 2) {
-                        // Lấy 2 số đầu là giữa kỳ và cuối kỳ
-                        // Theo bảng: cột "Giữa kỳ" và "Cuối kỳ"
-                        const midtermIdx = cells.findIndex((c, i) => {
-                            const num = parseFloat(c);
-                            return num && num >= 0 && num <= 10 && i > 3;
-                        });
-                        
-                        const finalIdx = midtermIdx >= 0 ? cells.findIndex((c, i) => {
-                            const num = parseFloat(c);
-                            return num && num >= 0 && num <= 10 && i > midtermIdx && i < cells.length - 3;
-                        }) : -1;
+                const stt = parseInt(getCell(1), 10);
+                if (Number.isNaN(stt)) return null;
 
-                        if (midtermIdx >= 0) midterm = parseFloat(cells[midtermIdx]);
-                        if (finalIdx >= 0) final = parseFloat(cells[finalIdx]);
+                const code = getCell(2);
+                const name = getCell(3);
+                const credits = parseInt(getCell(4), 10) || 0;
+
+                const midterm = this.parseScoreCell(getCell(11));
+                const final = this.parseScoreCell(getCell(12));
+                let total = this.parseScoreCell(getCell(14));
+                let gpa = this.parseScoreCell(getCell(15));
+
+                if (total === null || !Number.isFinite(total) || total < 0 || total > 10) {
+                    total = null;
+                }
+
+                if (gpa === null || !Number.isFinite(gpa) || gpa < 0 || gpa > 4.1) {
+                    gpa = null;
+                }
+
+                if (total === null || gpa === null) {
+                    for (let idx = rawCells.length - 1; idx >= 0; idx--) {
+                        const numeric = this.parseScoreCell(getCell(idx));
+                        if (numeric === null) continue;
+                        if ((gpa === null || !Number.isFinite(gpa)) && numeric >= 0 && numeric <= 4.1) {
+                            gpa = numeric;
+                            continue;
+                        }
+                        if ((total === null || !Number.isFinite(total)) && numeric >= 0 && numeric <= 10) {
+                            total = numeric;
+                            if (gpa !== null && Number.isFinite(gpa)) break;
+                        }
                     }
                 }
 
-                // Xử lý nếu không tìm được, lấy từ vị trí cố định
-                if (total === null || isNaN(total)) {
-                    // Cột Điểm tổng kết thường ở vị trí -2 hoặc -3
-                    total = validNumbers[validNumbers.length - 2];
-                    gpa = validNumbers[validNumbers.length - 1];
+                if (!Number.isFinite(total) || total < 0 || total > 10) {
+                    total = null;
                 }
 
-                return {
+                if (!Number.isFinite(gpa) || gpa < 0 || gpa > 4.1) {
+                    gpa = null;
+                }
+
+                const subject = {
                     stt,
                     code,
                     name,
                     credits,
-                    midterm: midterm || null,
-                    final: final || null,
-                    total: total || null,
-                    gpa: gpa || null,
+                    midterm,
+                    final,
+                    total,
+                    gpa,
+                    midtermRatio: null,
+                    finalRatio: null,
                     isExcluded: this.isExcludedSubject(name)
                 };
+
+                this.assignRatios(subject);
+
+                return subject;
             }
 
             calculateSemesterStats(semester, subjects) {
@@ -729,6 +1165,7 @@
                 // Parse dữ liệu
                 const parser = new StudentGradeParser(htmlContent);
                 const data = parser.parse();
+                currentStudentData = data;
 
                 if (!data.student.fullName) {
                     throw new Error('Không tìm thấy thông tin sinh viên. Vui lòng kiểm tra lại link.');
@@ -747,6 +1184,7 @@
 
             } catch (error) {
                 console.error('Error:', error);
+                currentStudentData = null;
                 errorDiv.textContent = `❌ Lỗi: ${error.message}`;
                 errorDiv.classList.add('show');
                 loading.classList.remove('show');
@@ -762,39 +1200,63 @@
             document.getElementById('className').textContent = student.className || '-';
             document.getElementById('cohort').textContent = student.cohort || '-';
             
-            document.getElementById('studentInfo').classList.add('show');
+            const studentInfo = document.getElementById('studentInfo');
+            studentInfo.classList.add('show');
+            applyCascadeAnimation([studentInfo]);
+            applyCascadeAnimation(studentInfo.querySelectorAll('.info-item'), 0.05);
             document.getElementById('noData').style.display = 'none';
         }
 
         function displaySemesters(semesters) {
             const container = document.getElementById('semestersContainer');
+            const noData = document.getElementById('noData');
             container.innerHTML = '';
+
+            if (!Array.isArray(semesters) || semesters.length === 0) {
+                noData.style.display = 'block';
+                return;
+            }
+
+            noData.style.display = 'none';
+
+            const currentIndexCandidate = semesters.findIndex(semester =>
+                Array.isArray(semester.subjects) && semester.subjects.some(subject => subject.total === null || !Number.isFinite(subject.total))
+            );
+            const highlightedIndex = currentIndexCandidate >= 0 ? currentIndexCandidate : semesters.length - 1;
 
             semesters.forEach((semester, idx) => {
                 const semesterDiv = document.createElement('div');
                 semesterDiv.className = 'semester-section show';
 
-                let html = `<div class="semester-title">
-                    HK${semester.semester} (${semester.year})
-                </div>`;
+                const isCurrent = idx === highlightedIndex;
+                const isNewest = idx === semesters.length - 1;
+                const semesterLabel = `HK${semester.semester || idx + 1} (${semester.year || '-'})`;
+                let titleHtml = semesterLabel;
+                if (isCurrent) {
+                    titleHtml += ` <span class="current-badge">Học kỳ hiện tại</span>`;
+                }
 
-                // Tóm tắt học kỳ
+                const avgScore = formatNumber(pickNumber(semester.avgScore, semester.calculatedAvgScore));
+                const avgGPA = formatNumber(pickNumber(semester.avgGPA, semester.calculatedAvgGPA));
+                const totalCredits = Number.isFinite(semester.totalCredits) ? semester.totalCredits : 0;
+
+                let html = `<div class="semester-title">${titleHtml}</div>`;
+
                 html += `<div class="semester-summary">
                     <div class="summary-item">
                         <label>Điểm TB (Hệ 10)</label>
-                        <div class="value">${semester.avgScore || semester.calculatedAvgScore || '-'}</div>
+                        <div class="value">${avgScore}</div>
                     </div>
                     <div class="summary-item">
                         <label>GPA (Hệ 4)</label>
-                        <div class="value">${semester.avgGPA || semester.calculatedAvgGPA || '-'}</div>
+                        <div class="value">${avgGPA}</div>
                     </div>
                     <div class="summary-item">
                         <label>Tổng Tín Chỉ</label>
-                        <div class="value"><span class="total-credits">${semester.totalCredits || 0}</span></div>
+                        <div class="value"><span class="total-credits">${totalCredits}</span></div>
                     </div>
                 </div>`;
 
-                // Bảng điểm
                 html += `<table class="grades-table">
                     <thead>
                         <tr>
@@ -811,28 +1273,338 @@
                     </thead>
                     <tbody>`;
 
-                semester.subjects.forEach((subject, i) => {
+                (semester.subjects || []).forEach((subject, i) => {
                     const rowClass = subject.isExcluded ? 'excluded' : '';
                     const excludedBadge = subject.isExcluded ? '<span class="excluded-badge">Không tính GPA</span>' : '';
-                    
+                    const subjectName = escapeHtml(subject.name || `Học phần ${i + 1}`);
+                    const midtermScore = formatNumber(subject.midterm);
+                    const finalScore = formatNumber(subject.final);
+                    const totalScore = formatNumber(subject.total);
+                    const suppressGpa = subject.midterm === null && subject.final === null;
+                    const gpaScore = suppressGpa ? '-' : formatNumber(subject.gpa);
+                    const midtermRatio = (subject.midtermRatio !== null && subject.midtermRatio !== undefined)
+                        ? `${subject.midtermRatio}%`
+                        : '-';
+                    const finalRatioValue = (subject.finalRatio !== null && subject.finalRatio !== undefined)
+                        ? subject.finalRatio
+                        : (subject.midtermRatio !== null && subject.midtermRatio !== undefined ? 100 - subject.midtermRatio : null);
+                    const finalRatio = (finalRatioValue !== null && finalRatioValue !== undefined)
+                        ? `${finalRatioValue}%`
+                        : '-';
+
                     html += `<tr class="${rowClass}">
                         <td>${i + 1}</td>
-                        <td>${subject.name}${excludedBadge}</td>
+                        <td>${subjectName}${excludedBadge}</td>
                         <td>${subject.credits}</td>
-                        <td>${subject.midterm !== null ? subject.midterm.toFixed(2) : '-'}</td>
-                        <td><input type="number" min="0" max="100" step="10" class="ratio-input-gk" data-idx="${i}" placeholder="%"></td>
-                        <td>${subject.final !== null ? subject.final.toFixed(2) : '-'}</td>
-                        <td><input type="number" min="0" max="100" step="10" class="ratio-input-ck" data-idx="${i}" placeholder="%"></td>
-                        <td>${subject.total !== null ? subject.total.toFixed(2) : '-'}</td>
-                        <td>${subject.gpa !== null ? subject.gpa.toFixed(2) : '-'}</td>
+                        <td>${midtermScore}</td>
+                        <td>${midtermRatio}</td>
+                        <td>${finalScore}</td>
+                        <td>${finalRatio}</td>
+                        <td>${totalScore}</td>
+                        <td>${gpaScore}</td>
                     </tr>`;
                 });
 
                 html += `</tbody></table>`;
 
                 semesterDiv.innerHTML = html;
+
+                const trialSection = createTrialSection(semester, isCurrent, isNewest);
+                if (trialSection) {
+                    semesterDiv.appendChild(trialSection);
+                }
+
                 container.appendChild(semesterDiv);
+
+                applyCascadeAnimation([semesterDiv], 0.04);
+                applyCascadeAnimation(semesterDiv.querySelectorAll('.summary-item'), 0.05);
+                applyCascadeAnimation(semesterDiv.querySelectorAll('.grades-table tbody tr'), 0.02);
+                if (trialSection) {
+                    applyCascadeAnimation([trialSection], 0.05);
+                }
             });
+        }
+
+        function createTrialSection(semester, isCurrent, isNewest) {
+            if (!isNewest) {
+                return null;
+            }
+
+            if (!semester || !Array.isArray(semester.subjects) || semester.subjects.length === 0) {
+                return null;
+            }
+
+            const section = document.createElement('div');
+            section.className = 'trial-section';
+
+            const heading = isCurrent ? '🧮 Thử điểm học kỳ hiện tại' : '🧮 Thử điểm học kỳ mới nhất';
+            const optionsHtml = semester.subjects
+                .map((subject, index) => `<option value="${index}">${escapeHtml(subject.name || `Học phần ${index + 1}`)}</option>`)
+                .join('');
+
+            const headingEl = document.createElement('h4');
+            headingEl.textContent = heading;
+            section.appendChild(headingEl);
+
+            const noteEl = document.createElement('p');
+            noteEl.className = 'trial-note';
+            noteEl.textContent = 'Nhập điểm và tỷ lệ mong muốn cho một hoặc nhiều học phần. Kết quả thử sẽ hiển thị màu đỏ để dễ phân biệt.';
+            section.appendChild(noteEl);
+
+            const entriesContainer = document.createElement('div');
+            entriesContainer.className = 'trial-entries';
+            section.appendChild(entriesContainer);
+
+            function updateRemoveButtonVisibility() {
+                const buttons = entriesContainer.querySelectorAll('.trial-remove-button');
+                buttons.forEach(button => {
+                    button.style.visibility = buttons.length === 1 ? 'hidden' : 'visible';
+                });
+                applyCascadeAnimation(entriesContainer.querySelectorAll('.trial-entry'), 0.05);
+            }
+
+            function ensureAtLeastOneEntry() {
+                if (!entriesContainer.querySelector('.trial-entry')) {
+                    addEntry(0);
+                }
+                updateRemoveButtonVisibility();
+            }
+
+            function addEntry(initialSubjectIndex = null) {
+                const entry = document.createElement('div');
+                entry.className = 'trial-entry';
+                entry.innerHTML = `
+                    <div class="trial-entry-header">
+                        <span>Học phần thử</span>
+                        <button type="button" class="trial-remove-button">Xóa</button>
+                    </div>
+                    <div class="trial-form">
+                        <div class="trial-group">
+                            <label>Chọn học phần</label>
+                            <select class="trial-subject-select">
+                                <option value="">-- Chọn học phần --</option>
+                                ${optionsHtml}
+                            </select>
+                        </div>
+                        <div class="trial-group">
+                            <label>Điểm giữa kỳ (thử)</label>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-midterm-input" placeholder="Nhập điểm GK">
+                        </div>
+                        <div class="trial-group">
+                            <label>Tỷ lệ giữa kỳ (%)</label>
+                            <input type="number" min="0" max="100" step="10" class="trial-midterm-ratio-input" placeholder="vd: 30">
+                        </div>
+                        <div class="trial-group">
+                            <label>Điểm cuối kỳ (thử)</label>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-final-input" placeholder="Nhập điểm CK">
+                        </div>
+                        <div class="trial-group">
+                            <label>Tỷ lệ cuối kỳ (%)</label>
+                            <div class="trial-final-ratio">-</div>
+                        </div>
+                    </div>
+                    <div class="trial-results">
+                        <div>Điểm tổng kết dự kiến: <span class="trial-result-value trial-result-avg">-</span></div>
+                        <div>GPA dự kiến (4.0): <span class="trial-result-value trial-result-gpa">-</span></div>
+                    </div>
+                    <div class="trial-meta">
+                        <div>Điểm tổng kết hiện tại: <span class="trial-actual-total">-</span></div>
+                        <div>GPA hiện tại: <span class="trial-actual-gpa">-</span></div>
+                        <div>Tỷ lệ tham khảo: <span class="trial-actual-ratio">-</span></div>
+                    </div>
+                `;
+
+                const selectEl = entry.querySelector('.trial-subject-select');
+                const midtermInput = entry.querySelector('.trial-midterm-input');
+                const finalInput = entry.querySelector('.trial-final-input');
+                const ratioInput = entry.querySelector('.trial-midterm-ratio-input');
+                const finalRatioDisplay = entry.querySelector('.trial-final-ratio');
+                const resultAvgEl = entry.querySelector('.trial-result-avg');
+                const resultGpaEl = entry.querySelector('.trial-result-gpa');
+                const actualTotalEl = entry.querySelector('.trial-actual-total');
+                const actualGpaEl = entry.querySelector('.trial-actual-gpa');
+                const actualRatioEl = entry.querySelector('.trial-actual-ratio');
+                const removeButton = entry.querySelector('.trial-remove-button');
+
+                let currentSubject = null;
+
+                const resetInputs = () => {
+                    midtermInput.value = '';
+                    finalInput.value = '';
+                    ratioInput.value = '';
+                    finalRatioDisplay.textContent = '-';
+                    resultAvgEl.textContent = '-';
+                    resultGpaEl.textContent = '-';
+                    actualTotalEl.textContent = '-';
+                    actualGpaEl.textContent = '-';
+                    actualRatioEl.textContent = '-';
+                };
+
+                const updateResults = () => {
+                    if (!currentSubject) {
+                        resultAvgEl.textContent = '-';
+                        resultGpaEl.textContent = '-';
+                        finalRatioDisplay.textContent = '-';
+                        return;
+                    }
+
+                    const inputMidterm = parseFloat(midtermInput.value);
+                    const hasMidterm = !Number.isNaN(inputMidterm);
+                    const inputFinal = parseFloat(finalInput.value);
+                    const hasFinal = !Number.isNaN(inputFinal);
+                    const inputRatioRaw = parseFloat(ratioInput.value);
+                    const hasInputRatio = !Number.isNaN(inputRatioRaw);
+
+                    let workingMidtermRatio = null;
+                    let workingFinalRatio = null;
+
+                    if (hasInputRatio) {
+                        const roundedRatio = roundRatio(inputRatioRaw);
+                        if (roundedRatio !== null) {
+                            ratioInput.value = roundedRatio;
+                            workingMidtermRatio = roundedRatio;
+                            workingFinalRatio = 100 - roundedRatio;
+                        }
+                    }
+
+                    if (workingMidtermRatio === null || workingFinalRatio === null) {
+                        if (Number.isFinite(currentSubject.midtermRatio)) {
+                            workingMidtermRatio = currentSubject.midtermRatio;
+                        }
+                        if (Number.isFinite(currentSubject.finalRatio)) {
+                            workingFinalRatio = currentSubject.finalRatio;
+                        } else if (Number.isFinite(workingMidtermRatio)) {
+                            workingFinalRatio = 100 - workingMidtermRatio;
+                        }
+                    }
+
+                    if (workingMidtermRatio === null && workingFinalRatio === null && Number.isFinite(currentSubject.finalRatio)) {
+                        workingFinalRatio = currentSubject.finalRatio;
+                    }
+
+                    if (workingMidtermRatio === null && workingFinalRatio === 100 && hasFinal && !hasMidterm) {
+                        finalRatioDisplay.textContent = '100%';
+                        resultAvgEl.textContent = formatNumber(inputFinal);
+                        const gpa = convertScoreToGPA(inputFinal);
+                        resultGpaEl.textContent = gpa !== null ? formatNumber(gpa) : '-';
+                        return;
+                    }
+
+                    if (workingMidtermRatio === null && workingFinalRatio !== null) {
+                        workingMidtermRatio = 100 - workingFinalRatio;
+                    }
+
+                    if (workingMidtermRatio === null || workingFinalRatio === null) {
+                        finalRatioDisplay.textContent = '-';
+                        resultAvgEl.textContent = '-';
+                        resultGpaEl.textContent = '-';
+                        return;
+                    }
+
+                    workingMidtermRatio = Math.max(0, Math.min(100, workingMidtermRatio));
+                    workingFinalRatio = Math.max(0, Math.min(100, workingFinalRatio));
+                    finalRatioDisplay.textContent = `${workingFinalRatio}%`;
+
+                    let total = null;
+                    if (workingFinalRatio === 100 && workingMidtermRatio === 0 && hasFinal) {
+                        total = inputFinal;
+                    } else if (hasMidterm && hasFinal) {
+                        total = ((inputMidterm * workingMidtermRatio) + (inputFinal * workingFinalRatio)) / 100;
+                    }
+
+                    if (total === null || Number.isNaN(total)) {
+                        resultAvgEl.textContent = '-';
+                        resultGpaEl.textContent = '-';
+                        return;
+                    }
+
+                    const gpaValue = convertScoreToGPA(total);
+                    resultAvgEl.textContent = formatNumber(total);
+                    resultGpaEl.textContent = gpaValue !== null ? formatNumber(gpaValue) : '-';
+                };
+
+                const populateFromSubject = (subject) => {
+                    currentSubject = subject;
+                    if (!subject) {
+                        resetInputs();
+                        return;
+                    }
+
+                    const midtermDefault = Number.isFinite(subject.midterm) ? subject.midterm.toFixed(2) : '';
+                    const finalDefault = Number.isFinite(subject.final) ? subject.final.toFixed(2) : '';
+                    const ratioDefault = Number.isFinite(subject.midtermRatio) ? subject.midtermRatio : '';
+                    const finalRatioDefault = Number.isFinite(subject.finalRatio) ? `${subject.finalRatio}%` : (Number.isFinite(subject.midtermRatio) ? `${100 - subject.midtermRatio}%` : '-');
+
+                    midtermInput.value = midtermDefault;
+                    finalInput.value = finalDefault;
+                    ratioInput.value = ratioDefault;
+                    finalRatioDisplay.textContent = finalRatioDefault;
+                    actualTotalEl.textContent = formatNumber(subject.total);
+
+                    const hideActualGpa = subject.midterm === null && subject.final === null;
+                    actualGpaEl.textContent = hideActualGpa ? '-' : formatNumber(subject.gpa);
+
+                    if (Number.isFinite(subject.midtermRatio) || Number.isFinite(subject.finalRatio)) {
+                        const ratioParts = [];
+                        if (Number.isFinite(subject.midtermRatio)) ratioParts.push(`GK ${subject.midtermRatio}%`);
+                        if (Number.isFinite(subject.finalRatio)) ratioParts.push(`CK ${subject.finalRatio}%`);
+                        actualRatioEl.textContent = ratioParts.join(' / ') || '-';
+                    } else {
+                        actualRatioEl.textContent = '-';
+                    }
+
+                    updateResults();
+                };
+
+                selectEl.addEventListener('change', () => {
+                    const idx = parseInt(selectEl.value, 10);
+                    if (Number.isNaN(idx)) {
+                        resetInputs();
+                        currentSubject = null;
+                        return;
+                    }
+                    const chosenSubject = semester.subjects[idx];
+                    populateFromSubject(chosenSubject);
+                });
+
+                [midtermInput, finalInput].forEach(input => {
+                    input.addEventListener('input', updateResults);
+                });
+
+                ratioInput.addEventListener('input', updateResults);
+                ratioInput.addEventListener('change', updateResults);
+
+                removeButton.addEventListener('click', () => {
+                    entry.remove();
+                    ensureAtLeastOneEntry();
+                });
+
+                entriesContainer.appendChild(entry);
+
+                if (initialSubjectIndex !== null && initialSubjectIndex >= 0 && initialSubjectIndex < semester.subjects.length) {
+                    selectEl.value = String(initialSubjectIndex);
+                    populateFromSubject(semester.subjects[initialSubjectIndex]);
+                } else {
+                    resetInputs();
+                }
+
+                updateRemoveButtonVisibility();
+                applyCascadeAnimation(entriesContainer.querySelectorAll('.trial-entry'), 0.05);
+            }
+
+            ensureAtLeastOneEntry();
+
+            const addButton = document.createElement('button');
+            addButton.type = 'button';
+            addButton.className = 'trial-add-button';
+            addButton.textContent = '+ Thêm học phần thử';
+            addButton.addEventListener('click', () => {
+                addEntry();
+            });
+
+            section.appendChild(addButton);
+
+            return section;
         }
 
         function displayOverallSummary(data) {
@@ -846,20 +1618,30 @@
                 sem.subjects.forEach(subject => {
                     if (!subject.isExcluded && subject.total !== null && !isNaN(subject.total)) {
                         totalScore += subject.total * subject.credits;
-                        const gpa = new StudentGradeParser('').scoreToGPA(subject.total);
-                        totalGPA += gpa * subject.credits;
+                        const gpa = convertScoreToGPA(subject.total);
+                        if (gpa !== null) {
+                            totalGPA += gpa * subject.credits;
+                        }
                         totalCredits += subject.credits;
                     }
                 });
             });
 
-            const overallAvg = totalCredits > 0 ? (totalScore / totalCredits).toFixed(2) : '-';
-            const overallGPA = totalCredits > 0 ? (totalGPA / totalCredits).toFixed(2) : '-';
+            const overallAvgValue = totalCredits > 0 ? totalScore / totalCredits : null;
+            const overallGpaValue = totalCredits > 0 ? totalGPA / totalCredits : null;
+
+            const overallAvg = totalCredits > 0 ? formatNumber(overallAvgValue) : '-';
+            const overallGPA = totalCredits > 0 ? formatNumber(overallGpaValue) : '-';
 
             document.getElementById('overallAvg').textContent = overallAvg;
             document.getElementById('overallGPA').textContent = overallGPA;
             document.getElementById('totalCredits').textContent = totalCredits;
-            document.getElementById('overallSummary').style.display = 'block';
+            const overallSummary = document.getElementById('overallSummary');
+            overallSummary.style.display = totalCredits > 0 ? 'block' : 'none';
+            if (totalCredits > 0) {
+                applyCascadeAnimation([overallSummary], 0.05);
+                applyCascadeAnimation(overallSummary.querySelectorAll('.overall-item'), 0.06);
+            }
         }
 
         function exportToCSV() {
