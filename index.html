@@ -498,190 +498,71 @@
             letter-spacing: 0.5px;
         }
 
-        .trial-section {
-            margin-top: 20px;
-            padding: 20px;
-            background: #eef2ff;
-            border: 1px dashed rgba(102, 126, 234, 0.5);
-            border-radius: 8px;
+        .score-actual {
+            font-weight: 600;
         }
 
-        .trial-section h4 {
-            font-size: 15px;
-            color: #4c51bf;
-            margin-bottom: 12px;
-        }
-
-        .trial-note {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 18px;
-        }
-
-        .trial-form {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-        }
-
-        .trial-group {
+        .trial-inline {
             display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 6px;
+            margin-top: 6px;
+            font-size: 12px;
         }
 
-        .trial-group label {
-            font-size: 12px;
+        .trial-inline .trial-tag {
+            text-transform: uppercase;
             font-weight: 600;
             color: #4c51bf;
-            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.04em;
         }
 
-        .trial-group input,
-        .trial-group select {
-            padding: 8px;
+        .trial-input {
+            width: 72px;
+            padding: 6px 8px;
             border: 1px solid #cbd5f5;
-            border-radius: 5px;
-            font-size: 14px;
-            background: white;
+            border-radius: 6px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .trial-group input:focus,
-        .trial-group select:focus {
+        .trial-input:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.18);
         }
 
-        .trial-final-ratio {
-            padding: 8px;
-            border: 1px solid #cbd5f5;
-            border-radius: 5px;
-            background: white;
-            font-weight: 600;
-            color: #4c51bf;
-        }
-
-        .trial-results {
-            margin-top: 18px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .trial-results span {
+        .trial-output {
             font-weight: 700;
-            color: #4c51bf;
-        }
-
-        .trial-entries {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .trial-entry {
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(102, 126, 234, 0.15);
-            border-radius: 14px;
-            padding: 18px;
-            box-shadow: 0 18px 35px rgba(102, 126, 234, 0.15);
-            transition: transform 0.35s ease, box-shadow 0.35s ease;
-        }
-
-        .trial-entry:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 24px 40px rgba(102, 126, 234, 0.22);
-        }
-
-        .trial-semester-results {
-            margin-top: 20px;
-            padding: 18px;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 12px;
-            box-shadow: 0 18px 35px rgba(102, 126, 234, 0.18);
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
-        }
-
-        .trial-semester-results div {
-            font-size: 14px;
-            color: #333;
-        }
-
-        .trial-entry-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            color: #4c51bf;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-
-        .trial-remove-button {
-            background: transparent;
-            border: none;
             color: #d32f2f;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 11px;
+            min-width: 28px;
+            display: inline-block;
         }
 
-        .trial-remove-button:hover {
-            text-decoration: underline;
+        .trial-output.muted {
+            color: #9ca3c7;
         }
 
-        .trial-add-button {
-            margin-top: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            color: white;
-            border: none;
-            padding: 11px 22px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 18px 30px rgba(102, 126, 234, 0.22);
-        }
-
-        .trial-add-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 24px 38px rgba(102, 126, 234, 0.28);
-        }
-
-        .trial-add-button:disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .trial-result-value {
-            color: #d32f2f !important;
-            font-weight: 700;
-        }
-
-        .trial-meta {
-            margin-top: 12px;
+        .summary-item .trial-value {
+            margin-top: 8px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
+            align-items: center;
+            gap: 6px;
             font-size: 12px;
-            color: #555;
+            color: #4c51bf;
         }
 
-        .trial-meta span {
+        .summary-item .trial-value .trial-tag {
+            text-transform: uppercase;
             font-weight: 600;
-            color: #1a237e;
+            letter-spacing: 0.05em;
+        }
+
+        .summary-item .trial-value .trial-output {
+            color: #d32f2f;
+            font-weight: 700;
         }
 
         .animate-in {
@@ -870,6 +751,13 @@
             if (!Number.isFinite(numeric)) return null;
             const clamped = Math.min(100, Math.max(0, numeric));
             return Math.round(clamped / 10) * 10;
+        }
+
+        function isNearlyEqual(a, b, tolerance = SCORE_TOLERANCE) {
+            if (!Number.isFinite(a) || !Number.isFinite(b)) {
+                return false;
+            }
+            return Math.abs(a - b) <= tolerance;
         }
 
         function escapeHtml(value) {
@@ -1272,14 +1160,19 @@
 
                 let html = `<div class="semester-title">${titleHtml}</div>`;
 
+                const trialAvgSnippet = isNewest ? `<div class="trial-value"><span class="trial-tag">Thử:</span><span class="trial-output" data-trial-summary="avg10">-</span></div>` : '';
+                const trialGpaSnippet = isNewest ? `<div class="trial-value"><span class="trial-tag">Thử:</span><span class="trial-output" data-trial-summary="gpa4">-</span></div>` : '';
+
                 html += `<div class="semester-summary">
-                    <div class="summary-item">
+                    <div class="summary-item" data-summary="avg10">
                         <label>Điểm TB (Hệ 10)</label>
                         <div class="value">${avgScore}</div>
+                        ${trialAvgSnippet}
                     </div>
-                    <div class="summary-item">
+                    <div class="summary-item" data-summary="gpa4">
                         <label>GPA (Hệ 4)</label>
                         <div class="value">${avgGPA}</div>
+                        ${trialGpaSnippet}
                     </div>
                     <div class="summary-item">
                         <label>Tổng Tín Chỉ</label>
@@ -1322,16 +1215,60 @@
                         ? `${finalRatioValue}%`
                         : '-';
 
-                    html += `<tr class="${rowClass}">
-                        <td>${i + 1}</td>
-                        <td>${subjectName}${excludedBadge}</td>
-                        <td>${subject.credits}</td>
-                        <td>${midtermScore}</td>
-                        <td>${midtermRatio}</td>
-                        <td>${finalScore}</td>
-                        <td>${finalRatio}</td>
-                        <td>${totalScore}</td>
-                        <td>${gpaScore}</td>
+                    const allowTrial = isNewest && !subject.isExcluded;
+
+                    const midtermTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-input trial-midterm-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const midtermRatioTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="100" step="10" class="trial-input trial-midterm-ratio-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const finalTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-input trial-final-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const finalRatioTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="final-ratio" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    const totalTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="total" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    const gpaTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="gpa" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    html += `<tr class="${rowClass}" data-subject-index="${i}">
+                        <td><div class="score-actual">${i + 1}</div></td>
+                        <td><div class="score-actual">${subjectName}${excludedBadge}</div></td>
+                        <td><div class="score-actual">${subject.credits}</div></td>
+                        <td><div class="score-actual">${midtermScore}</div>${midtermTrialHtml}</td>
+                        <td><div class="score-actual">${midtermRatio}</div>${midtermRatioTrialHtml}</td>
+                        <td><div class="score-actual">${finalScore}</div>${finalTrialHtml}</td>
+                        <td><div class="score-actual">${finalRatio}</div>${finalRatioTrialHtml}</td>
+                        <td><div class="score-actual">${totalScore}</div>${totalTrialHtml}</td>
+                        <td><div class="score-actual">${gpaScore}</div>${gpaTrialHtml}</td>
                     </tr>`;
                 });
 
@@ -1339,87 +1276,48 @@
 
                 semesterDiv.innerHTML = html;
 
-                const trialSection = createTrialSection(semester, isCurrent, isNewest);
-                if (trialSection) {
-                    semesterDiv.appendChild(trialSection);
-                }
-
                 container.appendChild(semesterDiv);
 
                 applyCascadeAnimation([semesterDiv], 0.04);
                 applyCascadeAnimation(semesterDiv.querySelectorAll('.summary-item'), 0.05);
                 applyCascadeAnimation(semesterDiv.querySelectorAll('.grades-table tbody tr'), 0.02);
-                if (trialSection) {
-                    applyCascadeAnimation([trialSection], 0.05);
+
+                if (isNewest) {
+                    setupSemesterTrialInputs(semesterDiv, semester);
                 }
             });
         }
 
-        function createTrialSection(semester, isCurrent, isNewest) {
-            if (!isNewest) {
-                return null;
+        function setupSemesterTrialInputs(semesterContainer, semester) {
+            if (!semester || !Array.isArray(semester.subjects)) {
+                return;
             }
 
-            if (!semester || !Array.isArray(semester.subjects) || semester.subjects.length === 0) {
-                return null;
-            }
+            const trialState = new Map();
+            const summaryAvgOutput = semesterContainer.querySelector('[data-trial-summary="avg10"]');
+            const summaryGpaOutput = semesterContainer.querySelector('[data-trial-summary="gpa4"]');
 
-            const section = document.createElement('div');
-            section.className = 'trial-section';
+            function updateSummary() {
+                if (!summaryAvgOutput && !summaryGpaOutput) {
+                    return;
+                }
 
-            const heading = isCurrent ? '🧮 Thử điểm học kỳ hiện tại' : '🧮 Thử điểm học kỳ mới nhất';
-            const optionsHtml = semester.subjects
-                .map((subject, index) => `<option value="${index}">${escapeHtml(subject.name || `Học phần ${index + 1}`)}</option>`)
-                .join('');
+                if (trialState.size === 0) {
+                    if (summaryAvgOutput) summaryAvgOutput.textContent = '-';
+                    if (summaryGpaOutput) summaryGpaOutput.textContent = '-';
+                    return;
+                }
 
-            const selectedSubjects = new Set();
-            const trialState = new Map(); // subjectIndex -> { total, gpa }
-
-            const headingEl = document.createElement('h4');
-            headingEl.textContent = heading;
-            section.appendChild(headingEl);
-
-            const noteEl = document.createElement('p');
-            noteEl.className = 'trial-note';
-            noteEl.textContent = 'Nhập điểm và tỷ lệ mong muốn cho một hoặc nhiều học phần. Kết quả thử sẽ hiển thị màu đỏ để dễ phân biệt.';
-            section.appendChild(noteEl);
-
-            const entriesContainer = document.createElement('div');
-            entriesContainer.className = 'trial-entries';
-            section.appendChild(entriesContainer);
-
-            const semesterResults = document.createElement('div');
-            semesterResults.className = 'trial-semester-results';
-            semesterResults.innerHTML = `
-                <div>Điểm TB học kỳ dự kiến: <span class="trial-result-value trial-semester-avg">-</span></div>
-                <div>GPA học kỳ dự kiến (4.0): <span class="trial-result-value trial-semester-gpa">-</span></div>
-            `;
-            section.appendChild(semesterResults);
-
-            const addButton = document.createElement('button');
-            addButton.type = 'button';
-            addButton.className = 'trial-add-button';
-            addButton.textContent = '+ Thêm học phần thử';
-            addButton.addEventListener('click', () => {
-                if (addButton.disabled) return;
-                addEntry();
-            });
-            section.appendChild(addButton);
-
-            const semesterAvgEl = semesterResults.querySelector('.trial-semester-avg');
-            const semesterGpaEl = semesterResults.querySelector('.trial-semester-gpa');
-
-            function computeSemesterTrialStats() {
                 let totalScore = 0;
                 let totalGpa = 0;
-                let countedCredits = 0;
+                let totalCredits = 0;
 
-                semester.subjects.forEach((subject, index) => {
-                    if (!subject || subject.isExcluded) {
-                        return;
-                    }
+                semester.subjects.forEach((subject, idx) => {
+                    if (!subject || subject.isExcluded) return;
+                    const credits = subject.credits || 0;
+                    if (credits <= 0) return;
 
-                    const trialData = trialState.get(index);
+                    const trialData = trialState.get(idx);
                     let score = null;
 
                     if (trialData && Number.isFinite(trialData.total)) {
@@ -1428,364 +1326,167 @@
                         score = subject.total;
                     }
 
-                    if (!Number.isFinite(score)) {
-                        return;
-                    }
-
-                    const credits = subject.credits || 0;
-                    if (credits <= 0) {
-                        return;
-                    }
+                    if (!Number.isFinite(score)) return;
 
                     totalScore += score * credits;
-                    countedCredits += credits;
+                    totalCredits += credits;
 
-                    const gpa = convertScoreToGPA(score);
-                    if (Number.isFinite(gpa)) {
-                        totalGpa += gpa * credits;
+                    const gpaValue = convertScoreToGPA(score);
+                    if (Number.isFinite(gpaValue)) {
+                        totalGpa += gpaValue * credits;
                     }
                 });
 
-                return {
-                    avg: countedCredits > 0 ? totalScore / countedCredits : null,
-                    gpa: countedCredits > 0 ? totalGpa / countedCredits : null
-                };
-            }
-
-            function updateSemesterTrialSummary() {
-                const stats = computeSemesterTrialStats();
-                semesterAvgEl.textContent = stats.avg !== null ? formatNumber(stats.avg) : '-';
-                semesterGpaEl.textContent = stats.gpa !== null ? formatNumber(stats.gpa) : '-';
-            }
-
-            function refreshAvailableOptions() {
-                const selects = entriesContainer.querySelectorAll('.trial-subject-select');
-                selects.forEach(select => {
-                    const currentValue = select.value;
-                    Array.from(select.options).forEach(option => {
-                        if (!option.value) {
-                            option.disabled = false;
-                            option.hidden = false;
-                            return;
-                        }
-                        const optionIndex = parseInt(option.value, 10);
-                        const shouldHide = selectedSubjects.has(optionIndex) && option.value !== currentValue;
-                        option.disabled = shouldHide;
-                        option.hidden = shouldHide;
-                    });
-                });
-
-                const hasAvailableSubject = semester.subjects.some((_, idx) => !selectedSubjects.has(idx));
-                if (!hasAvailableSubject) {
-                    addButton.disabled = true;
-                    addButton.textContent = 'Đã chọn hết học phần';
-                } else {
-                    addButton.disabled = false;
-                    addButton.textContent = '+ Thêm học phần thử';
+                if (summaryAvgOutput) {
+                    summaryAvgOutput.textContent = totalCredits > 0 ? formatNumber(totalScore / totalCredits) : '-';
+                }
+                if (summaryGpaOutput) {
+                    summaryGpaOutput.textContent = totalCredits > 0 ? formatNumber(totalGpa / totalCredits) : '-';
                 }
             }
 
-            function updateRemoveButtonVisibility() {
-                const buttons = entriesContainer.querySelectorAll('.trial-remove-button');
-                const singleEntry = buttons.length <= 1;
-                buttons.forEach(button => {
-                    button.style.visibility = singleEntry ? 'hidden' : 'visible';
-                });
-            }
+            const rows = semesterContainer.querySelectorAll('.grades-table tbody tr');
 
-            function ensureAtLeastOneEntry() {
-                const hasEntry = Boolean(entriesContainer.querySelector('.trial-entry'));
-                const hasAvailableSubject = semester.subjects.some((_, idx) => !selectedSubjects.has(idx));
+            rows.forEach(row => {
+                const subjectIndex = parseInt(row.dataset.subjectIndex, 10);
+                if (!Number.isInteger(subjectIndex)) return;
 
-                if (!hasEntry && hasAvailableSubject) {
-                    addEntry();
+                const subject = semester.subjects[subjectIndex];
+                if (!subject || subject.isExcluded) return;
+
+                const midtermInput = row.querySelector('.trial-midterm-input');
+                const finalInput = row.querySelector('.trial-final-input');
+                const ratioInput = row.querySelector('.trial-midterm-ratio-input');
+                const finalRatioOutput = row.querySelector('[data-role="final-ratio"]');
+                const totalOutput = row.querySelector('[data-role="total"]');
+                const gpaOutput = row.querySelector('[data-role="gpa"]');
+
+                if (!midtermInput || !finalInput || !ratioInput || !totalOutput || !gpaOutput || !finalRatioOutput) {
                     return;
                 }
 
-                updateRemoveButtonVisibility();
-                refreshAvailableOptions();
-                applyCascadeAnimation(entriesContainer.querySelectorAll('.trial-entry'), 0.05);
-            }
+                if (Number.isFinite(subject.midterm)) {
+                    midtermInput.value = Number(subject.midterm).toFixed(2);
+                }
+                if (Number.isFinite(subject.final)) {
+                    finalInput.value = Number(subject.final).toFixed(2);
+                }
+                if (Number.isFinite(subject.midtermRatio)) {
+                    ratioInput.value = subject.midtermRatio;
+                }
 
-            function addEntry(initialSubjectIndex = null) {
-                const entry = document.createElement('div');
-                entry.className = 'trial-entry';
-                entry.innerHTML = `
-                    <div class="trial-entry-header">
-                        <span>Học phần thử</span>
-                        <button type="button" class="trial-remove-button">Xóa</button>
-                    </div>
-                    <div class="trial-form">
-                        <div class="trial-group">
-                            <label>Chọn học phần</label>
-                            <select class="trial-subject-select">
-                                <option value="">-- Chọn học phần --</option>
-                                ${optionsHtml}
-                            </select>
-                        </div>
-                        <div class="trial-group">
-                            <label>Điểm giữa kỳ (thử)</label>
-                            <input type="number" min="0" max="10" step="0.01" class="trial-midterm-input" placeholder="Nhập điểm GK">
-                        </div>
-                        <div class="trial-group">
-                            <label>Tỷ lệ giữa kỳ (%)</label>
-                            <input type="number" min="0" max="100" step="10" class="trial-midterm-ratio-input" placeholder="vd: 30">
-                        </div>
-                        <div class="trial-group">
-                            <label>Điểm cuối kỳ (thử)</label>
-                            <input type="number" min="0" max="10" step="0.01" class="trial-final-input" placeholder="Nhập điểm CK">
-                        </div>
-                        <div class="trial-group">
-                            <label>Tỷ lệ cuối kỳ (%)</label>
-                            <div class="trial-final-ratio">-</div>
-                        </div>
-                    </div>
-                    <div class="trial-results">
-                        <div>Điểm tổng kết dự kiến: <span class="trial-result-value trial-result-avg">-</span></div>
-                        <div>GPA dự kiến (4.0): <span class="trial-result-value trial-result-gpa">-</span></div>
-                    </div>
-                    <div class="trial-meta">
-                        <div>Điểm tổng kết hiện tại: <span class="trial-actual-total">-</span></div>
-                        <div>GPA hiện tại: <span class="trial-actual-gpa">-</span></div>
-                        <div>Tỷ lệ tham khảo: <span class="trial-actual-ratio">-</span></div>
-                    </div>
-                `;
+                const update = () => {
+                    let midtermRatio = null;
+                    let finalRatio = null;
 
-                const selectEl = entry.querySelector('.trial-subject-select');
-                const midtermInput = entry.querySelector('.trial-midterm-input');
-                const finalInput = entry.querySelector('.trial-final-input');
-                const ratioInput = entry.querySelector('.trial-midterm-ratio-input');
-                const finalRatioDisplay = entry.querySelector('.trial-final-ratio');
-                const resultAvgEl = entry.querySelector('.trial-result-avg');
-                const resultGpaEl = entry.querySelector('.trial-result-gpa');
-                const actualTotalEl = entry.querySelector('.trial-actual-total');
-                const actualGpaEl = entry.querySelector('.trial-actual-gpa');
-                const actualRatioEl = entry.querySelector('.trial-actual-ratio');
-                const removeButton = entry.querySelector('.trial-remove-button');
+                    const rawMidterm = parseFloat(midtermInput.value);
+                    const midtermScore = Number.isFinite(rawMidterm) ? rawMidterm : null;
 
-                let currentSubjectIndex = null;
+                    const rawFinal = parseFloat(finalInput.value);
+                    const finalScore = Number.isFinite(rawFinal) ? rawFinal : null;
 
-                const setCurrentSubjectIndex = (idx) => {
-                    currentSubjectIndex = Number.isInteger(idx) ? idx : null;
-                    entry.dataset.subjectIndex = currentSubjectIndex !== null ? String(currentSubjectIndex) : '';
-                };
-
-                const resetInputs = () => {
-                    midtermInput.value = '';
-                    finalInput.value = '';
-                    ratioInput.value = '';
-                    finalRatioDisplay.textContent = '-';
-                    resultAvgEl.textContent = '-';
-                    resultGpaEl.textContent = '-';
-                    actualTotalEl.textContent = '-';
-                    actualGpaEl.textContent = '-';
-                    actualRatioEl.textContent = '-';
-                };
-
-                const updateResults = () => {
-                    if (currentSubjectIndex === null) {
-                        resultAvgEl.textContent = '-';
-                        resultGpaEl.textContent = '-';
-                        finalRatioDisplay.textContent = '-';
-                        return;
-                    }
-
-                    const subject = semester.subjects[currentSubjectIndex];
-                    trialState.delete(currentSubjectIndex);
-
-                    const inputMidterm = parseFloat(midtermInput.value);
-                    const hasMidterm = !Number.isNaN(inputMidterm);
-                    const inputFinal = parseFloat(finalInput.value);
-                    const hasFinal = !Number.isNaN(inputFinal);
-                    const inputRatioRaw = parseFloat(ratioInput.value);
-                    const hasInputRatio = !Number.isNaN(inputRatioRaw);
-
-                    let workingMidtermRatio = null;
-                    let workingFinalRatio = null;
-
-                    if (hasInputRatio) {
-                        const roundedRatio = roundRatio(inputRatioRaw);
-                        if (roundedRatio !== null) {
-                            ratioInput.value = roundedRatio;
-                            workingMidtermRatio = roundedRatio;
-                            workingFinalRatio = 100 - roundedRatio;
+                    const rawRatio = parseFloat(ratioInput.value);
+                    if (Number.isFinite(rawRatio)) {
+                        const rounded = roundRatio(rawRatio);
+                        if (rounded !== null) {
+                            midtermRatio = rounded;
+                            ratioInput.value = rounded;
                         }
                     }
 
-                    if (workingMidtermRatio === null || workingFinalRatio === null) {
-                        if (Number.isFinite(subject.midtermRatio)) {
-                            workingMidtermRatio = subject.midtermRatio;
+                    if (midtermRatio === null && Number.isFinite(subject.midtermRatio)) {
+                        midtermRatio = subject.midtermRatio;
+                    }
+
+                    if (midtermRatio !== null) {
+                        finalRatio = 100 - midtermRatio;
+                    } else if (Number.isFinite(subject.finalRatio)) {
+                        finalRatio = subject.finalRatio;
+                    }
+
+                    const baseMidterm = Number.isFinite(subject.midterm) ? subject.midterm : null;
+                    const baseFinal = Number.isFinite(subject.final) ? subject.final : null;
+                    const baseRatio = Number.isFinite(subject.midtermRatio) ? subject.midtermRatio : null;
+
+                    const changedMidterm = (midtermScore !== null || baseMidterm !== null) && !isNearlyEqual(midtermScore, baseMidterm);
+                    const changedFinal = (finalScore !== null || baseFinal !== null) && !isNearlyEqual(finalScore, baseFinal);
+                    const changedRatio = (midtermRatio !== null || baseRatio !== null) && midtermRatio !== baseRatio;
+                    const hasTrialInput = changedMidterm || changedFinal || changedRatio;
+
+                    if (finalRatioOutput) {
+                        if (finalRatio !== null && hasTrialInput) {
+                            finalRatioOutput.textContent = `${finalRatio}%`;
+                            finalRatioOutput.classList.remove('muted');
+                        } else {
+                            finalRatioOutput.textContent = '-';
+                            finalRatioOutput.classList.add('muted');
                         }
-                        if (Number.isFinite(subject.finalRatio)) {
-                            workingFinalRatio = subject.finalRatio;
-                        } else if (Number.isFinite(workingMidtermRatio)) {
-                            workingFinalRatio = 100 - workingMidtermRatio;
-                        }
                     }
-
-                    if (workingMidtermRatio === null && workingFinalRatio === null && Number.isFinite(subject.finalRatio)) {
-                        workingFinalRatio = subject.finalRatio;
-                    }
-
-                    if (workingMidtermRatio === null && workingFinalRatio === 100 && hasFinal && !hasMidterm) {
-                        finalRatioDisplay.textContent = '100%';
-                        const totalOnlyFinal = inputFinal;
-                        const gpaOnlyFinal = convertScoreToGPA(totalOnlyFinal);
-                        resultAvgEl.textContent = formatNumber(totalOnlyFinal);
-                        resultGpaEl.textContent = gpaOnlyFinal !== null ? formatNumber(gpaOnlyFinal) : '-';
-                        trialState.set(currentSubjectIndex, { total: totalOnlyFinal, gpa: gpaOnlyFinal });
-                        updateSemesterTrialSummary();
-                        return;
-                    }
-
-                    if (workingMidtermRatio === null && workingFinalRatio !== null) {
-                        workingMidtermRatio = 100 - workingFinalRatio;
-                    }
-
-                    if (workingMidtermRatio === null || workingFinalRatio === null) {
-                        finalRatioDisplay.textContent = '-';
-                        resultAvgEl.textContent = '-';
-                        resultGpaEl.textContent = '-';
-                        updateSemesterTrialSummary();
-                        return;
-                    }
-
-                    workingMidtermRatio = Math.max(0, Math.min(100, workingMidtermRatio));
-                    workingFinalRatio = Math.max(0, Math.min(100, workingFinalRatio));
-                    finalRatioDisplay.textContent = `${workingFinalRatio}%`;
 
                     let total = null;
-                    if (workingFinalRatio === 100 && workingMidtermRatio === 0 && hasFinal) {
-                        total = inputFinal;
-                    } else if (hasMidterm && hasFinal) {
-                        total = ((inputMidterm * workingMidtermRatio) + (inputFinal * workingFinalRatio)) / 100;
+
+                    if (finalRatio === 100 && (midtermRatio === null || midtermRatio === 0) && finalScore !== null) {
+                        total = finalScore;
+                    } else if (midtermRatio !== null && finalRatio !== null && midtermScore !== null && finalScore !== null) {
+                        total = ((midtermScore * midtermRatio) + (finalScore * finalRatio)) / 100;
                     }
 
-                    if (!Number.isFinite(total)) {
-                        resultAvgEl.textContent = '-';
-                        resultGpaEl.textContent = '-';
-                        updateSemesterTrialSummary();
+                    const existingTotal = Number.isFinite(subject.total) ? subject.total : null;
+                    const existingRatio = baseRatio;
+
+                    const treatAsNoTrial = Number.isFinite(total)
+                        && existingTotal !== null
+                        && isNearlyEqual(total, existingTotal)
+                        && (existingRatio === null || midtermRatio === existingRatio);
+
+                    if (!hasTrialInput) {
+                        totalOutput.textContent = '-';
+                        totalOutput.classList.add('muted');
+                        gpaOutput.textContent = '-';
+                        gpaOutput.classList.add('muted');
+                        trialState.delete(subjectIndex);
+                        updateSummary();
                         return;
                     }
 
-                    const gpaValue = convertScoreToGPA(total);
-                    resultAvgEl.textContent = formatNumber(total);
-                    resultGpaEl.textContent = gpaValue !== null ? formatNumber(gpaValue) : '-';
-                    trialState.set(currentSubjectIndex, { total, gpa: gpaValue });
-                    updateSemesterTrialSummary();
-                };
+                    if (Number.isFinite(total) && !treatAsNoTrial) {
+                        const gpaValue = convertScoreToGPA(total);
+                        totalOutput.textContent = formatNumber(total);
+                        totalOutput.classList.remove('muted');
+                        if (gpaValue !== null) {
+                            gpaOutput.textContent = formatNumber(gpaValue);
+                            gpaOutput.classList.remove('muted');
+                        } else {
+                            gpaOutput.textContent = '-';
+                            gpaOutput.classList.add('muted');
+                        }
 
-                const populateFromSubject = () => {
-                    if (currentSubjectIndex === null) {
-                        resetInputs();
-                        return;
-                    }
-
-                    const subject = semester.subjects[currentSubjectIndex];
-                    const midtermDefault = Number.isFinite(subject.midterm) ? subject.midterm.toFixed(2) : '';
-                    const finalDefault = Number.isFinite(subject.final) ? subject.final.toFixed(2) : '';
-                    const ratioDefault = Number.isFinite(subject.midtermRatio) ? subject.midtermRatio : '';
-                    const finalRatioDefault = Number.isFinite(subject.finalRatio) ? `${subject.finalRatio}%` : (Number.isFinite(subject.midtermRatio) ? `${100 - subject.midtermRatio}%` : '-');
-
-                    midtermInput.value = midtermDefault;
-                    finalInput.value = finalDefault;
-                    ratioInput.value = ratioDefault;
-                    finalRatioDisplay.textContent = finalRatioDefault;
-                    actualTotalEl.textContent = formatNumber(subject.total);
-
-                    const hideActualGpa = subject.midterm === null && subject.final === null;
-                    actualGpaEl.textContent = hideActualGpa ? '-' : formatNumber(subject.gpa);
-
-                    if (Number.isFinite(subject.midtermRatio) || Number.isFinite(subject.finalRatio)) {
-                        const ratioParts = [];
-                        if (Number.isFinite(subject.midtermRatio)) ratioParts.push(`GK ${subject.midtermRatio}%`);
-                        if (Number.isFinite(subject.finalRatio)) ratioParts.push(`CK ${subject.finalRatio}%`);
-                        actualRatioEl.textContent = ratioParts.join(' / ') || '-';
+                        trialState.set(subjectIndex, {
+                            total,
+                            gpa: gpaValue,
+                            midtermRatio,
+                            finalRatio
+                        });
                     } else {
-                        actualRatioEl.textContent = '-';
+                        totalOutput.textContent = '-';
+                        totalOutput.classList.add('muted');
+                        gpaOutput.textContent = '-';
+                        gpaOutput.classList.add('muted');
+                        trialState.delete(subjectIndex);
                     }
 
-                    updateResults();
+                    updateSummary();
                 };
 
-                selectEl.addEventListener('change', () => {
-                    if (currentSubjectIndex !== null) {
-                        selectedSubjects.delete(currentSubjectIndex);
-                        trialState.delete(currentSubjectIndex);
-                    }
+                update();
 
-                    const selectedValue = selectEl.value;
-                    if (!selectedValue) {
-                        setCurrentSubjectIndex(null);
-                        resetInputs();
-                        refreshAvailableOptions();
-                        updateSemesterTrialSummary();
-                        return;
-                    }
-
-                    const idx = parseInt(selectedValue, 10);
-                    if (Number.isNaN(idx)) {
-                        setCurrentSubjectIndex(null);
-                        resetInputs();
-                        refreshAvailableOptions();
-                        updateSemesterTrialSummary();
-                        return;
-                    }
-
-                    setCurrentSubjectIndex(idx);
-                    selectedSubjects.add(idx);
-                    populateFromSubject();
-                    refreshAvailableOptions();
+                [midtermInput, finalInput, ratioInput].forEach(input => {
+                    input.addEventListener('input', update);
+                    input.addEventListener('change', update);
                 });
+            });
 
-                [midtermInput, finalInput].forEach(input => {
-                    input.addEventListener('input', updateResults);
-                });
-
-                ratioInput.addEventListener('input', updateResults);
-                ratioInput.addEventListener('change', updateResults);
-
-                removeButton.addEventListener('click', () => {
-                    if (currentSubjectIndex !== null) {
-                        trialState.delete(currentSubjectIndex);
-                        selectedSubjects.delete(currentSubjectIndex);
-                    }
-                    entry.remove();
-                    updateSemesterTrialSummary();
-                    ensureAtLeastOneEntry();
-                });
-
-                entriesContainer.appendChild(entry);
-
-                let resolvedIndex = null;
-                if (Number.isInteger(initialSubjectIndex) && initialSubjectIndex >= 0 && initialSubjectIndex < semester.subjects.length && !selectedSubjects.has(initialSubjectIndex)) {
-                    resolvedIndex = initialSubjectIndex;
-                } else {
-                    resolvedIndex = semester.subjects.findIndex((_, idx) => !selectedSubjects.has(idx));
-                }
-
-                if (resolvedIndex !== -1 && resolvedIndex !== null) {
-                    selectEl.value = String(resolvedIndex);
-                    setCurrentSubjectIndex(resolvedIndex);
-                    selectedSubjects.add(resolvedIndex);
-                    populateFromSubject();
-                } else {
-                    selectEl.value = '';
-                    setCurrentSubjectIndex(null);
-                    resetInputs();
-                }
-
-                refreshAvailableOptions();
-                updateRemoveButtonVisibility();
-                applyCascadeAnimation(entriesContainer.querySelectorAll('.trial-entry'), 0.05);
-                updateSemesterTrialSummary();
-            }
-
-            ensureAtLeastOneEntry();
-            updateSemesterTrialSummary();
-            applyCascadeAnimation([semesterResults], 0.05);
-
-            return section;
+            updateSummary();
         }
 
         function displayOverallSummary(data) {
@@ -1848,9 +1549,9 @@
                 table.querySelectorAll('tr').forEach((row, rowIdx) => {
                     const cells = row.querySelectorAll('th, td');
                     const rowData = Array.from(cells).map(cell => {
-                        // Bỏ input fields
-                        const input = cell.querySelector('input');
-                        return input ? '' : cell.textContent.trim();
+                        const actual = cell.querySelector('.score-actual');
+                        const text = actual ? actual.textContent.trim() : cell.textContent.trim();
+                        return text.replace(/\s+/g, ' ').trim();
                     }).join(',');
                     csv += rowData + '\n';
                 });
