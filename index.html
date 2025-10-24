@@ -156,6 +156,98 @@
             background: #fff;
         }
 
+        .lookup-divider {
+            width: 100%;
+            height: 1px;
+            background: rgba(102, 126, 234, 0.18);
+            margin: 6px 0 18px;
+        }
+
+        .lookup-note {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .captcha-group {
+            position: relative;
+        }
+
+        .captcha-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .captcha-wrapper img {
+            height: 50px;
+            min-width: 120px;
+            border-radius: 8px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            background: #fff;
+            padding: 4px 8px;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .captcha-wrapper img:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.25);
+            transform: scale(1.05);
+        }
+
+        .mini-button {
+            background: rgba(102, 126, 234, 0.12);
+            color: var(--primary);
+            border: 1px solid rgba(102, 126, 234, 0.35);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .mini-button:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .mini-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .lookup-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .secondary-button {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(205, 215, 255, 0.95));
+            color: var(--primary-dark);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .secondary-button:hover {
+            filter: brightness(0.98);
+        }
+
+        .captcha-status {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .captcha-status.error {
+            color: #d9534f;
+        }
+
         button {
             background: linear-gradient(135deg, #677bff 0%, #6f4df5 50%, #8d4ff1 100%);
             color: white;
@@ -632,6 +724,43 @@
                 </div>
                 <button onclick="fetchStudentData()">Tra Cứu</button>
                 <button onclick="exportToCSV()" style="background: #28a745;">📥 Xuất CSV</button>
+
+                <div class="lookup-divider"></div>
+
+                <div class="form-group">
+                    <label>Hoặc tra cứu bằng mã số sinh viên:</label>
+                    <input 
+                        type="text" 
+                        id="studentIdLookup" 
+                        placeholder="Nhập mã gồm 10 chữ số (ví dụ: 20012XXXXX)"
+                        autocomplete="off"
+                        inputmode="numeric"
+                        pattern="\d{10}"
+                        maxlength="10"
+                        title="Nhập chính xác 10 chữ số mã số sinh viên"
+                    >
+                </div>
+
+                <div class="form-group captcha-group">
+                    <label>Mã bảo vệ</label>
+                    <div class="captcha-wrapper">
+                        <img id="captchaImage" src="captcha.jpeg" alt="Mã bảo vệ" title="Mã xác thực từ HUIT" />
+                        <button type="button" class="mini-button" onclick="refreshCaptcha()" id="refreshCaptchaBtn">🔄 Mã mới</button>
+                    </div>
+                    <input 
+                        type="text" 
+                        id="captchaInput" 
+                        placeholder="Nhập mã chữ hoặc số" 
+                        autocomplete="off"
+                        maxlength="12"
+                    >
+                    <div class="captcha-status" id="captchaStatus">Nhập mã hiển thị để tra cứu.</div>
+                </div>
+
+                <div class="lookup-actions">
+                    <button type="button" class="secondary-button" onclick="submitStudentLookup()" id="studentLookupBtn">🔍 Tra Cứu MSSV</button>
+                    <span class="lookup-note">💡 Mã bảo vệ phân biệt chữ hoa/thường. Nhấn "🔄 Mã mới" để lấy mã khác nếu cần.</span>
+                </div>
             </div>
 
             <div class="loading" id="loading">
@@ -707,7 +836,254 @@
         const JINA_API = 'https://r.jina.ai/';
         const SCORE_TOLERANCE = 0.15;
 
+        const HUIT_BASE_URL = 'https://sinhvien.huit.edu.vn';
+        const LOOKUP_ENDPOINT = `${HUIT_BASE_URL}/tra-cuu-thong-tin.html?Length=14`;
+        const CAPTCHA_ENDPOINT = `${HUIT_BASE_URL}/WebCommon/GetCaptcha`;
+        const LOOKUP_PROXY = 'https://cors.isomorphic-git.org/';
+        const PROXIED_LOOKUP_URL = `${LOOKUP_PROXY}${LOOKUP_ENDPOINT}`;
+        const PROXIED_FORM_URL = `${LOOKUP_PROXY}${HUIT_BASE_URL}/tra-cuu-thong-tin.html`;
+        const DIRECT_CAPTCHA_URL = `${HUIT_BASE_URL}/WebCommon/GetCaptcha`;
+
         let currentStudentData = null;
+        const lookupSession = {
+            token: null,
+            ncforminfo: null,
+            loading: false
+        };
+
+        function setCaptchaStatus(message, type = 'info') {
+            const status = document.getElementById('captchaStatus');
+            if (!status) return;
+            status.textContent = message;
+            status.classList.toggle('error', type === 'error');
+        }
+
+        function setLookupControlsDisabled(state) {
+            const btn = document.getElementById('studentLookupBtn');
+            const refreshBtn = document.getElementById('refreshCaptchaBtn');
+            if (btn) btn.disabled = state;
+            if (refreshBtn) refreshBtn.disabled = state;
+        }
+
+        async function initializeLookupSession(force = false) {
+            if (lookupSession.loading) return;
+            if (lookupSession.token && !force) {
+                // Token đã có, chỉ cần tải ảnh captcha
+                await loadCaptchaImage();
+                return;
+            }
+            
+            lookupSession.loading = true;
+            setLookupControlsDisabled(true);
+            setCaptchaStatus('Đang kết nối tới máy chủ...');
+
+            try {
+                // Sử dụng Jina AI để lấy form HTML
+                const jinaUrl = `${JINA_API}${HUIT_BASE_URL}/tra-cuu-thong-tin.html`;
+                const response = await fetch(jinaUrl, {
+                    method: 'GET',
+                    headers: {
+                        'X-Return-Format': 'html'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Kết nối thất bại (HTTP ' + response.status + ')');
+                }
+
+                const htmlText = await response.text();
+                if (!htmlText || htmlText.length === 0) {
+                    throw new Error('Phản hồi trống từ máy chủ');
+                }
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                const tokenInput = doc.querySelector('input[name="__RequestVerificationToken"]');
+                const ncInfoInput = doc.querySelector('input[name="__ncforminfo"]');
+
+                if (!tokenInput || !ncInfoInput) {
+                    throw new Error('Không lấy được thông tin từ máy chủ. Thử lại.');
+                }
+
+                lookupSession.token = tokenInput.value;
+                lookupSession.ncforminfo = ncInfoInput.value;
+
+                if (!lookupSession.token || !lookupSession.ncforminfo) {
+                    throw new Error('Thông tin không hợp lệ. Thử lại.');
+                }
+
+                await loadCaptchaImage();
+                console.log('Lookup session initialized via Jina AI');
+            } catch (error) {
+                console.error('Lookup init failed:', error);
+                setCaptchaStatus('⚠️ ' + (error.message || 'Không thể khởi tạo phiên'), 'error');
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+            } finally {
+                lookupSession.loading = false;
+                setLookupControlsDisabled(false);
+            }
+        }
+
+        async function loadCaptchaImage() {
+            const captchaImg = document.getElementById('captchaImage');
+            if (!captchaImg) return;
+
+            try {
+                setCaptchaStatus('✓ Nhập mã bảo vệ hiển thị bên trên.');
+                
+                // Sử dụng ảnh captcha từ file local (đã tải từ HUIT)
+                // Khi cần refresh, user click nút "Mã mới" sẽ gọi refreshCaptcha()
+                captchaImg.src = `captcha.jpeg?t=${Date.now()}`;
+                
+                captchaImg.onload = () => {
+                    console.log('Captcha image displayed from local file');
+                };
+
+                captchaImg.onerror = () => {
+                    setCaptchaStatus('⚠️ Không tải được ảnh captcha.', 'error');
+                    console.error('Failed to load captcha.jpeg');
+                };
+                
+            } catch (error) {
+                console.error('Captcha load failed:', error);
+                setCaptchaStatus('Lỗi: ' + error.message, 'error');
+            }
+        }
+
+        async function refreshCaptcha() {
+            const captchaInput = document.getElementById('captchaInput');
+            const captchaImg = document.getElementById('captchaImage');
+            
+            if (captchaInput) captchaInput.value = '';
+            
+            setCaptchaStatus('Đang tải mã bảo vệ mới...');
+            setLookupControlsDisabled(true);
+            
+            try {
+                // Tải form mới để lấy token mới
+                await initializeLookupSession(true);
+                
+                // Reload ảnh captcha với timestamp mới
+                if (captchaImg) {
+                    captchaImg.src = `captcha.jpeg?t=${Date.now()}`;
+                }
+                
+                setCaptchaStatus('✓ Đã tải mã bảo vệ mới. Vui lòng nhập.');
+            } catch (error) {
+                setCaptchaStatus('⚠️ Không thể tải mã mới. Thử lại.', 'error');
+            } finally {
+                setLookupControlsDisabled(false);
+            }
+        }
+
+        function sanitizeLookupInput(value) {
+            if (!value) return '';
+            return value.replace(/[^0-9a-zA-Z]/g, '').trim();
+        }
+
+        async function submitStudentLookup() {
+            const studentInput = document.getElementById('studentIdLookup');
+            const captchaInput = document.getElementById('captchaInput');
+            const studentId = studentInput ? studentInput.value.trim() : '';
+            const captcha = sanitizeLookupInput(captchaInput ? captchaInput.value : '');
+            const errorDiv = document.getElementById('error');
+
+            if (errorDiv) errorDiv.classList.remove('show');
+
+            if (!studentId) {
+                setCaptchaStatus('Vui lòng nhập mã số sinh viên.', 'error');
+                studentInput?.focus();
+                return;
+            }
+
+            if (!captcha) {
+                setCaptchaStatus('Vui lòng nhập mã bảo vệ hiển thị.', 'error');
+                captchaInput?.focus();
+                return;
+            }
+
+            if (!lookupSession.token || !lookupSession.ncforminfo) {
+                await initializeLookupSession(true);
+                if (!lookupSession.token) {
+                    return;
+                }
+            }
+
+            const payload = new URLSearchParams();
+            payload.set('MaSinhVien', studentId);
+            payload.set('HoTen', '');
+            payload.set('NgaySinh', '');
+            payload.set('LopHoc', '');
+            payload.set('SoCMND', '');
+            payload.set('Captcha', captcha);
+            payload.set('__RequestVerificationToken', lookupSession.token);
+            payload.set('__ncforminfo', lookupSession.ncforminfo);
+
+            setLookupControlsDisabled(true);
+            setCaptchaStatus('Đang tra cứu dữ liệu, vui lòng chờ...');
+
+            try {
+                const response = await fetch(PROXIED_LOOKUP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-No-Cache': 'true'
+                    },
+                    body: payload.toString(),
+                    credentials: 'include'
+                });
+
+                const contentType = response.headers.get('content-type') || '';
+                const rawText = await response.text();
+
+                if (!response.ok) {
+                    throw new Error('Tra cứu không thành công. Vui lòng thử lại.');
+                }
+
+                if (contentType.includes('application/json')) {
+                    const jsonResult = JSON.parse(rawText);
+                    const captchaError = jsonResult?.Errors?.Captcha?.errors?.[0];
+                    if (captchaError) {
+                        throw new Error(captchaError);
+                    }
+                    throw new Error('Không nhận được đường dẫn điểm từ hệ thống.');
+                }
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(rawText, 'text/html');
+                const linkNode = doc.querySelector('a[href*="/tra-cuu/ket-qua-hoc-tap.html"]');
+
+                if (!linkNode) {
+                    const rawMatch = rawText.match(/Mã bảo vệ không hợp lệ/i);
+                    if (rawMatch) {
+                        throw new Error('Mã bảo vệ không hợp lệ. Vui lòng thử lại với mã mới.');
+                    }
+                    throw new Error('Không tìm thấy đường dẫn điểm.');
+                }
+
+                const href = linkNode.getAttribute('href');
+                const absoluteUrl = href.startsWith('http') ? href : `${HUIT_BASE_URL}${href}`;
+                const urlInput = document.getElementById('urlInput');
+                if (urlInput) {
+                    urlInput.value = absoluteUrl;
+                }
+
+                setCaptchaStatus('Đã lấy được đường dẫn điểm. Đang tải dữ liệu...', 'info');
+                await fetchStudentData();
+            } catch (error) {
+                console.error('Lookup error:', error);
+                setCaptchaStatus(error.message || 'Tra cứu thất bại. Thử lại.', 'error');
+                if (errorDiv) {
+                    errorDiv.textContent = `❌ ${error.message || 'Tra cứu thất bại'}`;
+                    errorDiv.classList.add('show');
+                }
+            } finally {
+                setLookupControlsDisabled(false);
+                await initializeLookupSession(true);
+            }
+        }
 
         function convertScoreToGPA(score) {
             const numeric = Number(score);
@@ -1571,6 +1947,7 @@
             if (urlInput.value.trim()) {
                 fetchStudentData();
             }
+            initializeLookupSession(true);
         });
     </script>
 </body>
