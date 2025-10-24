@@ -112,16 +112,143 @@
         }
 
         .input-section {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(244, 247, 255, 0.95));
-            padding: 22px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(244, 247, 255, 0.95));
+            padding: 26px;
             border-radius: var(--radius-sm);
             margin-bottom: 35px;
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            align-items: flex-end;
             border: 1px solid rgba(102, 126, 234, 0.12);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.12);
+            box-shadow: 0 18px 45px rgba(102, 126, 234, 0.14);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-section::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(102, 126, 234, 0.18), transparent 55%);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .lookup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lookup-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 18px;
+            padding: 22px 24px;
+            border: 1px solid rgba(102, 126, 234, 0.12);
+            box-shadow: 0 16px 32px rgba(102, 126, 234, 0.16);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .lookup-card.emphasis {
+            background: linear-gradient(150deg, rgba(102, 126, 234, 0.96), rgba(118, 75, 162, 0.92));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 22px 40px rgba(102, 126, 234, 0.28);
+        }
+
+        .lookup-card.emphasis .form-group label,
+        .lookup-card.emphasis .lookup-note,
+        .lookup-card.emphasis .captcha-status {
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .lookup-card.emphasis .form-group input {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            color: #fff;
+        }
+
+        .lookup-card.emphasis .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .lookup-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lookup-card .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .lookup-card.emphasis .card-desc {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .lookup-card .card-desc strong {
+            color: var(--primary-dark);
+        }
+
+        .lookup-card.emphasis .card-desc strong {
+            color: #fff;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .card-pill {
+            font-size: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(102, 126, 234, 0.12);
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .lookup-card.emphasis .card-pill {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+        }
+
+        .lookup-result {
+            background: rgba(102, 126, 234, 0.08);
+            border: 1px dashed rgba(102, 126, 234, 0.35);
+            border-radius: 14px;
+            padding: 14px;
+            font-size: 13px;
+            display: none;
+        }
+
+        .lookup-result.show {
+            display: block;
+        }
+
+        .lookup-result a {
+            color: var(--primary-dark);
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .lookup-result em {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
         }
 
         .form-group {
@@ -181,21 +308,12 @@
         }
 
         .captcha-wrapper img {
-            height: 50px;
-            min-width: 120px;
-            border-radius: 8px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
+            height: 46px;
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.25);
             background: #fff;
-            padding: 4px 8px;
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
-            object-fit: contain;
-            transition: all 0.3s ease;
-        }
-
-        .captcha-wrapper img:hover {
-            border-color: var(--primary);
-            box-shadow: 0 12px 28px rgba(102, 126, 234, 0.25);
-            transform: scale(1.05);
+            padding: 6px 12px;
+            box-shadow: 0 10px 24px rgba(102, 126, 234, 0.18);
         }
 
         .mini-button {
@@ -236,6 +354,16 @@
 
         .secondary-button:hover {
             filter: brightness(0.98);
+        }
+
+        .lookup-card.emphasis .secondary-button {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+        }
+
+        .lookup-card.emphasis .secondary-button:hover {
+            filter: brightness(1.05);
         }
 
         .captcha-status {
@@ -680,8 +808,21 @@
         }
 
         @media (max-width: 768px) {
-            .input-section {
+            .lookup-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lookup-card {
+                padding: 20px;
+            }
+
+            .card-actions {
                 flex-direction: column;
+                align-items: stretch;
+            }
+
+            .card-actions button {
+                width: 100%;
             }
 
             .form-group {
@@ -714,52 +855,68 @@
             <div class="error" id="error"></div>
 
             <div class="input-section">
-                <div class="form-group">
-                    <label>Nhập link tra cứu:</label>
-                    <input 
-                        type="url" 
-                        id="urlInput" 
-                        placeholder="https://sinhvien.huit.edu.vn/tra-cuu/ket-qua-hoc-tap.html?k=..."
-                    >
-                </div>
-                <button onclick="fetchStudentData()">Tra Cứu</button>
-                <button onclick="exportToCSV()" style="background: #28a745;">📥 Xuất CSV</button>
-
-                <div class="lookup-divider"></div>
-
-                <div class="form-group">
-                    <label>Hoặc tra cứu bằng mã số sinh viên:</label>
-                    <input 
-                        type="text" 
-                        id="studentIdLookup" 
-                        placeholder="Nhập mã gồm 10 chữ số (ví dụ: 20012XXXXX)"
-                        autocomplete="off"
-                        inputmode="numeric"
-                        pattern="\d{10}"
-                        maxlength="10"
-                        title="Nhập chính xác 10 chữ số mã số sinh viên"
-                    >
-                </div>
-
-                <div class="form-group captcha-group">
-                    <label>Mã bảo vệ</label>
-                    <div class="captcha-wrapper">
-                        <img id="captchaImage" src="captcha.jpeg" alt="Mã bảo vệ" title="Mã xác thực từ HUIT" />
-                        <button type="button" class="mini-button" onclick="refreshCaptcha()" id="refreshCaptchaBtn">🔄 Mã mới</button>
+                <div class="lookup-grid">
+                    <div class="lookup-card">
+                        <span class="card-pill">Liên kết trực tiếp</span>
+                        <h2>Tra cứu bằng đường dẫn</h2>
+                        <p class="card-desc">Dán đường dẫn <strong>Xem điểm</strong> lấy từ hệ thống sinh viên HUIT để hiển thị toàn bộ kết quả học tập.</p>
+                        <div class="form-group">
+                            <label>Liên kết tra cứu điểm (https://...)</label>
+                            <input 
+                                type="url" 
+                                id="urlInput" 
+                                placeholder="https://sinhvien.huit.edu.vn/tra-cuu/ket-qua-hoc-tap.html?k=..."
+                            >
+                        </div>
+                        <div class="card-actions">
+                            <button type="button" onclick="fetchStudentData()">Tra Cứu</button>
+                            <button type="button" class="secondary-button" onclick="exportToCSV()">📥 Xuất CSV</button>
+                        </div>
+                        <div class="lookup-result" id="lookupResult">
+                            <em>Đường dẫn xem điểm đã lưu:</em>
+                            <a href="#" id="lookupResultLink" target="_blank" rel="noopener">-</a>
+                        </div>
                     </div>
-                    <input 
-                        type="text" 
-                        id="captchaInput" 
-                        placeholder="Nhập mã chữ hoặc số" 
-                        autocomplete="off"
-                        maxlength="12"
-                    >
-                    <div class="captcha-status" id="captchaStatus">Nhập mã hiển thị để tra cứu.</div>
-                </div>
-
-                <div class="lookup-actions">
-                    <button type="button" class="secondary-button" onclick="submitStudentLookup()" id="studentLookupBtn">🔍 Tra Cứu MSSV</button>
-                    <span class="lookup-note">💡 Mã bảo vệ phân biệt chữ hoa/thường. Nhấn "🔄 Mã mới" để lấy mã khác nếu cần.</span>
+                    <div class="lookup-card emphasis">
+                        <span class="card-pill">Tra cứu nhanh</span>
+                        <h2>Tra cứu bằng MSSV</h2>
+                        <p class="card-desc">Nhập đúng <strong>MSSV</strong> và <strong>Mã bảo vệ</strong> giống như trên trang gốc. Sau khi xác thực thành công hệ thống sẽ tự động nhận đường dẫn xem điểm.</p>
+                        <p class="card-desc" style="margin-top: 8px; padding: 10px; background: rgba(255, 255, 255, 0.12); border-radius: 8px; font-size: 12px;">
+                            💡 <strong>Cách khác:</strong> Truy cập <a href="https://sinhvien.huit.edu.vn/tra-cuu-thong-tin.html" target="_blank" rel="noopener" style="color: #fff; text-decoration: underline;">trang tra cứu HUIT</a>, nhập MSSV và captcha, sau khi có kết quả → <strong>Click chuột phải vào nút "Xem điểm"</strong> → Chọn <strong>"Sao chép địa chỉ liên kết"</strong> → Dán vào ô bên trái.
+                        </p>
+                        <div class="form-group">
+                            <label>Mã số sinh viên</label>
+                            <input 
+                                type="text" 
+                                id="studentIdLookup" 
+                                placeholder="Ví dụ: 2001240206"
+                                autocomplete="off"
+                                inputmode="numeric"
+                                pattern="\d{10}"
+                                maxlength="10"
+                                title="Nhập chính xác 10 chữ số mã số sinh viên"
+                            >
+                        </div>
+                        <div class="form-group captcha-group">
+                            <label>Mã bảo vệ</label>
+                            <div class="captcha-wrapper">
+                                <img id="captchaImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50'%3E%3Crect fill='%23f0f0f0' width='150' height='50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23999' font-family='Arial' font-size='12'%3EĐang tải...%3C/text%3E%3C/svg%3E" alt="Mã bảo vệ" title="Nhập mã hiển thị" />
+                                <button type="button" class="mini-button" onclick="refreshCaptcha()" id="refreshCaptchaBtn">🔄 Mã mới</button>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="captchaInput" 
+                                placeholder="Nhập mã chữ hoặc số" 
+                                autocomplete="off"
+                                maxlength="12"
+                            >
+                            <div class="captcha-status" id="captchaStatus">Nhập mã hiển thị để tra cứu.</div>
+                        </div>
+                        <div class="lookup-actions">
+                            <button type="button" class="secondary-button" onclick="submitStudentLookup()" id="studentLookupBtn">🔍 Tra Cứu MSSV</button>
+                            <span class="lookup-note">Mã bảo vệ phân biệt chữ hoa/thường và thay đổi sau mỗi lần tải mới.</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -836,19 +993,24 @@
         const JINA_API = 'https://r.jina.ai/';
         const SCORE_TOLERANCE = 0.15;
 
-        const HUIT_BASE_URL = 'https://sinhvien.huit.edu.vn';
-        const LOOKUP_ENDPOINT = `${HUIT_BASE_URL}/tra-cuu-thong-tin.html?Length=14`;
-        const CAPTCHA_ENDPOINT = `${HUIT_BASE_URL}/WebCommon/GetCaptcha`;
-        const LOOKUP_PROXY = 'https://cors.isomorphic-git.org/';
-        const PROXIED_LOOKUP_URL = `${LOOKUP_PROXY}${LOOKUP_ENDPOINT}`;
-        const PROXIED_FORM_URL = `${LOOKUP_PROXY}${HUIT_BASE_URL}/tra-cuu-thong-tin.html`;
-        const DIRECT_CAPTCHA_URL = `${HUIT_BASE_URL}/WebCommon/GetCaptcha`;
+        // API endpoints (local PHP backend)
+        const IS_FILE_PROTOCOL = window.location.protocol === 'file:';
+        const API_ENDPOINT = IS_FILE_PROTOCOL ? null : new URL('api.php', window.location.href).href;
+
+        // Debug helper
+        function writeLog(message) {
+            if (console && console.log) {
+                console.log('[HUIT] ' + message);
+            }
+        }
 
         let currentStudentData = null;
         const lookupSession = {
             token: null,
             ncforminfo: null,
-            loading: false
+            loading: false,
+            captchaObjectUrl: null,
+            lastInitialized: 0
         };
 
         function setCaptchaStatus(message, type = 'info') {
@@ -858,65 +1020,93 @@
             status.classList.toggle('error', type === 'error');
         }
 
+        function updateLookupResultLink(url) {
+            const container = document.getElementById('lookupResult');
+            const linkEl = document.getElementById('lookupResultLink');
+            if (!container || !linkEl) return;
+
+            if (url && /^https?:\/\//i.test(url)) {
+                linkEl.textContent = url;
+                linkEl.href = url;
+                container.classList.add('show');
+            } else {
+                linkEl.textContent = '-';
+                linkEl.removeAttribute('href');
+                container.classList.remove('show');
+            }
+        }
+
         function setLookupControlsDisabled(state) {
             const btn = document.getElementById('studentLookupBtn');
             const refreshBtn = document.getElementById('refreshCaptchaBtn');
+            const studentInput = document.getElementById('studentIdLookup');
+            const captchaInput = document.getElementById('captchaInput');
             if (btn) btn.disabled = state;
             if (refreshBtn) refreshBtn.disabled = state;
+            if (studentInput) studentInput.disabled = state;
+            if (captchaInput) captchaInput.disabled = state;
+        }
+
+        function revokeCaptchaObjectUrl() {
+            if (lookupSession.captchaObjectUrl) {
+                URL.revokeObjectURL(lookupSession.captchaObjectUrl);
+                lookupSession.captchaObjectUrl = null;
+            }
         }
 
         async function initializeLookupSession(force = false) {
+            if (!API_ENDPOINT) {
+                writeLog('API endpoint not available (file protocol).');
+                setCaptchaStatus('⚠️ Vui lòng chạy trang qua máy chủ web (http:// hoặc https://).', 'error');
+                return;
+            }
+
             if (lookupSession.loading) return;
-            if (lookupSession.token && !force) {
-                // Token đã có, chỉ cần tải ảnh captcha
+
+            if (force) {
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+            }
+
+            const hasFreshSession = lookupSession.token && lookupSession.ncforminfo && !force;
+            if (hasFreshSession) {
                 await loadCaptchaImage();
                 return;
             }
-            
+
             lookupSession.loading = true;
             setLookupControlsDisabled(true);
             setCaptchaStatus('Đang kết nối tới máy chủ...');
 
             try {
-                // Sử dụng Jina AI để lấy form HTML
-                const jinaUrl = `${JINA_API}${HUIT_BASE_URL}/tra-cuu-thong-tin.html`;
-                const response = await fetch(jinaUrl, {
+                revokeCaptchaObjectUrl();
+
+                // Gọi API PHP để khởi tạo session
+                const response = await fetch(`${API_ENDPOINT}?action=init`, {
                     method: 'GET',
-                    headers: {
-                        'X-Return-Format': 'html'
-                    }
+                    cache: 'no-store',
+                    credentials: 'include'
                 });
 
                 if (!response.ok) {
                     throw new Error('Kết nối thất bại (HTTP ' + response.status + ')');
                 }
 
-                const htmlText = await response.text();
-                if (!htmlText || htmlText.length === 0) {
-                    throw new Error('Phản hồi trống từ máy chủ');
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Không thể khởi tạo phiên');
                 }
 
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlText, 'text/html');
-
-                const tokenInput = doc.querySelector('input[name="__RequestVerificationToken"]');
-                const ncInfoInput = doc.querySelector('input[name="__ncforminfo"]');
-
-                if (!tokenInput || !ncInfoInput) {
-                    throw new Error('Không lấy được thông tin từ máy chủ. Thử lại.');
-                }
-
-                lookupSession.token = tokenInput.value;
-                lookupSession.ncforminfo = ncInfoInput.value;
-
-                if (!lookupSession.token || !lookupSession.ncforminfo) {
-                    throw new Error('Thông tin không hợp lệ. Thử lại.');
-                }
-
+                lookupSession.token = data.token;
+                lookupSession.ncforminfo = data.ncforminfo;
+                lookupSession.lastInitialized = Date.now();
+                
+                writeLog("Session initialized: " + data.sessionId);
                 await loadCaptchaImage();
-                console.log('Lookup session initialized via Jina AI');
             } catch (error) {
                 console.error('Lookup init failed:', error);
+                revokeCaptchaObjectUrl();
                 setCaptchaStatus('⚠️ ' + (error.message || 'Không thể khởi tạo phiên'), 'error');
                 lookupSession.token = null;
                 lookupSession.ncforminfo = null;
@@ -930,53 +1120,81 @@
             const captchaImg = document.getElementById('captchaImage');
             if (!captchaImg) return;
 
+            if (!API_ENDPOINT) {
+                setCaptchaStatus('⚠️ Không thể tải captcha khi mở file trực tiếp. Vui lòng chạy thông qua máy chủ web.', 'error');
+                captchaImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50'%3E%3Crect fill='%23ffebee' width='150' height='50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c62828' font-family='Arial' font-size='11'%3E⚠️ Cần server%3C/text%3E%3C/svg%3E";
+                return;
+            }
+
             try {
-                setCaptchaStatus('✓ Nhập mã bảo vệ hiển thị bên trên.');
+                setCaptchaStatus('Đang tải mã bảo vệ...');
+                writeLog('Loading captcha from API...');
+
+                // Gọi API PHP để lấy captcha
+                const response = await fetch(`${API_ENDPOINT}?action=captcha`, {
+                    method: 'GET',
+                    cache: 'no-store',
+                    credentials: 'include'
+                });
+
+                writeLog(`Captcha response status: ${response.status}`);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    writeLog(`Captcha error response: ${errorText}`);
+                    throw new Error('Không tải được mã bảo vệ (HTTP ' + response.status + ')');
+                }
+
+                const contentType = response.headers.get('content-type');
+                writeLog(`Captcha content-type: ${contentType}`);
+
+                const data = await response.json();
+                writeLog(`Captcha data received: ${JSON.stringify(data).substring(0, 100)}...`);
                 
-                // Sử dụng ảnh captcha từ file local (đã tải từ HUIT)
-                // Khi cần refresh, user click nút "Mã mới" sẽ gọi refreshCaptcha()
-                captchaImg.src = `captcha.jpeg?t=${Date.now()}`;
-                
+                if (!data.success) {
+                    throw new Error(data.error || 'Không tải được mã bảo vệ');
+                }
+
+                if (!data.image) {
+                    throw new Error('Captcha image data is empty');
+                }
+
+                // Set base64 image
+                captchaImg.src = data.image;
+                writeLog(`Captcha image set (${data.image.length} chars)`);
+
                 captchaImg.onload = () => {
-                    console.log('Captcha image displayed from local file');
+                    setCaptchaStatus('Nhập mã bảo vệ để tiếp tục.');
+                    writeLog('Captcha image loaded successfully');
                 };
 
                 captchaImg.onerror = () => {
-                    setCaptchaStatus('⚠️ Không tải được ảnh captcha.', 'error');
-                    console.error('Failed to load captcha.jpeg');
+                    setCaptchaStatus('Không tải được mã bảo vệ.', 'error');
+                    writeLog('Captcha image load error');
                 };
-                
             } catch (error) {
                 console.error('Captcha load failed:', error);
+                writeLog(`Captcha load error: ${error.message}`);
                 setCaptchaStatus('Lỗi: ' + error.message, 'error');
+                
+                // Set error placeholder
+                captchaImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50'%3E%3Crect fill='%23ffebee' width='150' height='50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c62828' font-family='Arial' font-size='11'%3E❌ Lỗi tải%3C/text%3E%3C/svg%3E";
             }
         }
 
-        async function refreshCaptcha() {
+        async function refreshCaptcha(forceSession = true) {
             const captchaInput = document.getElementById('captchaInput');
-            const captchaImg = document.getElementById('captchaImage');
-            
             if (captchaInput) captchaInput.value = '';
-            
-            setCaptchaStatus('Đang tải mã bảo vệ mới...');
-            setLookupControlsDisabled(true);
-            
-            try {
-                // Tải form mới để lấy token mới
+
+            if (forceSession || !lookupSession.token || !lookupSession.ncforminfo) {
                 await initializeLookupSession(true);
-                
-                // Reload ảnh captcha với timestamp mới
-                if (captchaImg) {
-                    captchaImg.src = `captcha.jpeg?t=${Date.now()}`;
-                }
-                
-                setCaptchaStatus('✓ Đã tải mã bảo vệ mới. Vui lòng nhập.');
-            } catch (error) {
-                setCaptchaStatus('⚠️ Không thể tải mã mới. Thử lại.', 'error');
-            } finally {
-                setLookupControlsDisabled(false);
+                return;
             }
+
+            await loadCaptchaImage();
         }
+
+        window.addEventListener('beforeunload', revokeCaptchaObjectUrl);
 
         function sanitizeLookupInput(value) {
             if (!value) return '';
@@ -987,7 +1205,8 @@
             const studentInput = document.getElementById('studentIdLookup');
             const captchaInput = document.getElementById('captchaInput');
             const studentId = studentInput ? studentInput.value.trim() : '';
-            const captcha = sanitizeLookupInput(captchaInput ? captchaInput.value : '');
+            const captchaRaw = captchaInput ? captchaInput.value.trim() : '';
+            const captcha = sanitizeLookupInput(captchaRaw);
             const errorDiv = document.getElementById('error');
 
             if (errorDiv) errorDiv.classList.remove('show');
@@ -998,77 +1217,62 @@
                 return;
             }
 
+            if (!/^\d{6,12}$/.test(studentId)) {
+                setCaptchaStatus('Mã số sinh viên phải bao gồm 6-12 chữ số.', 'error');
+                studentInput?.focus();
+                return;
+            }
+
             if (!captcha) {
                 setCaptchaStatus('Vui lòng nhập mã bảo vệ hiển thị.', 'error');
                 captchaInput?.focus();
                 return;
             }
 
-            if (!lookupSession.token || !lookupSession.ncforminfo) {
-                await initializeLookupSession(true);
-                if (!lookupSession.token) {
-                    return;
-                }
+            if (!API_ENDPOINT) {
+                setCaptchaStatus('⚠️ Vui lòng chạy thông qua máy chủ web để tra cứu MSSV.', 'error');
+                return;
             }
 
-            const payload = new URLSearchParams();
-            payload.set('MaSinhVien', studentId);
-            payload.set('HoTen', '');
-            payload.set('NgaySinh', '');
-            payload.set('LopHoc', '');
-            payload.set('SoCMND', '');
-            payload.set('Captcha', captcha);
-            payload.set('__RequestVerificationToken', lookupSession.token);
-            payload.set('__ncforminfo', lookupSession.ncforminfo);
-
             setLookupControlsDisabled(true);
-            setCaptchaStatus('Đang tra cứu dữ liệu, vui lòng chờ...');
+            setCaptchaStatus('Đang gửi yêu cầu tới hệ thống, vui lòng chờ...');
 
             try {
-                const response = await fetch(PROXIED_LOOKUP_URL, {
+                // Đảm bảo có session
+                await initializeLookupSession();
+
+                if (!lookupSession.token || !lookupSession.ncforminfo) {
+                    throw new Error('Không thể khởi tạo phiên tra cứu. Vui lòng thử lại.');
+                }
+
+                // Gọi API PHP để tra cứu
+                const response = await fetch(`${API_ENDPOINT}?action=lookup`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'X-No-Cache': 'true'
+                        'Content-Type': 'application/json'
                     },
-                    body: payload.toString(),
-                    credentials: 'include'
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        studentId: studentId,
+                        captcha: captcha,
+                        token: lookupSession.token,
+                        ncforminfo: lookupSession.ncforminfo
+                    })
                 });
 
-                const contentType = response.headers.get('content-type') || '';
-                const rawText = await response.text();
+                const data = await response.json();
 
-                if (!response.ok) {
-                    throw new Error('Tra cứu không thành công. Vui lòng thử lại.');
+                if (!data.success) {
+                    throw new Error(data.error || 'Tra cứu thất bại');
                 }
 
-                if (contentType.includes('application/json')) {
-                    const jsonResult = JSON.parse(rawText);
-                    const captchaError = jsonResult?.Errors?.Captcha?.errors?.[0];
-                    if (captchaError) {
-                        throw new Error(captchaError);
-                    }
-                    throw new Error('Không nhận được đường dẫn điểm từ hệ thống.');
-                }
-
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(rawText, 'text/html');
-                const linkNode = doc.querySelector('a[href*="/tra-cuu/ket-qua-hoc-tap.html"]');
-
-                if (!linkNode) {
-                    const rawMatch = rawText.match(/Mã bảo vệ không hợp lệ/i);
-                    if (rawMatch) {
-                        throw new Error('Mã bảo vệ không hợp lệ. Vui lòng thử lại với mã mới.');
-                    }
-                    throw new Error('Không tìm thấy đường dẫn điểm.');
-                }
-
-                const href = linkNode.getAttribute('href');
-                const absoluteUrl = href.startsWith('http') ? href : `${HUIT_BASE_URL}${href}`;
+                const absoluteUrl = data.url;
                 const urlInput = document.getElementById('urlInput');
                 if (urlInput) {
                     urlInput.value = absoluteUrl;
                 }
+
+                updateLookupResultLink(absoluteUrl);
 
                 setCaptchaStatus('Đã lấy được đường dẫn điểm. Đang tải dữ liệu...', 'info');
                 await fetchStudentData();
@@ -1081,7 +1285,13 @@
                 }
             } finally {
                 setLookupControlsDisabled(false);
-                await initializeLookupSession(true);
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+                try {
+                    await refreshCaptcha(true);
+                } catch (refreshError) {
+                    console.error('Failed to refresh captcha after lookup:', refreshError);
+                }
             }
         }
 
@@ -1431,7 +1641,8 @@
         }
 
         async function fetchStudentData() {
-            const urlInput = document.getElementById('urlInput').value.trim();
+            const urlInputEl = document.getElementById('urlInput');
+            const lookupUrl = urlInputEl ? urlInputEl.value.trim() : '';
             const errorDiv = document.getElementById('error');
             const loading = document.getElementById('loading');
             const studentInfo = document.getElementById('studentInfo');
@@ -1439,8 +1650,9 @@
             const noData = document.getElementById('noData');
 
             errorDiv.classList.remove('show');
+            updateLookupResultLink(lookupUrl);
 
-            if (!urlInput) {
+            if (!lookupUrl) {
                 errorDiv.textContent = '❌ Vui lòng nhập link tra cứu';
                 errorDiv.classList.add('show');
                 return;
@@ -1451,7 +1663,7 @@
                 noData.style.display = 'none';
 
                 // Fetch dữ liệu thô từ Jina AI
-                const jxResponse = await fetch(JINA_API + urlInput);
+                const jxResponse = await fetch(JINA_API + lookupUrl);
                 if (!jxResponse.ok) throw new Error('Không thể kết nối tới máy chủ');
 
                 const htmlContent = await jxResponse.text();
@@ -1943,11 +2155,32 @@
 
         // Auto load khi trang mở
         window.addEventListener('load', () => {
+            writeLog('Page loaded, initializing...');
+            
             const urlInput = document.getElementById('urlInput');
-            if (urlInput.value.trim()) {
-                fetchStudentData();
+            if (urlInput) {
+                const initialValue = urlInput.value.trim();
+                updateLookupResultLink(initialValue);
+
+                urlInput.addEventListener('input', () => {
+                    updateLookupResultLink(urlInput.value.trim());
+                });
+
+                urlInput.addEventListener('change', () => {
+                    updateLookupResultLink(urlInput.value.trim());
+                });
+
+                if (initialValue) {
+                    fetchStudentData();
+                }
             }
-            initializeLookupSession(true);
+
+            // Khởi tạo session và load captcha
+            writeLog('Initializing lookup session...');
+            initializeLookupSession(true).catch(error => {
+                console.error('Failed to initialize lookup session on load:', error);
+                setCaptchaStatus('⚠️ Không thể tải captcha. Vui lòng kiểm tra kết nối.', 'error');
+            });
         });
     </script>
 </body>
