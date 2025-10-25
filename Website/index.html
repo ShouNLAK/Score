@@ -1,0 +1,3902 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Kết Quả Học Tập - HUIT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5868ff;
+            --primary-dark: #3a46d6;
+            --accent: #8c58f6;
+            --accent-strong: #6f3de2;
+            --surface-glass: rgba(255, 255, 255, 0.78);
+            --surface-strong: rgba(255, 255, 255, 0.92);
+            --shadow-lg: 0 32px 60px rgba(88, 104, 255, 0.22);
+            --shadow-md: 0 20px 40px rgba(110, 91, 234, 0.18);
+            --shadow-sm: 0 12px 28px rgba(88, 104, 255, 0.16);
+            --border-soft: rgba(255, 255, 255, 0.38);
+            --border-strong: rgba(88, 104, 255, 0.42);
+            --text-muted: #6f7288;
+            --text-subtle: #8a8fac;
+            --radius-lg: 26px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #232445 0%, #1f2658 45%, #2c3c94 75%, #3d5bff 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 18s ease infinite;
+            min-height: 100vh;
+            padding: 32px;
+            color: #1c1f2e;
+            line-height: 1.65;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        ::selection {
+            background: rgba(100, 120, 255, 0.4);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.28);
+            border-radius: 100px;
+        }
+
+        .container {
+            width: min(1180px, 100%);
+            background: var(--surface-glass);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border-soft);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.05));
+            pointer-events: none;
+        }
+
+        .header {
+            position: relative;
+            padding: 56px 60px;
+            background: linear-gradient(135deg, rgba(94, 112, 255, 0.94) 0%, rgba(140, 88, 246, 0.92) 55%, rgba(94, 66, 219, 0.92) 100%);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .header::before,
+        .header::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(0.5px);
+            opacity: 0.7;
+            pointer-events: none;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        .header::before {
+            width: 340px;
+            height: 340px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 65%);
+            top: -120px;
+            right: -80px;
+        }
+
+        .header::after {
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.26), transparent 70%);
+            bottom: -90px;
+            left: 10%;
+            animation-delay: 1.5s;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 16px;
+            max-width: 620px;
+            opacity: 0.92;
+        }
+
+        .content {
+            position: relative;
+            padding: 48px 60px 56px;
+            z-index: 1;
+        }
+
+        .module {
+            margin-bottom: 48px;
+        }
+
+        .module:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .module-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        .module-header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1b2142;
+        }
+
+        .module-header p {
+            color: var(--text-muted);
+            max-width: 520px;
+            font-size: 14px;
+        }
+
+        .module-tag {
+            display: inline-flex;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(88, 104, 255, 0.13);
+            color: var(--primary-dark);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .module-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .module-grid {
+            display: grid;
+            gap: 28px;
+            grid-template-columns: minmax(280px, 340px) 1fr;
+            align-items: stretch;
+        }
+
+        .module-grid.single-column {
+            grid-template-columns: 1fr;
+        }
+
+        .module-card {
+            background: var(--surface-strong);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            border: 1px solid rgba(88, 104, 255, 0.12);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 50px rgba(88, 104, 255, 0.18);
+        }
+
+        .module-card--accent {
+            background: linear-gradient(145deg, rgba(94, 112, 255, 0.95), rgba(140, 88, 246, 0.92));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 30px 60px rgba(83, 90, 255, 0.35);
+            transition: all 0.4s ease;
+        }
+
+        .module-card--accent.collapsed {
+            padding: 18px 24px;
+            cursor: pointer;
+        }
+
+        .module-card--accent.collapsed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(83, 90, 255, 0.3);
+        }
+
+        .module-card--accent.collapsed h3 {
+            font-size: 16px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .module-card--accent.collapsed .module-desc,
+        .module-card--accent.collapsed .form-grid,
+        .module-card--accent.collapsed .lookup-actions {
+            display: none;
+        }
+
+        .collapse-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .module-card--accent.collapsed .collapse-icon {
+            transform: rotate(180deg);
+        }
+
+        .module-card--accent .module-desc,
+        .module-card--accent .lookup-note,
+        .module-card--accent label,
+        .module-card--accent .caption {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .module-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .module-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .module-card:not(.module-card--accent) .form-group label {
+            color: var(--primary-dark);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 15px;
+            color: #fff;
+            transition: border-color 0.25s ease, box-shadow 0.35s ease, background 0.3s ease;
+        }
+
+        .module-card:not(.module-card--accent) .form-group input {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(88, 104, 255, 0.25);
+            color: #1c1f2e;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+        .module-card:not(.module-card--accent) .form-group input::placeholder {
+            color: rgba(88, 104, 255, 0.55);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 18px 40px rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .module-card:not(.module-card--accent) .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 18px 42px rgba(88, 104, 255, 0.18);
+            background: #fff;
+        }
+
+        .captcha-wrapper {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .captcha-wrapper img {
+            height: 52px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.22);
+            padding: 6px 16px;
+            box-shadow: 0 18px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-card:not(.module-card--accent) .captcha-wrapper img {
+            background: #fff;
+            border: 1px solid rgba(88, 104, 255, 0.2);
+        }
+
+        .mini-button {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            padding: 9px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .mini-button:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .mini-button:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        button {
+            border: none;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 13px 30px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #5c6eff 0%, #7a4ff4 48%, #8b57f6 100%);
+            color: #fff;
+            box-shadow: 0 18px 35px rgba(97, 94, 255, 0.32);
+        }
+
+        .primary-button::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 22px 45px rgba(97, 94, 255, 0.35);
+        }
+
+        .primary-button:hover::after {
+            opacity: 1;
+        }
+
+        .ghost-button {
+            background: rgba(92, 110, 255, 0.14);
+            color: var(--primary-dark);
+            border: 1px solid rgba(92, 110, 255, 0.35);
+        }
+
+        .ghost-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(92, 110, 255, 0.22);
+        }
+
+        button:disabled,
+        button:disabled::after {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .lookup-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .lookup-note {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
+        .module-card:not(.module-card--accent) .lookup-note {
+            color: var(--text-muted);
+        }
+
+        .caption {
+            font-size: 13px;
+            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .module-card:not(.module-card--accent) .caption {
+            color: var(--text-muted);
+        }
+
+        .caption.error {
+            color: #ff6464;
+        }
+
+        .error {
+            background: rgba(255, 98, 98, 0.12);
+            color: #a41430;
+            border: 1px solid rgba(255, 98, 98, 0.35);
+            padding: 16px 20px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 28px;
+            display: none;
+            box-shadow: 0 18px 40px rgba(255, 98, 98, 0.18);
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        #studentInfo {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            align-content: start;
+        }
+
+        #studentInfo.show {
+            display: grid;
+        }
+
+        .info-stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.94);
+            padding: 18px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(88, 104, 255, 0.14);
+            box-shadow: 0 16px 28px rgba(88, 104, 255, 0.1);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 40px rgba(88, 104, 255, 0.18);
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-subtle);
+            margin-bottom: 6px;
+        }
+
+        .info-item .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1c1f2e;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 34px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(88, 104, 255, 0.14);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            border: 4px solid rgba(88, 104, 255, 0.18);
+            border-top: 4px solid rgba(88, 104, 255, 0.9);
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 42px;
+            color: var(--text-muted);
+            border: 1px dashed rgba(88, 104, 255, 0.28);
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.78);
+        }
+
+        .semester-section {
+            margin-bottom: 42px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(88, 104, 255, 0.12);
+            box-shadow: 0 24px 42px rgba(88, 104, 255, 0.12);
+            overflow: hidden;
+        }
+
+        .semester-title {
+            background: linear-gradient(135deg, rgba(94, 112, 255, 0.9), rgba(140, 88, 246, 0.88));
+            color: #fff;
+            padding: 22px 28px;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .semester-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            padding: 22px 24px;
+            background: rgba(246, 248, 255, 0.85);
+        }
+
+        .summary-item {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px 20px;
+            border: 1px solid rgba(88, 104, 255, 0.12);
+            box-shadow: 0 16px 28px rgba(88, 104, 255, 0.1);
+        }
+
+        .summary-item label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-subtle);
+            margin-bottom: 6px;
+        }
+
+        .summary-item .value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .summary-item .trial-value {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            font-size: 12px;
+            color: var(--primary-dark);
+        }
+
+        .summary-item .trial-output {
+            color: #e34848;
+        }
+
+        .current-badge {
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .grades-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        .grades-table thead {
+            background: rgba(88, 104, 255, 0.08);
+        }
+
+        .grades-table th {
+            text-align: left;
+            padding: 15px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-subtle);
+            border-bottom: 1px solid rgba(88, 104, 255, 0.16);
+        }
+
+        .grades-table td {
+            padding: 16px 20px;
+            font-size: 14px;
+            color: #1c1f2e;
+            border-bottom: 1px solid rgba(88, 104, 255, 0.08);
+            vertical-align: top;
+        }
+
+        .grades-table tbody tr:hover {
+            background: rgba(92, 110, 255, 0.08);
+        }
+
+        .excluded {
+            background: rgba(255, 237, 191, 0.9);
+        }
+
+        .excluded-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255, 189, 67, 0.2);
+            color: #8a5a00;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .score-actual {
+            font-weight: 600;
+        }
+
+        .trial-inline {
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .trial-inline .trial-tag {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .trial-input {
+            width: 70px;
+            padding: 6px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(88, 104, 255, 0.24);
+            font-size: 12px;
+        }
+
+        .trial-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(88, 104, 255, 0.16);
+        }
+
+        .trial-output {
+            font-weight: 700;
+            color: #df3c3c;
+            min-width: 32px;
+            text-align: right;
+        }
+
+        .trial-output.muted {
+            color: #a3a8c2;
+        }
+
+        .overall-summary {
+            margin-top: 36px;
+            background: linear-gradient(135deg, rgba(92, 110, 255, 1), rgba(140, 88, 246, 0.95));
+            border-radius: var(--radius-md);
+            padding: 34px;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 28px 60px rgba(92, 110, 255, 0.3);
+        }
+
+        .overall-summary h3 {
+            font-size: 20px;
+            margin-bottom: 22px;
+        }
+
+        .overall-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+
+        .overall-item {
+            background: rgba(255, 255, 255, 0.18);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(12px);
+        }
+
+        .overall-item label {
+            display: block;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            opacity: 0.78;
+            margin-bottom: 6px;
+        }
+
+        .overall-item .value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .total-credits {
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: rgba(92, 110, 255, 0.12);
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(88, 104, 255, 0.14);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab-btn:hover {
+            background: rgba(88, 104, 255, 0.08);
+            color: var(--primary-dark);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(92, 110, 255, 0.95), rgba(140, 88, 246, 0.92));
+            color: #fff;
+            box-shadow: 0 12px 28px rgba(88, 104, 255, 0.22);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Student Info Grid Layout */
+        .student-info-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .info-section {
+            background: var(--surface-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Schedule Tabs */
+        .schedule-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .schedule-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--surface-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .schedule-tab-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .schedule-tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .schedule-view {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .schedule-view.active {
+            display: block;
+        }
+
+        .schedule-table {
+            width: 100%;
+            background: var(--surface-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .schedule-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th {
+            background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .schedule-table td {
+            padding: 0.875rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .schedule-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        .schedule-card {
+            background: var(--surface-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .schedule-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .schedule-card-title {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .schedule-card-subtitle {
+            margin-top: 0.25rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .schedule-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.35rem 0.85rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .schedule-badge-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: currentColor;
+            opacity: 0.55;
+        }
+
+        .schedule-card-content {
+            display: grid;
+            gap: 0.55rem;
+            font-size: 0.9rem;
+        }
+
+        .schedule-info-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .schedule-info-row strong {
+            color: var(--text-primary);
+            min-width: 120px;
+        }
+
+        .schedule-info-row span {
+            color: var(--text-secondary);
+        }
+
+        .schedule-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem 1.75rem;
+            border: 1px solid rgba(88, 104, 255, 0.15);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 255, 0.92));
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px rgba(88, 104, 255, 0.12);
+        }
+
+        .schedule-week-info {
+            display: grid;
+            gap: 0.5rem;
+            min-width: 240px;
+        }
+
+        .schedule-week-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+        }
+
+        .schedule-week-range {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .schedule-week-actions {
+            display: inline-flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .schedule-week-btn {
+            padding: 0.65rem 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(88, 104, 255, 0.2);
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(88, 104, 255, 0.08);
+        }
+
+        .schedule-week-btn:hover:not(:disabled) {
+            background: rgba(88, 104, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(88, 104, 255, 0.18);
+        }
+
+        .schedule-week-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .schedule-week-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.4;
+            transform: none;
+        }
+
+        .schedule-week-btn--primary {
+            background: linear-gradient(135deg, #5c6eff 0%, #8c58f6 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 8px 24px rgba(88, 104, 255, 0.35);
+        }
+
+        .schedule-week-btn--primary:hover:not(:disabled) {
+            box-shadow: 0 12px 32px rgba(88, 104, 255, 0.45);
+            background: linear-gradient(135deg, #4856ef 0%, #7b42e6 100%);
+        }
+
+        .schedule-week-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        }
+
+        .schedule-day-card {
+            border-radius: 16px;
+            border: 1px solid rgba(88, 104, 255, 0.12);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 255, 0.95));
+            padding: 1.5rem;
+            display: grid;
+            gap: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(88, 104, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .schedule-day-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(88, 104, 255, 0.16);
+        }
+
+        .schedule-day-card--today::after {
+            content: '📅 Hôm nay';
+            position: absolute;
+            top: 1.2rem;
+            right: -3rem;
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, #5c6eff 0%, #8c58f6 100%);
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 0.5rem 3.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            box-shadow: 0 8px 24px rgba(88, 104, 255, 0.4);
+        }
+
+        .schedule-day-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 2px solid rgba(88, 104, 255, 0.15);
+            padding-bottom: 1rem;
+        }
+
+        .schedule-day-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.01em;
+        }
+
+        .schedule-day-date {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .schedule-session {
+            display: grid;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(88, 104, 255, 0.1);
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.2s ease;
+        }
+
+        .schedule-session:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(88, 104, 255, 0.2);
+        }
+
+        .schedule-session-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            letter-spacing: -0.01em;
+        }
+
+        .schedule-session-empty {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-style: italic;
+            padding: 0.5rem;
+        }
+
+        .schedule-entry-card {
+            border-radius: 14px;
+            border: 1px solid rgba(88, 104, 255, 0.15);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 255, 0.9));
+            padding: 1rem 1.15rem;
+            display: grid;
+            gap: 0.65rem;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .schedule-entry-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(88, 104, 255, 0.2);
+            border-color: rgba(88, 104, 255, 0.25);
+        }
+
+        .schedule-entry-card--online {
+            border-color: rgba(29, 161, 242, 0.35);
+            background: linear-gradient(135deg, rgba(29, 161, 242, 0.12), rgba(29, 161, 242, 0.08));
+        }
+
+        .schedule-entry-card--online:hover {
+            box-shadow: 0 12px 32px rgba(29, 161, 242, 0.22);
+        }
+
+        .schedule-entry-card--exam {
+            border-color: rgba(255, 99, 71, 0.35);
+            background: linear-gradient(135deg, rgba(255, 99, 71, 0.12), rgba(255, 99, 71, 0.08));
+        }
+
+        .schedule-entry-card--exam:hover {
+            box-shadow: 0 12px 32px rgba(255, 99, 71, 0.22);
+        }
+
+        .schedule-entry-card--break {
+            border-color: rgba(249, 171, 0, 0.4);
+            background: linear-gradient(135deg, rgba(255, 196, 0, 0.15), rgba(255, 196, 0, 0.1));
+        }
+
+        .schedule-entry-card--break:hover {
+            box-shadow: 0 12px 32px rgba(249, 171, 0, 0.22);
+        }
+
+        .schedule-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .schedule-entry-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+        }
+
+        .schedule-entry-class {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .schedule-entry-meta {
+            display: grid;
+            gap: 0.4rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .schedule-entry-meta strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .schedule-entry-tags {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .schedule-entry-tag {
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            background: rgba(88, 104, 255, 0.12);
+            border: 1px solid rgba(88, 104, 255, 0.2);
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            white-space: nowrap;
+        }
+
+        .schedule-entry-tag--slot {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.35);
+            color: #047857;
+        }
+
+        .schedule-entry-actions {
+            display: inline-flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.25rem;
+        }
+
+        .schedule-card-actions {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .schedule-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            background: rgba(88, 104, 255, 0.12);
+            color: var(--primary-dark);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(88, 104, 255, 0.2);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .schedule-chip:hover {
+            background: rgba(88, 104, 255, 0.22);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(88, 104, 255, 0.2);
+        }
+
+        .schedule-chip--accent {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.35);
+            color: #0f766e;
+        }
+
+        .schedule-chip--accent:hover {
+            background: rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .animate-in {
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(22px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(12px, -18px, 0); }
+            100% { transform: translate3d(0, 0, 0); }
+        }
+
+        @media (max-width: 1024px) {
+            body {
+                padding: 24px;
+            }
+
+            .content {
+                padding: 38px 38px 48px;
+            }
+
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .module-card {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
+
+            .content {
+                padding: 30px 22px 40px;
+            }
+
+            .module-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .module-actions button {
+                width: 100%;
+            }
+
+            .captcha-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .module-card,
+            .overall-summary {
+                padding: 22px;
+            }
+
+            .grades-table th,
+            .grades-table td {
+                padding: 12px 14px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <span class="header-chip">HUIT Academic Portal</span>
+                <h1>Tra cứu kết quả học tập</h1>
+                <p>Nhập thông tin sinh viên để hiển thị hồ sơ đào tạo cùng bảng điểm chi tiết với trải nghiệm mượt mà.</p>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="error" id="error"></div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="studentTab" onclick="switchTab('studentTab')">
+                    � Thông tin sinh viên
+                </button>
+                <button class="tab-btn" data-tab="scheduleTab" onclick="switchTab('scheduleTab')">
+                    📅 Thời gian biểu
+                </button>
+                <button class="tab-btn" data-tab="gradesTab" onclick="switchTab('gradesTab')">
+                    📊 Bảng điểm
+                </button>
+            </div>
+
+            <!-- Tab Content: Student Info -->
+            <section class="tab-content active" id="studentTab">
+                <section class="module">
+                    <div class="module-header">
+                        <div>
+                            <span class="module-tag">Tra cứu</span>
+                            <h2>Tra cứu thông tin sinh viên</h2>
+                            <p>Nhập MSSV và mã bảo vệ để tra cứu toàn bộ thông tin học vụ, bảng điểm và thời gian biểu.</p>
+                        </div>
+                    </div>
+
+                    <div class="lookup-section">
+                        <article class="module-card module-card--accent" id="lookupCard" onclick="toggleLookupCard()">
+                            <h3>
+                                <span>🔍 Nhập liệu dữ liệu sinh viên</span>
+                                <span class="collapse-icon">▼</span>
+                            </h3>
+                            <p class="module-desc">MSSV và mã bảo vệ được xác thực qua hệ thống HUIT. Sau khi tra cứu thành công, dữ liệu sẽ hiển thị trên tất cả các tab.</p>
+                            <div class="form-grid" onclick="event.stopPropagation()">
+                                <div class="form-group">
+                                    <label for="studentIdLookup">Mã số sinh viên</label>
+                                    <input
+                                        type="text"
+                                        id="studentIdLookup"
+                                        placeholder="Ví dụ: 2001201234"
+                                        autocomplete="off"
+                                        inputmode="numeric"
+                                        maxlength="12"
+                                    >
+                                </div>
+                                <div class="form-group">
+                                    <label for="captchaInput">Mã bảo vệ</label>
+                                    <div class="captcha-wrapper">
+                                        <img id="captchaImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='56'%3E%3Crect fill='%23f0f2ff' width='160' height='56'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%238a8fac' font-family='Arial' font-size='13'%3EĐang tải...%3C/text%3E%3C/svg%3E" alt="Mã bảo vệ" title="Nhập mã hiển thị" />
+                                        <button type="button" class="mini-button" onclick="refreshCaptcha()" id="refreshCaptchaBtn">🔄 Mã mới</button>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="captchaInput"
+                                        placeholder="Nhập mã chữ hoặc số"
+                                        autocomplete="off"
+                                        maxlength="12"
+                                    >
+                                    <div class="caption" id="captchaStatus">Nhập mã hiển thị để tra cứu.</div>
+                                </div>
+                            </div>
+                            <div class="lookup-actions" onclick="event.stopPropagation()">
+                                <button type="button" class="primary-button" onclick="submitStudentLookup()" id="studentLookupBtn">🔍 Tra cứu MSSV</button>
+                                <span class="lookup-note">Mã bảo vệ phân biệt chữ hoa/thường và thay đổi sau mỗi lần tải mới.</span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div id="studentInfo" class="student-info-grid">
+                        <div class="info-section">
+                            <h3 class="info-section-title">📋 Thông tin cá nhân</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Mã số sinh viên</label>
+                                    <div class="value" id="studentId">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Họ và tên</label>
+                                    <div class="value" id="fullName">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Giới tính</label>
+                                    <div class="value" id="gender">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Lớp</label>
+                                    <div class="value" id="className">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3 class="info-section-title">🎓 Thông tin chuyên ngành</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Khoa</label>
+                                    <div class="value" id="department">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Ngành</label>
+                                    <div class="value" id="major">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Chuyên ngành</label>
+                                    <div class="value" id="specialization">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Bậc đào tạo</label>
+                                    <div class="value" id="educationLevel">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3 class="info-section-title">📚 Thông tin đào tạo</h3>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Ngày vào trường</label>
+                                    <div class="value" id="entryDate">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Khóa học</label>
+                                    <div class="value" id="cohort">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Loại hình đào tạo</label>
+                                    <div class="value" id="trainingType">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Cơ sở</label>
+                                    <div class="value" id="campus">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!-- Tab Content: Schedule -->
+            <section class="tab-content" id="scheduleTab">
+                <section class="module">
+                    <div class="module-header">
+                        <div>
+                            <span class="module-tag">Thời gian biểu</span>
+                            <h2>Lịch học và lịch thi</h2>
+                            <p>Hiển thị lịch học theo tuần, lịch học trực tuyến, lịch thi và lịch tạm ngưng học.</p>
+                        </div>
+                    </div>
+
+                    <div class="schedule-toolbar" id="scheduleToolbar">
+                        <div class="schedule-week-info">
+                            <div class="schedule-week-label" id="scheduleWeekLabel">Tuần hiện tại</div>
+                            <div class="schedule-week-range" id="scheduleWeekRange">Vui lòng tra cứu MSSV để hiển thị lịch.</div>
+                        </div>
+                        <div class="schedule-week-actions">
+                            <button type="button" class="schedule-week-btn" onclick="changeScheduleWeek('prev')" id="scheduleWeekPrev" disabled>⬅️ Tuần trước</button>
+                            <button type="button" class="schedule-week-btn schedule-week-btn--primary" onclick="changeScheduleWeek('current')" id="scheduleWeekCurrent">📅 Tuần hiện tại</button>
+                            <button type="button" class="schedule-week-btn" onclick="changeScheduleWeek('next')" id="scheduleWeekNext" disabled>➡️ Tuần sau</button>
+                        </div>
+                    </div>
+
+                    <div class="loading" id="scheduleLoading" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Đang tải thời gian biểu...</p>
+                    </div>
+
+                    <div class="schedule-tabs">
+                        <button class="schedule-tab-btn active" data-view="all" onclick="switchScheduleView('all', this)">🗂️ Tất cả</button>
+                        <button class="schedule-tab-btn" data-view="class" onclick="switchScheduleView('class', this)">📖 Lịch học</button>
+                        <button class="schedule-tab-btn" data-view="online" onclick="switchScheduleView('online', this)">💻 Lịch học trực tuyến</button>
+                        <button class="schedule-tab-btn" data-view="exam" onclick="switchScheduleView('exam', this)">📝 Lịch thi</button>
+                        <button class="schedule-tab-btn" data-view="break" onclick="switchScheduleView('break', this)">⏸️ Lịch tạm ngưng</button>
+                    </div>
+
+                    <div id="scheduleAllContainer" class="schedule-view active"></div>
+                    <div id="scheduleClassContainer" class="schedule-view"></div>
+                    <div id="scheduleOnlineContainer" class="schedule-view"></div>
+                    <div id="scheduleExamContainer" class="schedule-view"></div>
+                    <div id="scheduleBreakContainer" class="schedule-view"></div>
+
+                    <div class="no-data" id="scheduleNoData" style="display: block;">
+                        Vui lòng tra cứu MSSV để xem thời gian biểu.
+                    </div>
+                </section>
+            </section>
+
+            <!-- Tab Content: Grades -->
+            <section class="tab-content" id="gradesTab">
+            <section class="module" id="gradesModule">
+                <div class="module-header">
+                    <div>
+                        <span class="module-tag">Bảng điểm</span>
+                        <h2>Kết quả học tập</h2>
+                        <p>Hiển thị điểm theo từng học kỳ, kèm thống kê trung bình và công cụ thử nghiệm điểm trực tiếp trên bảng.</p>
+                    </div>
+                    <div class="module-actions">
+                        <button type="button" class="ghost-button" onclick="exportToCSV()">📥 Xuất CSV</button>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+
+                <div id="semestersContainer"></div>
+
+                <div class="overall-summary" id="overallSummary" style="display: none;">
+                    <h3>📊 Thống kê toàn khóa</h3>
+                    <div class="overall-grid">
+                        <div class="overall-item">
+                            <label>Điểm TB Tích Lũy</label>
+                            <div class="value" id="overallAvg">-</div>
+                        </div>
+                        <div class="overall-item">
+                            <label>GPA Tích Lũy (4.0)</label>
+                            <div class="value" id="overallGPA">-</div>
+                        </div>
+                        <div class="overall-item">
+                            <label>Tổng Tín Chỉ</label>
+                            <div class="value" id="totalCredits">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="no-data" id="noData" style="display: block;">
+                    Nhập MSSV và mã bảo vệ để bắt đầu tra cứu kết quả học tập.
+                </div>
+            </section>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const EXCLUDED_KEYWORDS = [
+            'giáo dục quốc phòng',
+            'an ninh',
+            'giáo dục thể chất',
+            'bóng chuyền',
+            'cầu lông',
+            'bơi lội',
+            'thể dục',
+            'yoga'
+        ];
+
+        const JINA_API = 'https://r.jina.ai/';
+        const SCORE_TOLERANCE = 0.15;
+
+        // API endpoints
+        // Cho Vercel: Dùng '/api/init', '/api/captcha', '/api/lookup'
+        // Cho PHP local: Dùng 'api.php?action=...'
+        const IS_FILE_PROTOCOL = window.location.protocol === 'file:';
+        const IS_VERCEL = window.location.hostname.includes('vercel.app') || window.location.hostname.includes('localhost');
+        
+        const API_ENDPOINTS = {
+            init: null,
+            captcha: null,
+            lookup: null
+        };
+
+        const DAY_ORDER = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'];
+        const PERIOD_PRIORITY = ['morning', 'afternoon', 'evening', 'other'];
+        const PERIOD_LABELS = {
+            morning: '🌅 Sáng',
+            afternoon: '🌇 Chiều',
+            evening: '🌃 Tối',
+            other: '🗂️ Khác'
+        };
+
+        let currentScheduleTimestamp = null;
+        let scheduleMeta = null;
+        
+        if (IS_FILE_PROTOCOL) {
+            // Nếu mở file trực tiếp, không có API
+            writeLog('Running in file:// protocol - API not available');
+        } else if (IS_VERCEL) {
+            // Vercel: Sử dụng separate endpoints
+            API_ENDPOINTS.init = '/api/init';
+            API_ENDPOINTS.captcha = '/api/captcha';
+            API_ENDPOINTS.lookup = '/api/lookup';
+            writeLog('Using Vercel API endpoints');
+        } else {
+            // PHP local: Sử dụng action query parameter
+            const base = new URL('api.php', window.location.href).href;
+            API_ENDPOINTS.init = `${base}?action=init`;
+            API_ENDPOINTS.captcha = `${base}?action=captcha`;
+            API_ENDPOINTS.lookup = `${base}?action=lookup`;
+            writeLog('Using PHP API endpoints');
+        }
+
+        // Debug helper
+        function writeLog(message) {
+            if (console && console.log) {
+                console.log('[HUIT] ' + message);
+            }
+        }
+
+    let currentStudentData = null;
+    let currentLookupUrl = '';
+    const scheduleCache = new Map();
+    let currentScheduleDateText = null;
+        const lookupSession = {
+            token: null,
+            ncforminfo: null,
+            cookies: null, // Thêm cookies cho Vercel
+            loading: false,
+            captchaObjectUrl: null,
+            lastInitialized: 0
+        };
+
+        function setCaptchaStatus(message, type = 'info') {
+            const status = document.getElementById('captchaStatus');
+            if (!status) return;
+            status.textContent = message;
+            status.classList.toggle('error', type === 'error');
+        }
+
+        function setLookupControlsDisabled(state) {
+            const btn = document.getElementById('studentLookupBtn');
+            const refreshBtn = document.getElementById('refreshCaptchaBtn');
+            const studentInput = document.getElementById('studentIdLookup');
+            const captchaInput = document.getElementById('captchaInput');
+            if (btn) btn.disabled = state;
+            if (refreshBtn) refreshBtn.disabled = state;
+            if (studentInput) studentInput.disabled = state;
+            if (captchaInput) captchaInput.disabled = state;
+        }
+
+        function revokeCaptchaObjectUrl() {
+            if (lookupSession.captchaObjectUrl) {
+                URL.revokeObjectURL(lookupSession.captchaObjectUrl);
+                lookupSession.captchaObjectUrl = null;
+            }
+        }
+
+        async function initializeLookupSession(force = false) {
+            if (!API_ENDPOINTS.init) {
+                writeLog('API endpoint not available (file protocol).');
+                setCaptchaStatus('⚠️ Vui lòng chạy trang qua máy chủ web (http:// hoặc https://).', 'error');
+                return;
+            }
+
+            if (lookupSession.loading) return;
+
+            if (force) {
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+                lookupSession.cookies = null;
+            }
+
+            const hasFreshSession = lookupSession.token && lookupSession.ncforminfo && lookupSession.cookies && !force;
+            if (hasFreshSession) {
+                writeLog('Reusing existing session with cookies');
+                await loadCaptchaImage();
+                return;
+            }
+
+            lookupSession.loading = true;
+            setLookupControlsDisabled(true);
+            setCaptchaStatus('Đang kết nối tới máy chủ...');
+
+            try {
+                revokeCaptchaObjectUrl();
+
+                writeLog('Calling init API to get new session...');
+                // Gọi API để khởi tạo session
+                const response = await fetch(API_ENDPOINTS.init, {
+                    method: 'GET',
+                    cache: 'no-store',
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Kết nối thất bại (HTTP ' + response.status + ')');
+                }
+
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Không thể khởi tạo phiên');
+                }
+
+                lookupSession.token = data.token;
+                lookupSession.ncforminfo = data.ncforminfo;
+                lookupSession.cookies = data.cookies || []; // Lưu cookies cho Vercel
+                lookupSession.lastInitialized = Date.now();
+                
+                writeLog("Session initialized successfully");
+                writeLog("Token: " + lookupSession.token.substring(0, 20) + "...");
+                writeLog("Cookies count: " + lookupSession.cookies.length);
+                
+                await loadCaptchaImage();
+            } catch (error) {
+                console.error('Lookup init failed:', error);
+                revokeCaptchaObjectUrl();
+                setCaptchaStatus('⚠️ ' + (error.message || 'Không thể khởi tạo phiên'), 'error');
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+                lookupSession.cookies = null;
+            } finally {
+                lookupSession.loading = false;
+                setLookupControlsDisabled(false);
+            }
+        }
+
+        async function loadCaptchaImage() {
+            const captchaImg = document.getElementById('captchaImage');
+            if (!captchaImg) return;
+
+            if (!API_ENDPOINTS.captcha) {
+                setCaptchaStatus('⚠️ Không thể tải captcha khi mở file trực tiếp. Vui lòng chạy thông qua máy chủ web.', 'error');
+                captchaImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50'%3E%3Crect fill='%23ffebee' width='150' height='50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c62828' font-family='Arial' font-size='11'%3E⚠️ Cần server%3C/text%3E%3C/svg%3E";
+                return;
+            }
+
+            try {
+                setCaptchaStatus('Đang tải mã bảo vệ...');
+                writeLog('Loading captcha from API...');
+                writeLog('Using cookies: ' + (lookupSession.cookies ? lookupSession.cookies.join('; ') : 'NONE'));
+
+                // Gọi API để lấy captcha - GỬI cookies qua POST body để dùng chung session
+                const response = await fetch(API_ENDPOINTS.captcha, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    cache: 'no-store',
+                    body: JSON.stringify({
+                        cookies: lookupSession.cookies || []
+                    })
+                });
+
+                writeLog(`Captcha response status: ${response.status}`);
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    writeLog(`Captcha error response: ${errorText}`);
+                    throw new Error('Không tải được mã bảo vệ (HTTP ' + response.status + ')');
+                }
+
+                const contentType = response.headers.get('content-type');
+                writeLog(`Captcha content-type: ${contentType}`);
+
+                const data = await response.json();
+                writeLog(`Captcha data received: ${JSON.stringify(data).substring(0, 100)}...`);
+                
+                if (!data.success) {
+                    throw new Error(data.error || 'Không tải được mã bảo vệ');
+                }
+
+                if (!data.image) {
+                    throw new Error('Captcha image data is empty');
+                }
+
+                // Set base64 image
+                captchaImg.src = data.image;
+                writeLog(`Captcha image set (${data.image.length} chars)`);
+
+                captchaImg.onload = () => {
+                    setCaptchaStatus('Nhập mã bảo vệ để tiếp tục.');
+                    writeLog('Captcha image loaded successfully');
+                };
+
+                captchaImg.onerror = () => {
+                    setCaptchaStatus('Không tải được mã bảo vệ.', 'error');
+                    writeLog('Captcha image load error');
+                };
+            } catch (error) {
+                console.error('Captcha load failed:', error);
+                writeLog(`Captcha load error: ${error.message}`);
+                setCaptchaStatus('Lỗi: ' + error.message, 'error');
+                
+                // Set error placeholder
+                captchaImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='50'%3E%3Crect fill='%23ffebee' width='150' height='50'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23c62828' font-family='Arial' font-size='11'%3E❌ Lỗi tải%3C/text%3E%3C/svg%3E";
+            }
+        }
+
+        async function refreshCaptcha(forceSession = true) {
+            const captchaInput = document.getElementById('captchaInput');
+            if (captchaInput) captchaInput.value = '';
+
+            if (forceSession || !lookupSession.token || !lookupSession.ncforminfo) {
+                await initializeLookupSession(true);
+                return;
+            }
+
+            await loadCaptchaImage();
+        }
+
+        window.addEventListener('beforeunload', revokeCaptchaObjectUrl);
+
+        function sanitizeLookupInput(value) {
+            if (!value) return '';
+            return value.replace(/[^0-9a-zA-Z]/g, '').trim();
+        }
+
+        async function submitStudentLookup() {
+            const studentInput = document.getElementById('studentIdLookup');
+            const captchaInput = document.getElementById('captchaInput');
+            const studentId = studentInput ? studentInput.value.trim() : '';
+            const captchaRaw = captchaInput ? captchaInput.value.trim() : '';
+            const captcha = sanitizeLookupInput(captchaRaw);
+            const errorDiv = document.getElementById('error');
+
+            if (errorDiv) errorDiv.classList.remove('show');
+
+            if (!studentId) {
+                setCaptchaStatus('Vui lòng nhập mã số sinh viên.', 'error');
+                studentInput?.focus();
+                return;
+            }
+
+            if (!/^\d{6,12}$/.test(studentId)) {
+                setCaptchaStatus('Mã số sinh viên phải bao gồm 6-12 chữ số.', 'error');
+                studentInput?.focus();
+                return;
+            }
+
+            if (!captcha) {
+                setCaptchaStatus('Vui lòng nhập mã bảo vệ hiển thị.', 'error');
+                captchaInput?.focus();
+                return;
+            }
+
+            if (!API_ENDPOINTS.lookup) {
+                setCaptchaStatus('⚠️ Vui lòng chạy thông qua máy chủ web để tra cứu MSSV.', 'error');
+                return;
+            }
+
+            setLookupControlsDisabled(true);
+            setCaptchaStatus('Đang gửi yêu cầu tới hệ thống, vui lòng chờ...');
+
+            try {
+                // Kiểm tra session - KHÔNG tạo mới nếu đã có
+                if (!lookupSession.token || !lookupSession.ncforminfo || !lookupSession.cookies) {
+                    throw new Error('Session không hợp lệ. Vui lòng refresh mã bảo vệ và thử lại.');
+                }
+
+                writeLog('Submitting lookup with session cookies: ' + lookupSession.cookies.join('; ').substring(0, 100));
+
+                // Gọi API để tra cứu
+                const response = await fetch(API_ENDPOINTS.lookup, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        studentId: studentId,
+                        captcha: captcha,
+                        token: lookupSession.token,
+                        ncforminfo: lookupSession.ncforminfo,
+                        cookies: lookupSession.cookies // Thêm cookies cho Vercel
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Tra cứu thất bại');
+                }
+
+                const absoluteUrl = data.url;
+                if (typeof absoluteUrl !== 'string' || !/^https?:\/\//i.test(absoluteUrl)) {
+                    throw new Error('Liên kết tra cứu không hợp lệ. Vui lòng thử lại.');
+                }
+
+                currentLookupUrl = absoluteUrl;
+
+                setCaptchaStatus('Đã lấy được dữ liệu. Đang tải bảng điểm...', 'info');
+                await fetchStudentData(absoluteUrl);
+            } catch (error) {
+                console.error('Lookup error:', error);
+                setCaptchaStatus(error.message || 'Tra cứu thất bại. Thử lại.', 'error');
+                if (errorDiv) {
+                    errorDiv.textContent = `❌ ${error.message || 'Tra cứu thất bại'}`;
+                    errorDiv.classList.add('show');
+                }
+                
+                // Nếu lỗi thì refresh session mới
+                lookupSession.token = null;
+                lookupSession.ncforminfo = null;
+                lookupSession.cookies = null;
+                try {
+                    await refreshCaptcha(true);
+                } catch (refreshError) {
+                    console.error('Failed to refresh captcha after lookup:', refreshError);
+                }
+            } finally {
+                setLookupControlsDisabled(false);
+            }
+        }
+
+        function convertScoreToGPA(score) {
+            const numeric = Number(score);
+            if (!Number.isFinite(numeric)) return null;
+            const rounded = Math.round(numeric * 10) / 10;
+            if (rounded >= 8.5) return 4.0;
+            if (rounded >= 8.0) return 3.5;
+            if (rounded >= 7.0) return 3.0;
+            if (rounded >= 6.0) return 2.0;
+            if (rounded >= 5.0) return 1.0;
+            return 0.0;
+        }
+
+        function formatNumber(value, decimals = 2) {
+            if (value === null || value === undefined || value === '') return '-';
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) return '-';
+            return numeric.toFixed(decimals);
+        }
+
+        function pickNumber(...values) {
+            for (const value of values) {
+                if (value === null || value === undefined || value === '') continue;
+                const numeric = Number(value);
+                if (Number.isFinite(numeric)) return numeric;
+            }
+            return null;
+        }
+
+        function sanitizeNumberString(raw) {
+            if (!raw || typeof raw !== 'string') return null;
+            const normalized = raw
+                .replace(/\s+/g, '')
+                .replace(',', '.');
+            const numeric = parseFloat(normalized);
+            return Number.isFinite(numeric) ? numeric : null;
+        }
+
+        function roundRatio(value) {
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) return null;
+            const clamped = Math.min(100, Math.max(0, numeric));
+            return Math.round(clamped / 10) * 10;
+        }
+
+        function isNearlyEqual(a, b, tolerance = SCORE_TOLERANCE) {
+            if (!Number.isFinite(a) || !Number.isFinite(b)) {
+                return false;
+            }
+            return Math.abs(a - b) <= tolerance;
+        }
+
+        function escapeHtml(value) {
+            if (value === null || value === undefined) return '';
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function applyCascadeAnimation(elements, baseDelay = 0.07) {
+            if (!elements) return;
+            const items = Array.from(elements).filter(Boolean);
+            items.forEach((el, idx) => {
+                el.classList.remove('animate-in');
+                void el.offsetWidth; // force reflow to restart animation
+                el.style.animationDelay = `${idx * baseDelay}s`;
+                el.classList.add('animate-in');
+            });
+        }
+
+        class StudentGradeParser {
+            constructor(htmlContent) {
+                this.html = htmlContent;
+                this.data = {
+                    student: {},
+                    semesters: []
+                };
+            }
+
+            isExcludedSubject(subjectName) {
+                const lowerName = subjectName.toLowerCase();
+                return EXCLUDED_KEYWORDS.some(keyword => lowerName.includes(keyword));
+            }
+
+            scoreToGPA(score) {
+                return convertScoreToGPA(score);
+            }
+
+            parseScoreCell(value) {
+                if (value === null || value === undefined || value === '') return null;
+                if (typeof value === 'number') {
+                    return Number.isFinite(value) ? value : null;
+                }
+                if (typeof value === 'string') {
+                    const numeric = sanitizeNumberString(value);
+                    return Number.isFinite(numeric) ? numeric : null;
+                }
+                return null;
+            }
+
+            assignRatios(subject) {
+                subject.midtermRatio = null;
+                subject.finalRatio = null;
+
+                const midterm = Number.isFinite(subject.midterm) ? subject.midterm : null;
+                const final = Number.isFinite(subject.final) ? subject.final : null;
+                const total = Number.isFinite(subject.total) ? subject.total : null;
+
+                if (final !== null && total !== null && (midterm === null || midterm === undefined)) {
+                    if (Math.abs(final - total) <= SCORE_TOLERANCE) {
+                        subject.finalRatio = 100;
+                    }
+                    return;
+                }
+
+                if (midterm === null || final === null || total === null) {
+                    return;
+                }
+
+                let bestRatio = null;
+                let smallestDiff = Number.POSITIVE_INFINITY;
+
+                for (let ratio = 0; ratio <= 100; ratio += 10) {
+                    const calculated = (midterm * ratio + final * (100 - ratio)) / 100;
+                    const diff = Math.abs(calculated - total);
+                    if (diff <= SCORE_TOLERANCE && diff < smallestDiff) {
+                        smallestDiff = diff;
+                        bestRatio = ratio;
+                    }
+                }
+
+                if (bestRatio !== null) {
+                    subject.midtermRatio = bestRatio;
+                    subject.finalRatio = 100 - bestRatio;
+                }
+            }
+
+            extractValue(line, label) {
+                if (!line || !label) return null;
+                const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                
+                // Tìm label với bold markup
+                const boldRegex = new RegExp(`${escaped}\\s*:\\s*\\*\\*(.+?)\\*\\*`, 'i');
+                const boldMatch = line.match(boldRegex);
+                if (boldMatch) {
+                    return boldMatch[1].trim();
+                }
+
+                // Tìm label thường
+                const baseRegex = new RegExp(`${escaped}\\s*:\\s*([^\\n\\r]+)`, 'i');
+                const baseMatch = line.match(baseRegex);
+                if (!baseMatch) return null;
+
+                let valuePart = baseMatch[1].trim();
+                if (!valuePart) return null;
+
+                // Loại bỏ phần text sau label tiếp theo (cùng dòng)
+                // Ví dụ: "Lớp học: 15DHTH06 Cơ sở: ĐHCT" → chỉ lấy "15DHTH06"
+                const nextLabelPattern = /\s+[A-ZÀ-Ỹ][a-zà-ỹ\s]{1,25}:/u;
+                const nextMatch = valuePart.match(nextLabelPattern);
+                if (nextMatch) {
+                    valuePart = valuePart.substring(0, nextMatch.index).trim();
+                }
+
+                // Loại bỏ pipe separator
+                if (valuePart.includes('|')) {
+                    valuePart = valuePart.split('|')[0].trim();
+                }
+
+                // Loại bỏ bold marker nếu còn
+                if (valuePart.startsWith('**') && valuePart.endsWith('**') && valuePart.length > 4) {
+                    valuePart = valuePart.slice(2, -2).trim();
+                }
+
+                return valuePart || null;
+            }
+
+            parseStudentInfo() {
+                const lines = this.html.split('\n');
+                
+                for (const rawLine of lines) {
+                    const line = rawLine.trim();
+
+                    const mssv = this.extractValue(line, 'MSSV');
+                    if (mssv && !this.data.student.mssv) {
+                        this.data.student.mssv = mssv;
+                    }
+
+                    const fullName = this.extractValue(line, 'Họ tên');
+                    if (fullName && !this.data.student.fullName) {
+                        this.data.student.fullName = fullName;
+                    }
+
+                    const gender = this.extractValue(line, 'Giới tính');
+                    if (gender && !this.data.student.gender) {
+                        this.data.student.gender = gender;
+                    }
+
+                    const department = this.extractValue(line, 'Khoa');
+                    if (department && !this.data.student.department) {
+                        this.data.student.department = department;
+                    }
+
+                    const major = this.extractValue(line, 'Ngành');
+                    if (major && !this.data.student.major) {
+                        this.data.student.major = major;
+                    }
+
+                    const specialization = this.extractValue(line, 'Chuyên ngành');
+                    if (specialization && !this.data.student.specialization) {
+                        this.data.student.specialization = specialization;
+                    }
+
+                    let className = this.extractValue(line, 'Lớp học');
+                    if (!className) {
+                        className = this.extractValue(line, 'Lớp');
+                    }
+                    if (className && !this.data.student.className) {
+                        this.data.student.className = className;
+                    }
+
+                    const entryDate = this.extractValue(line, 'Ngày vào trường');
+                    if (entryDate && !this.data.student.entryDate) {
+                        this.data.student.entryDate = entryDate;
+                    }
+
+                    const cohort = this.extractValue(line, 'Khóa học');
+                    if (cohort && !this.data.student.cohort) {
+                        this.data.student.cohort = cohort;
+                    }
+
+                    const educationLevel = this.extractValue(line, 'Bậc đào tạo');
+                    if (educationLevel && !this.data.student.educationLevel) {
+                        this.data.student.educationLevel = educationLevel;
+                    }
+
+                    const trainingType = this.extractValue(line, 'Loại hình đào tạo');
+                    if (trainingType && !this.data.student.trainingType) {
+                        this.data.student.trainingType = trainingType;
+                    }
+
+                    const campus = this.extractValue(line, 'Cơ sở');
+                    if (campus && !this.data.student.campus) {
+                        this.data.student.campus = campus;
+                    }
+                }
+            }
+
+            parseSemesters() {
+                const lines = this.html.split('\n');
+                let currentSemester = null;
+                let subjects = [];
+
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+
+                    // Phát hiện học kỳ mới
+                    const semesterMatch = line.match(/HK(\d+)\s*\((\d+)\s*-\s*(\d+)\)/);
+                    if (semesterMatch) {
+                        if (currentSemester && subjects.length > 0) {
+                            this.calculateSemesterStats(currentSemester, subjects);
+                            this.data.semesters.push(currentSemester);
+                        }
+                        currentSemester = {
+                            semester: parseInt(semesterMatch[1]),
+                            year: `${semesterMatch[2]}-${semesterMatch[3]}`,
+                            subjects: []
+                        };
+                        subjects = [];
+                        continue;
+                    }
+
+                    // Phát hiện kết thúc học kỳ
+                    if (currentSemester && (line.includes('Điểm trung bình học kỳ') || line.includes('HK'))) {
+                        if (line.includes('Điểm trung bình')) {
+                            const avgMatch = line.match(/Điểm trung bình học kỳ hệ 10:\s*([\d.,]+)/);
+                            const gpaMatch = line.match(/Điểm trung bình học kỳ hệ 4:\s*([\d.,]+)/);
+                            if (avgMatch) currentSemester.avgScore = sanitizeNumberString(avgMatch[1]);
+                            if (gpaMatch) currentSemester.avgGPA = sanitizeNumberString(gpaMatch[1]);
+                        }
+                        
+                        if (line.match(/HK\d+\s*\(/)) {
+                            if (currentSemester && subjects.length > 0) {
+                                this.calculateSemesterStats(currentSemester, subjects);
+                                this.data.semesters.push(currentSemester);
+                            }
+                            currentSemester = null;
+                            subjects = [];
+                        }
+                    }
+
+                    // Parse dòng môn học
+                    if (currentSemester && line.match(/^\|\s*\d+\s*\|/)) {
+                        const subject = this.parseSubjectLine(line);
+                        if (subject) {
+                            subjects.push(subject);
+                        }
+                    }
+                }
+
+                // Xử lý học kỳ cuối cùng
+                if (currentSemester && subjects.length > 0) {
+                    this.calculateSemesterStats(currentSemester, subjects);
+                    this.data.semesters.push(currentSemester);
+                }
+            }
+
+            parseSubjectLine(line) {
+                const rawCells = line.split('|');
+                if (rawCells.length < 6) return null;
+
+                const getCell = (idx) => {
+                    if (idx < 0 || idx >= rawCells.length) return '';
+                    return rawCells[idx].replace(/\s+/g, ' ').trim();
+                };
+
+                const stt = parseInt(getCell(1), 10);
+                if (Number.isNaN(stt)) return null;
+
+                const code = getCell(2);
+                const name = getCell(3);
+                const credits = parseInt(getCell(4), 10) || 0;
+
+                const midterm = this.parseScoreCell(getCell(11));
+                const final = this.parseScoreCell(getCell(12));
+                let total = this.parseScoreCell(getCell(14));
+                let gpa = this.parseScoreCell(getCell(15));
+
+                if (total === null || !Number.isFinite(total) || total < 0 || total > 10) {
+                    total = null;
+                }
+
+                if (gpa === null || !Number.isFinite(gpa) || gpa < 0 || gpa > 4.1) {
+                    gpa = null;
+                }
+
+                if (total === null || gpa === null) {
+                    for (let idx = rawCells.length - 1; idx >= 0; idx--) {
+                        const numeric = this.parseScoreCell(getCell(idx));
+                        if (numeric === null) continue;
+                        if ((gpa === null || !Number.isFinite(gpa)) && numeric >= 0 && numeric <= 4.1) {
+                            gpa = numeric;
+                            continue;
+                        }
+                        if ((total === null || !Number.isFinite(total)) && numeric >= 0 && numeric <= 10) {
+                            total = numeric;
+                            if (gpa !== null && Number.isFinite(gpa)) break;
+                        }
+                    }
+                }
+
+                if (!Number.isFinite(total) || total < 0 || total > 10) {
+                    total = null;
+                }
+
+                if (!Number.isFinite(gpa) || gpa < 0 || gpa > 4.1) {
+                    gpa = null;
+                }
+
+                const subject = {
+                    stt,
+                    code,
+                    name,
+                    credits,
+                    midterm,
+                    final,
+                    total,
+                    gpa,
+                    midtermRatio: null,
+                    finalRatio: null,
+                    isExcluded: this.isExcludedSubject(name)
+                };
+
+                this.assignRatios(subject);
+
+                return subject;
+            }
+
+            calculateSemesterStats(semester, subjects) {
+                semester.subjects = subjects;
+                
+                // Tính toán chỉ môn không bị exclude
+                const includedSubjects = subjects.filter(s => !s.isExcluded);
+                
+                let totalScore = 0;
+                let totalGPA = 0;
+                let creditsWithScores = 0;
+                let gpaEligibleCredits = 0;
+
+                includedSubjects.forEach(s => {
+                    gpaEligibleCredits += s.credits;
+                    if (s.total !== null && !isNaN(s.total)) {
+                        totalScore += s.total * s.credits;
+                        creditsWithScores += s.credits;
+
+                        const gpa = this.scoreToGPA(s.total);
+                        if (gpa !== null && !Number.isNaN(gpa)) {
+                            totalGPA += gpa * s.credits;
+                        }
+                    }
+                });
+
+                const totalCreditsAll = subjects.reduce((sum, subj) => sum + (Number.isFinite(subj.credits) ? subj.credits : 0), 0);
+
+                semester.totalCredits = totalCreditsAll;
+                semester.gpaEligibleCredits = gpaEligibleCredits;
+                semester.creditsWithScores = creditsWithScores;
+                semester.calculatedAvgScore = creditsWithScores > 0 ? (totalScore / creditsWithScores).toFixed(2) : null;
+                semester.calculatedAvgGPA = creditsWithScores > 0 ? (totalGPA / creditsWithScores).toFixed(2) : null;
+            }
+
+            parse() {
+                this.parseStudentInfo();
+                this.parseSemesters();
+                return this.data;
+            }
+        }
+
+        async function fetchStudentData(providedUrl) {
+            let lookupUrl = typeof providedUrl === 'string' ? providedUrl.trim() : '';
+            if (!lookupUrl && currentLookupUrl) {
+                lookupUrl = currentLookupUrl.trim();
+            }
+            const errorDiv = document.getElementById('error');
+            const loading = document.getElementById('loading');
+            const studentInfo = document.getElementById('studentInfo');
+            const semestersContainer = document.getElementById('semestersContainer');
+            const noData = document.getElementById('noData');
+
+            errorDiv.classList.remove('show');
+
+            if (!lookupUrl) {
+                errorDiv.textContent = '❌ Chưa có dữ liệu tra cứu. Vui lòng nhập MSSV và mã bảo vệ.';
+                errorDiv.classList.add('show');
+                noData.style.display = 'block';
+                return;
+            }
+
+            try {
+                loading.classList.add('show');
+                noData.style.display = 'none';
+                currentLookupUrl = lookupUrl;
+                window.currentStudentUrl = lookupUrl; // Store for schedule tab
+                scheduleCache.clear();
+                currentScheduleTimestamp = null;
+                currentScheduleDateText = null;
+                scheduleMeta = null;
+                updateScheduleToolbar(null);
+                setScheduleToolbarMessage('Đang đồng bộ thời gian biểu...');
+                semestersContainer.innerHTML = '';
+
+                // Fetch dữ liệu thô từ Jina AI
+                const jxResponse = await fetch(JINA_API + lookupUrl);
+                if (!jxResponse.ok) throw new Error('Không thể kết nối tới máy chủ');
+
+                const htmlContent = await jxResponse.text();
+
+                // Parse dữ liệu
+                const parser = new StudentGradeParser(htmlContent);
+                const data = parser.parse();
+                currentStudentData = data;
+
+                if (!data.student.fullName) {
+                    throw new Error('Không tìm thấy thông tin sinh viên. Vui lòng kiểm tra lại link.');
+                }
+
+                // Hiển thị thông tin sinh viên
+                displayStudentInfo(data.student);
+
+                // Hiển thị kết quả học tập theo học kỳ
+                displaySemesters(data.semesters);
+
+                // Hiển thị thống kê toàn khoá
+                displayOverallSummary(data);
+
+                loading.classList.remove('show');
+
+            } catch (error) {
+                console.error('Error:', error);
+                currentStudentData = null;
+                errorDiv.textContent = `❌ Lỗi: ${error.message}`;
+                errorDiv.classList.add('show');
+                loading.classList.remove('show');
+                noData.style.display = 'block';
+                if (studentInfo) {
+                    studentInfo.classList.remove('show');
+                }
+                const overallSummary = document.getElementById('overallSummary');
+                if (overallSummary) {
+                    overallSummary.style.display = 'none';
+                }
+                const overallAvgEl = document.getElementById('overallAvg');
+                const overallGpaEl = document.getElementById('overallGPA');
+                const totalCreditsEl = document.getElementById('totalCredits');
+                if (overallAvgEl) overallAvgEl.textContent = '-';
+                if (overallGpaEl) overallGpaEl.textContent = '-';
+                if (totalCreditsEl) totalCreditsEl.textContent = '-';
+            }
+        }
+
+        function displayStudentInfo(student) {
+            document.getElementById('fullName').textContent = student.fullName || '-';
+            document.getElementById('studentId').textContent = student.mssv || '-';
+            document.getElementById('gender').textContent = student.gender || '-';
+            document.getElementById('className').textContent = student.className || '-';
+            document.getElementById('department').textContent = student.department || '-';
+            document.getElementById('major').textContent = student.major || '-';
+            document.getElementById('specialization').textContent = student.specialization || '-';
+            document.getElementById('educationLevel').textContent = student.educationLevel || '-';
+            document.getElementById('entryDate').textContent = student.entryDate || '-';
+            document.getElementById('cohort').textContent = student.cohort || '-';
+            document.getElementById('trainingType').textContent = student.trainingType || '-';
+            document.getElementById('campus').textContent = student.campus || '-';
+            
+            const studentInfo = document.getElementById('studentInfo');
+            studentInfo.classList.add('show');
+            applyCascadeAnimation([studentInfo]);
+            applyCascadeAnimation(studentInfo.querySelectorAll('.info-item'), 0.05);
+            document.getElementById('noData').style.display = 'none';
+            
+            // Thu gọn form nhập liệu sau khi có dữ liệu
+            const lookupCard = document.getElementById('lookupCard');
+            if (lookupCard && !lookupCard.classList.contains('collapsed')) {
+                lookupCard.classList.add('collapsed');
+            }
+
+            // Tự động tải thời gian biểu sau khi có dữ liệu sinh viên
+            if (window.currentStudentUrl) {
+                loadScheduleData(window.currentStudentUrl);
+            }
+        }
+
+        function displaySemesters(semesters) {
+            const container = document.getElementById('semestersContainer');
+            const noData = document.getElementById('noData');
+            container.innerHTML = '';
+
+            if (!Array.isArray(semesters) || semesters.length === 0) {
+                noData.style.display = 'block';
+                return;
+            }
+
+            noData.style.display = 'none';
+
+            const currentIndexCandidate = semesters.findIndex(semester =>
+                Array.isArray(semester.subjects) && semester.subjects.some(subject => subject.total === null || !Number.isFinite(subject.total))
+            );
+            const highlightedIndex = currentIndexCandidate >= 0 ? currentIndexCandidate : semesters.length - 1;
+
+            semesters.forEach((semester, idx) => {
+                const semesterDiv = document.createElement('div');
+                semesterDiv.className = 'semester-section show';
+
+                const isCurrent = idx === highlightedIndex;
+                const isNewest = idx === semesters.length - 1;
+                const semesterLabel = `HK${semester.semester || idx + 1} (${semester.year || '-'})`;
+                let titleHtml = semesterLabel;
+                if (isCurrent) {
+                    titleHtml += ` <span class="current-badge">Học kỳ hiện tại</span>`;
+                }
+
+                const avgScore = formatNumber(pickNumber(semester.avgScore, semester.calculatedAvgScore));
+                const avgGPA = formatNumber(pickNumber(semester.avgGPA, semester.calculatedAvgGPA));
+                const totalCredits = Number.isFinite(semester.totalCredits) ? semester.totalCredits : 0;
+
+                let html = `<div class="semester-title">${titleHtml}</div>`;
+
+                const trialAvgSnippet = isNewest ? `<div class="trial-value"><span class="trial-tag">Thử:</span><span class="trial-output" data-trial-summary="avg10">-</span></div>` : '';
+                const trialGpaSnippet = isNewest ? `<div class="trial-value"><span class="trial-tag">Thử:</span><span class="trial-output" data-trial-summary="gpa4">-</span></div>` : '';
+
+                html += `<div class="semester-summary">
+                    <div class="summary-item" data-summary="avg10">
+                        <label>Điểm TB (Hệ 10)</label>
+                        <div class="value">${avgScore}</div>
+                        ${trialAvgSnippet}
+                    </div>
+                    <div class="summary-item" data-summary="gpa4">
+                        <label>GPA (Hệ 4)</label>
+                        <div class="value">${avgGPA}</div>
+                        ${trialGpaSnippet}
+                    </div>
+                    <div class="summary-item">
+                        <label>Tổng Tín Chỉ</label>
+                        <div class="value"><span class="total-credits">${totalCredits}</span></div>
+                    </div>
+                </div>`;
+
+                html += `<table class="grades-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên Học Phần</th>
+                            <th>Tín</th>
+                            <th>Giữa Kỳ</th>
+                            <th>Tỷ Lệ</th>
+                            <th>Cuối Kỳ</th>
+                            <th>Tỷ Lệ</th>
+                            <th>Điểm TK</th>
+                            <th>GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+                (semester.subjects || []).forEach((subject, i) => {
+                    const rowClass = subject.isExcluded ? 'excluded' : '';
+                    const excludedBadge = subject.isExcluded ? '<span class="excluded-badge">Không tính GPA</span>' : '';
+                    const subjectName = escapeHtml(subject.name || `Học phần ${i + 1}`);
+                    const midtermScore = formatNumber(subject.midterm);
+                    const finalScore = formatNumber(subject.final);
+                    const totalScore = formatNumber(subject.total);
+                    const suppressGpa = subject.midterm === null && subject.final === null;
+                    const gpaScore = suppressGpa ? '-' : formatNumber(subject.gpa);
+                    const midtermRatio = (subject.midtermRatio !== null && subject.midtermRatio !== undefined)
+                        ? `${subject.midtermRatio}%`
+                        : '-';
+                    const finalRatioValue = (subject.finalRatio !== null && subject.finalRatio !== undefined)
+                        ? subject.finalRatio
+                        : (subject.midtermRatio !== null && subject.midtermRatio !== undefined ? 100 - subject.midtermRatio : null);
+                    const finalRatio = (finalRatioValue !== null && finalRatioValue !== undefined)
+                        ? `${finalRatioValue}%`
+                        : '-';
+
+                    const allowTrial = isNewest && !subject.isExcluded;
+
+                    const midtermTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-input trial-midterm-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const midtermRatioTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="100" step="10" class="trial-input trial-midterm-ratio-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const finalTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <input type="number" min="0" max="10" step="0.01" class="trial-input trial-final-input" data-subject-index="${i}">
+                        </div>
+                    ` : '';
+
+                    const finalRatioTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="final-ratio" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    const totalTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="total" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    const gpaTrialHtml = allowTrial ? `
+                        <div class="trial-inline">
+                            <span class="trial-tag">Thử:</span>
+                            <span class="trial-output muted" data-role="gpa" data-subject-index="${i}">-</span>
+                        </div>
+                    ` : '';
+
+                    html += `<tr class="${rowClass}" data-subject-index="${i}">
+                        <td><div class="score-actual">${i + 1}</div></td>
+                        <td><div class="score-actual">${subjectName}${excludedBadge}</div></td>
+                        <td><div class="score-actual">${subject.credits}</div></td>
+                        <td><div class="score-actual">${midtermScore}</div>${midtermTrialHtml}</td>
+                        <td><div class="score-actual">${midtermRatio}</div>${midtermRatioTrialHtml}</td>
+                        <td><div class="score-actual">${finalScore}</div>${finalTrialHtml}</td>
+                        <td><div class="score-actual">${finalRatio}</div>${finalRatioTrialHtml}</td>
+                        <td><div class="score-actual">${totalScore}</div>${totalTrialHtml}</td>
+                        <td><div class="score-actual">${gpaScore}</div>${gpaTrialHtml}</td>
+                    </tr>`;
+                });
+
+                html += `</tbody></table>`;
+
+                semesterDiv.innerHTML = html;
+
+                container.appendChild(semesterDiv);
+
+                applyCascadeAnimation([semesterDiv], 0.04);
+                applyCascadeAnimation(semesterDiv.querySelectorAll('.summary-item'), 0.05);
+                applyCascadeAnimation(semesterDiv.querySelectorAll('.grades-table tbody tr'), 0.02);
+
+                if (isNewest) {
+                    setupSemesterTrialInputs(semesterDiv, semester);
+                }
+            });
+        }
+
+        function setupSemesterTrialInputs(semesterContainer, semester) {
+            if (!semester || !Array.isArray(semester.subjects)) {
+                return;
+            }
+
+            const trialState = new Map();
+            const summaryAvgOutput = semesterContainer.querySelector('[data-trial-summary="avg10"]');
+            const summaryGpaOutput = semesterContainer.querySelector('[data-trial-summary="gpa4"]');
+
+            function updateSummary() {
+                if (!summaryAvgOutput && !summaryGpaOutput) {
+                    return;
+                }
+
+                if (trialState.size === 0) {
+                    if (summaryAvgOutput) summaryAvgOutput.textContent = '-';
+                    if (summaryGpaOutput) summaryGpaOutput.textContent = '-';
+                    return;
+                }
+
+                let totalScore = 0;
+                let totalGpa = 0;
+                let totalCredits = 0;
+
+                semester.subjects.forEach((subject, idx) => {
+                    if (!subject || subject.isExcluded) return;
+                    const credits = subject.credits || 0;
+                    if (credits <= 0) return;
+
+                    const trialData = trialState.get(idx);
+                    let score = null;
+
+                    if (trialData && Number.isFinite(trialData.total)) {
+                        score = trialData.total;
+                    } else if (Number.isFinite(subject.total)) {
+                        score = subject.total;
+                    }
+
+                    if (!Number.isFinite(score)) return;
+
+                    totalScore += score * credits;
+                    totalCredits += credits;
+
+                    const gpaValue = convertScoreToGPA(score);
+                    if (Number.isFinite(gpaValue)) {
+                        totalGpa += gpaValue * credits;
+                    }
+                });
+
+                if (summaryAvgOutput) {
+                    summaryAvgOutput.textContent = totalCredits > 0 ? formatNumber(totalScore / totalCredits) : '-';
+                }
+                if (summaryGpaOutput) {
+                    summaryGpaOutput.textContent = totalCredits > 0 ? formatNumber(totalGpa / totalCredits) : '-';
+                }
+            }
+
+            const rows = semesterContainer.querySelectorAll('.grades-table tbody tr');
+
+            rows.forEach(row => {
+                const subjectIndex = parseInt(row.dataset.subjectIndex, 10);
+                if (!Number.isInteger(subjectIndex)) return;
+
+                const subject = semester.subjects[subjectIndex];
+                if (!subject || subject.isExcluded) return;
+
+                const midtermInput = row.querySelector('.trial-midterm-input');
+                const finalInput = row.querySelector('.trial-final-input');
+                const ratioInput = row.querySelector('.trial-midterm-ratio-input');
+                const finalRatioOutput = row.querySelector('[data-role="final-ratio"]');
+                const totalOutput = row.querySelector('[data-role="total"]');
+                const gpaOutput = row.querySelector('[data-role="gpa"]');
+
+                if (!midtermInput || !finalInput || !ratioInput || !totalOutput || !gpaOutput || !finalRatioOutput) {
+                    return;
+                }
+
+                if (Number.isFinite(subject.midterm)) {
+                    midtermInput.value = Number(subject.midterm).toFixed(2);
+                }
+                if (Number.isFinite(subject.final)) {
+                    finalInput.value = Number(subject.final).toFixed(2);
+                }
+                if (Number.isFinite(subject.midtermRatio)) {
+                    ratioInput.value = subject.midtermRatio;
+                }
+
+                const update = () => {
+                    let midtermRatio = null;
+                    let finalRatio = null;
+
+                    const rawMidterm = parseFloat(midtermInput.value);
+                    const midtermScore = Number.isFinite(rawMidterm) ? rawMidterm : null;
+
+                    const rawFinal = parseFloat(finalInput.value);
+                    const finalScore = Number.isFinite(rawFinal) ? rawFinal : null;
+
+                    const rawRatio = parseFloat(ratioInput.value);
+                    if (Number.isFinite(rawRatio)) {
+                        const rounded = roundRatio(rawRatio);
+                        if (rounded !== null) {
+                            midtermRatio = rounded;
+                            ratioInput.value = rounded;
+                        }
+                    }
+
+                    if (midtermRatio === null && Number.isFinite(subject.midtermRatio)) {
+                        midtermRatio = subject.midtermRatio;
+                    }
+
+                    if (midtermRatio !== null) {
+                        finalRatio = 100 - midtermRatio;
+                    } else if (Number.isFinite(subject.finalRatio)) {
+                        finalRatio = subject.finalRatio;
+                    }
+
+                    const baseMidterm = Number.isFinite(subject.midterm) ? subject.midterm : null;
+                    const baseFinal = Number.isFinite(subject.final) ? subject.final : null;
+                    const baseRatio = Number.isFinite(subject.midtermRatio) ? subject.midtermRatio : null;
+
+                    const changedMidterm = (midtermScore !== null || baseMidterm !== null) && !isNearlyEqual(midtermScore, baseMidterm);
+                    const changedFinal = (finalScore !== null || baseFinal !== null) && !isNearlyEqual(finalScore, baseFinal);
+                    const changedRatio = (midtermRatio !== null || baseRatio !== null) && midtermRatio !== baseRatio;
+                    const hasTrialInput = changedMidterm || changedFinal || changedRatio;
+
+                    if (finalRatioOutput) {
+                        if (finalRatio !== null && hasTrialInput) {
+                            finalRatioOutput.textContent = `${finalRatio}%`;
+                            finalRatioOutput.classList.remove('muted');
+                        } else {
+                            finalRatioOutput.textContent = '-';
+                            finalRatioOutput.classList.add('muted');
+                        }
+                    }
+
+                    let total = null;
+
+                    if (finalRatio === 100 && (midtermRatio === null || midtermRatio === 0) && finalScore !== null) {
+                        total = finalScore;
+                    } else if (midtermRatio !== null && finalRatio !== null && midtermScore !== null && finalScore !== null) {
+                        total = ((midtermScore * midtermRatio) + (finalScore * finalRatio)) / 100;
+                    }
+
+                    const existingTotal = Number.isFinite(subject.total) ? subject.total : null;
+                    const existingRatio = baseRatio;
+
+                    const treatAsNoTrial = Number.isFinite(total)
+                        && existingTotal !== null
+                        && isNearlyEqual(total, existingTotal)
+                        && (existingRatio === null || midtermRatio === existingRatio);
+
+                    if (!hasTrialInput) {
+                        totalOutput.textContent = '-';
+                        totalOutput.classList.add('muted');
+                        gpaOutput.textContent = '-';
+                        gpaOutput.classList.add('muted');
+                        trialState.delete(subjectIndex);
+                        updateSummary();
+                        return;
+                    }
+
+                    if (Number.isFinite(total) && !treatAsNoTrial) {
+                        const gpaValue = convertScoreToGPA(total);
+                        totalOutput.textContent = formatNumber(total);
+                        totalOutput.classList.remove('muted');
+                        if (gpaValue !== null) {
+                            gpaOutput.textContent = formatNumber(gpaValue);
+                            gpaOutput.classList.remove('muted');
+                        } else {
+                            gpaOutput.textContent = '-';
+                            gpaOutput.classList.add('muted');
+                        }
+
+                        trialState.set(subjectIndex, {
+                            total,
+                            gpa: gpaValue,
+                            midtermRatio,
+                            finalRatio
+                        });
+                    } else {
+                        totalOutput.textContent = '-';
+                        totalOutput.classList.add('muted');
+                        gpaOutput.textContent = '-';
+                        gpaOutput.classList.add('muted');
+                        trialState.delete(subjectIndex);
+                    }
+
+                    updateSummary();
+                };
+
+                update();
+
+                [midtermInput, finalInput, ratioInput].forEach(input => {
+                    input.addEventListener('input', update);
+                    input.addEventListener('change', update);
+                });
+            });
+
+            updateSummary();
+        }
+
+        function displayOverallSummary(data) {
+            const semesters = data.semesters;
+            
+            let totalScore = 0;
+            let totalGPA = 0;
+            let totalCredits = 0;
+
+            semesters.forEach(sem => {
+                sem.subjects.forEach(subject => {
+                    if (!subject.isExcluded && subject.total !== null && !isNaN(subject.total)) {
+                        totalScore += subject.total * subject.credits;
+                        const gpa = convertScoreToGPA(subject.total);
+                        if (gpa !== null) {
+                            totalGPA += gpa * subject.credits;
+                        }
+                        totalCredits += subject.credits;
+                    }
+                });
+            });
+
+            const overallAvgValue = totalCredits > 0 ? totalScore / totalCredits : null;
+            const overallGpaValue = totalCredits > 0 ? totalGPA / totalCredits : null;
+
+            const overallAvg = totalCredits > 0 ? formatNumber(overallAvgValue) : '-';
+            const overallGPA = totalCredits > 0 ? formatNumber(overallGpaValue) : '-';
+
+            document.getElementById('overallAvg').textContent = overallAvg;
+            document.getElementById('overallGPA').textContent = overallGPA;
+            document.getElementById('totalCredits').textContent = totalCredits;
+            const overallSummary = document.getElementById('overallSummary');
+            overallSummary.style.display = totalCredits > 0 ? 'block' : 'none';
+            if (totalCredits > 0) {
+                applyCascadeAnimation([overallSummary], 0.05);
+                applyCascadeAnimation(overallSummary.querySelectorAll('.overall-item'), 0.06);
+            }
+        }
+
+        function exportToCSV() {
+            const fullName = document.getElementById('fullName').textContent;
+            const studentId = document.getElementById('studentId').textContent;
+            
+            if (fullName === '-' || studentId === '-') {
+                alert('⚠️ Vui lòng tra cứu dữ liệu trước tiên');
+                return;
+            }
+
+            let csv = 'Tra Cứu Kết Quả Học Tập HUIT\n';
+            csv += `Họ tên,${fullName}\n`;
+            csv += `MSSV,${studentId}\n`;
+            csv += `Giới tính,${document.getElementById('gender').textContent}\n`;
+            csv += `Lớp,${document.getElementById('className').textContent}\n`;
+            csv += `Khoa,${document.getElementById('department').textContent}\n`;
+            csv += `Ngành,${document.getElementById('major').textContent}\n`;
+            csv += `Chuyên ngành,${document.getElementById('specialization').textContent}\n`;
+            csv += `Bậc đào tạo,${document.getElementById('educationLevel').textContent}\n`;
+            csv += `Ngày vào trường,${document.getElementById('entryDate').textContent}\n`;
+            csv += `Khóa học,${document.getElementById('cohort').textContent}\n`;
+            csv += `Loại hình đào tạo,${document.getElementById('trainingType').textContent}\n`;
+            csv += `Cơ sở,${document.getElementById('campus').textContent}\n\n`;
+
+            const tables = document.querySelectorAll('.grades-table');
+            tables.forEach((table, semIdx) => {
+                const semTitle = table.parentElement.querySelector('.semester-title').textContent;
+                csv += `${semTitle}\n`;
+
+                table.querySelectorAll('tr').forEach((row, rowIdx) => {
+                    const cells = row.querySelectorAll('th, td');
+                    const rowData = Array.from(cells).map(cell => {
+                        const actual = cell.querySelector('.score-actual');
+                        const text = actual ? actual.textContent.trim() : cell.textContent.trim();
+                        return text.replace(/\s+/g, ' ').trim();
+                    }).join(',');
+                    csv += rowData + '\n';
+                });
+
+                csv += '\n';
+            });
+
+            const link = document.createElement('a');
+            link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+            link.download = `KetQuaHocTap_${document.getElementById('studentId').textContent}.csv`;
+            link.click();
+        }
+
+        // Auto load khi trang mở
+        window.addEventListener('load', () => {
+            writeLog('Page loaded, initializing lookup session...');
+
+            initializeLookupSession(true).catch(error => {
+                console.error('Failed to initialize lookup session on load:', error);
+                setCaptchaStatus('⚠️ Không thể tải captcha. Vui lòng kiểm tra kết nối.', 'error');
+            });
+        });
+
+        // Tab switching function
+        function switchTab(tabId) {
+            const allTabs = document.querySelectorAll('.tab-content');
+            const allBtns = document.querySelectorAll('.tab-btn');
+            
+            allTabs.forEach(tab => tab.classList.remove('active'));
+            allBtns.forEach(btn => btn.classList.remove('active'));
+            
+            const targetTab = document.getElementById(tabId);
+            const targetBtn = document.querySelector(`[data-tab="${tabId}"]`);
+            
+            if (targetTab) targetTab.classList.add('active');
+            if (targetBtn) targetBtn.classList.add('active');
+
+            // Load schedule when switching to schedule tab
+            if (tabId === 'scheduleTab' && window.currentStudentUrl) {
+                loadScheduleData(window.currentStudentUrl);
+            }
+        }
+
+        // Toggle lookup card collapse/expand
+        function toggleLookupCard() {
+            const card = document.getElementById('lookupCard');
+            if (card) {
+                card.classList.toggle('collapsed');
+            }
+        }
+
+        // Switch between schedule views
+        function switchScheduleView(viewType, triggerBtn) {
+            const allViews = document.querySelectorAll('.schedule-view');
+            const allBtns = document.querySelectorAll('.schedule-tab-btn');
+
+            allViews.forEach(view => view.classList.remove('active'));
+            allBtns.forEach(btn => btn.classList.remove('active'));
+
+            const viewMap = {
+                all: 'scheduleAllContainer',
+                class: 'scheduleClassContainer',
+                online: 'scheduleOnlineContainer',
+                exam: 'scheduleExamContainer',
+                break: 'scheduleBreakContainer'
+            };
+
+            const targetView = document.getElementById(viewMap[viewType]);
+            const targetBtn = triggerBtn || document.querySelector(`.schedule-tab-btn[data-view="${viewType}"]`);
+
+            if (targetView) targetView.classList.add('active');
+            if (targetBtn) targetBtn.classList.add('active');
+        }
+
+        // Load schedule data from API proxy
+        async function loadScheduleData(studentUrl) {
+            if (!studentUrl) return;
+
+            const scheduleToken = extractScheduleToken(studentUrl);
+            const loadingEl = document.getElementById('scheduleLoading');
+            const noDataEl = document.getElementById('scheduleNoData');
+
+            if (IS_FILE_PROTOCOL) {
+                clearScheduleViews();
+                setScheduleToolbarMessage('⚠️ Vui lòng chạy ứng dụng qua máy chủ để tải thời gian biểu.');
+                setWeekButtonsDisabled(true, true);
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (noDataEl) {
+                    noDataEl.textContent = '⚠️ Vui lòng chạy ứng dụng qua máy chủ để tải thời gian biểu.';
+                    noDataEl.style.display = 'block';
+                }
+                return;
+            }
+
+            if (!scheduleToken) {
+                clearScheduleViews();
+                updateScheduleToolbar(null);
+                if (noDataEl) {
+                    noDataEl.textContent = 'Không tìm thấy mã truy xuất thời gian biểu.';
+                    noDataEl.style.display = 'block';
+                }
+                return;
+            }
+
+            const requestTimestamp = currentScheduleTimestamp;
+            const requestDateText = currentScheduleDateText;
+            const cachedEntry = getScheduleCacheEntry(scheduleToken, requestDateText, requestTimestamp);
+            if (cachedEntry && cachedEntry.data) {
+                const cachedMeta = cachedEntry.data.meta || null;
+                scheduleMeta = cachedMeta;
+                currentScheduleTimestamp = cachedEntry.timestamp ?? (cachedMeta && cachedMeta.currentWeekStart != null ? cachedMeta.currentWeekStart : currentScheduleTimestamp);
+                currentScheduleDateText = cachedEntry.dateText ?? (cachedMeta && cachedMeta.currentWeekDateText ? cachedMeta.currentWeekDateText : currentScheduleDateText);
+                updateScheduleToolbar(cachedMeta);
+                renderScheduleViews(cachedEntry.data);
+                if (noDataEl) {
+                    if (cachedEntry.data.total > 0) {
+                        noDataEl.style.display = 'none';
+                    } else {
+                        noDataEl.textContent = 'Không tìm thấy thời gian biểu cho tuần này.';
+                        noDataEl.style.display = 'block';
+                    }
+                }
+                return;
+            }
+
+            if (loadingEl) loadingEl.style.display = 'block';
+            if (noDataEl) noDataEl.style.display = 'none';
+            setScheduleToolbarMessage('Đang tải thời gian biểu...');
+
+            try {
+                const params = new URLSearchParams({ k: scheduleToken });
+                if (currentScheduleDateText) {
+                    params.append('date', currentScheduleDateText);
+                } else if (currentScheduleTimestamp != null) {
+                    params.append('timestamp', String(currentScheduleTimestamp));
+                }
+
+                console.log(`[loadScheduleData] Fetching schedule with date=${currentScheduleDateText || '(none)'} timestamp=${currentScheduleTimestamp ?? '(none)'}`);
+
+                const response = await fetch(`/api/schedule?${params.toString()}`, {
+                    method: 'GET',
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Không thể tải thời gian biểu (HTTP ${response.status})`);
+                }
+
+                const payload = await response.json();
+                if (!payload.success) {
+                    throw new Error(payload.error || 'Không thể tải thời gian biểu.');
+                }
+
+                const scheduleData = parseScheduleHtml(payload.html);
+                let resolvedTimestamp = null;
+
+                if (scheduleData.meta && scheduleData.meta.currentWeekStart != null) {
+                    resolvedTimestamp = scheduleData.meta.currentWeekStart;
+                } else if (payload.timestamp != null) {
+                    const parsedTimestamp = Number(payload.timestamp);
+                    resolvedTimestamp = Number.isNaN(parsedTimestamp) ? null : parsedTimestamp;
+                } else if (requestTimestamp != null) {
+                    resolvedTimestamp = requestTimestamp;
+                }
+
+                const resolvedDateText = scheduleData.meta && scheduleData.meta.currentWeekDateText
+                    ? scheduleData.meta.currentWeekDateText
+                    : (requestDateText || null);
+
+                console.log(`[loadScheduleData] Response meta:`, scheduleData.meta);
+                console.log(`[loadScheduleData] requestTimestamp=${requestTimestamp}, requestDateText=${requestDateText}, resolvedTimestamp=${resolvedTimestamp}, resolvedDateText=${resolvedDateText}`);
+
+                currentScheduleTimestamp = resolvedTimestamp != null ? resolvedTimestamp : null;
+                currentScheduleDateText = resolvedDateText;
+
+                scheduleMeta = scheduleData.meta || null;
+                const cacheEntry = {
+                    data: scheduleData,
+                    timestamp: currentScheduleTimestamp,
+                    dateText: currentScheduleDateText
+                };
+                cacheScheduleEntry(scheduleToken, cacheEntry);
+
+                updateScheduleToolbar(scheduleMeta);
+                renderScheduleViews(scheduleData);
+
+                if (noDataEl) {
+                    if (scheduleData.total > 0) {
+                        noDataEl.style.display = 'none';
+                    } else {
+                        noDataEl.textContent = 'Không tìm thấy thời gian biểu cho tuần này.';
+                        noDataEl.style.display = 'block';
+                        const rangeMessage = scheduleData.meta && scheduleData.meta.weekRange
+                            ? `${scheduleData.meta.weekRange} · Không tìm thấy thời gian biểu cho tuần này.`
+                            : 'Không tìm thấy thời gian biểu cho tuần này.';
+                        setScheduleToolbarMessage(rangeMessage);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading schedule:', error);
+                clearScheduleViews();
+                setScheduleToolbarMessage(error.message || 'Không thể tải thời gian biểu.');
+                setWeekButtonsDisabled(true, true);
+                if (noDataEl) {
+                    noDataEl.textContent = error.message || 'Không thể tải thời gian biểu. Vui lòng thử lại.';
+                    noDataEl.style.display = 'block';
+                }
+                showToast(error.message || 'Không thể tải thời gian biểu.', 'error');
+            } finally {
+                if (loadingEl) loadingEl.style.display = 'none';
+            }
+        }
+
+        function extractScheduleToken(url) {
+            if (!url) return null;
+            try {
+                const parsed = new URL(url, window.location.origin);
+                const token = parsed.searchParams.get('k');
+                if (token) return token;
+            } catch (error) {
+                // Bỏ qua nếu URL không hợp lệ
+            }
+
+            const fallbackMatch = String(url).match(/[?&]k=([^&]+)/);
+            return fallbackMatch ? decodeURIComponent(fallbackMatch[1]) : null;
+        }
+
+        function parseScheduleHtml(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const table = doc.querySelector('table');
+
+            const result = {
+                class: [],
+                online: [],
+                exam: [],
+                break: [],
+                total: 0,
+                meta: {
+                    dayColumns: [],
+                    weekLabel: 'Thời gian biểu theo tuần',
+                    weekRange: '',
+                    currentWeekStart: null,
+                    currentWeekDateText: null,
+                    prevWeekStart: null,
+                    prevWeekDateText: null,
+                    nextWeekStart: null,
+                    nextWeekDateText: null
+                }
+            };
+
+            if (!table) {
+                return result;
+            }
+
+            const headerCells = Array.from(table.querySelectorAll('thead th'));
+            const dayColumns = headerCells.slice(1).map(th => {
+                const parts = th.innerHTML.split('<br>');
+                return {
+                    dayName: normalizeWhitespace(parts[0]),
+                    date: normalizeWhitespace(parts[1])
+                };
+            });
+            result.meta.dayColumns = dayColumns;
+
+            const firstDay = dayColumns.length > 0 ? parseVietnameseDate(dayColumns[0].date) : null;
+            const lastDay = dayColumns.length > 0 ? parseVietnameseDate(dayColumns[dayColumns.length - 1].date) : null;
+
+            if (firstDay && lastDay) {
+                const weekNumber = getISOWeekNumber(firstDay);
+                result.meta.weekLabel = weekNumber ? `Tuần ${weekNumber}` : 'Thời gian biểu theo tuần';
+                result.meta.weekRange = formatWeekRange(firstDay, lastDay);
+                result.meta.currentWeekStart = firstDay.getTime();
+            }
+
+            const prevInput = doc.querySelector('#firstDatePrevOffWeek');
+            const currentInput = doc.querySelector('#firstDateOffWeek');
+            const nextInput = doc.querySelector('#firstDateNextOffWeek');
+
+            const prevRaw = prevInput ? normalizeWhitespace(prevInput.value) : '';
+            const currentRaw = currentInput ? normalizeWhitespace(currentInput.value) : '';
+            const nextRaw = nextInput ? normalizeWhitespace(nextInput.value) : '';
+
+            const prevDate = prevRaw ? parseVietnameseDate(prevRaw) : null;
+            const currentDate = currentRaw ? parseVietnameseDate(currentRaw) : null;
+            const nextDate = nextRaw ? parseVietnameseDate(nextRaw) : null;
+
+            if (currentDate) {
+                result.meta.currentWeekStart = currentDate.getTime();
+            }
+            if (prevDate) {
+                result.meta.prevWeekStart = prevDate.getTime();
+            }
+            if (nextDate) {
+                result.meta.nextWeekStart = nextDate.getTime();
+            }
+
+            result.meta.currentWeekDateText = currentRaw || (currentDate ? formatDateLabel(currentDate, 'dayMonthYear') : null);
+            result.meta.prevWeekDateText = prevRaw || (prevDate ? formatDateLabel(prevDate, 'dayMonthYear') : null);
+            result.meta.nextWeekDateText = nextRaw || (nextDate ? formatDateLabel(nextDate, 'dayMonthYear') : null);
+
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            rows.forEach(row => {
+                const cells = Array.from(row.querySelectorAll('td'));
+                if (cells.length <= 1) return;
+
+                const period = normalizeWhitespace(cells[0].textContent);
+
+                cells.slice(1).forEach((cell, index) => {
+                    const day = dayColumns[index];
+                    if (!day) return;
+
+                    const entryNodes = cell.querySelectorAll('.content');
+                    entryNodes.forEach(entryNode => {
+                        const entry = buildScheduleEntry(entryNode, day, period);
+                        if (!entry) return;
+                        result[entry.type].push(entry);
+                        result.total += 1;
+                    });
+                });
+            });
+
+            return result;
+        }
+
+        function buildScheduleEntry(element, day, period) {
+            if (!element) return null;
+
+            const entry = {
+                type: detectScheduleEntryType(element),
+                courseName: '',
+                courseHref: '',
+                classInfo: '',
+                slot: '',
+                room: '',
+                teacher: '',
+                notes: [],
+                dayName: day.dayName,
+                date: day.date,
+                period,
+                zoomLink: '',
+                zoomLabel: ''
+            };
+
+            const courseLink = element.querySelector('b a');
+            if (courseLink) {
+                entry.courseName = normalizeWhitespace(courseLink.textContent);
+                try {
+                    const rawHref = courseLink.getAttribute('href');
+                    if (rawHref) {
+                        entry.courseHref = new URL(rawHref, 'https://sinhvien.huit.edu.vn').href;
+                    }
+                } catch {
+                    entry.courseHref = courseLink.getAttribute('href') || '';
+                }
+            } else {
+                const courseTitle = element.querySelector('b');
+                if (courseTitle) {
+                    entry.courseName = normalizeWhitespace(courseTitle.textContent);
+                }
+            }
+
+            const paragraphs = Array.from(element.querySelectorAll('p')).filter(p => !p.classList.contains('box-zoom'));
+            paragraphs.forEach((p, index) => {
+                const text = normalizeWhitespace(p.textContent);
+                if (!text) return;
+
+                if (index === 0) {
+                    entry.classInfo = text;
+                    return;
+                }
+
+                if (/Tiết:/i.test(text)) {
+                    entry.slot = text.replace(/Tiết:/i, '').trim();
+                    return;
+                }
+
+                if (/Phòng:/i.test(text)) {
+                    entry.room = text.replace(/Phòng:/i, '').trim();
+                    return;
+                }
+
+                if (/GV:/i.test(text) || /Giảng viên:/i.test(text)) {
+                    entry.teacher = text.replace(/GV:|Giảng viên:/i, '').trim();
+                    return;
+                }
+
+                entry.notes.push(text);
+            });
+
+            const zoomAnchor = element.querySelector('p.box-zoom a');
+            if (zoomAnchor) {
+                entry.zoomLink = zoomAnchor.getAttribute('data-joinZoomUrl') || zoomAnchor.getAttribute('href') || '';
+                entry.zoomLabel = normalizeWhitespace(zoomAnchor.textContent) || 'Tham gia';
+            }
+
+            return entry;
+        }
+
+        function detectScheduleEntryType(element) {
+            const classNames = Array.from(element.classList);
+            if (classNames.some(name => name.includes('lichthi'))) {
+                return 'exam';
+            }
+            if (classNames.some(name => name.includes('tamngung'))) {
+                return 'break';
+            }
+            if (classNames.some(name => name.includes('online'))) {
+                return 'online';
+            }
+
+            const inlineStyle = (element.getAttribute('style') || '').toLowerCase();
+            if (inlineStyle.includes('#92d6ff') || inlineStyle.includes('1da1f2')) {
+                return 'online';
+            }
+            if (inlineStyle.includes('#f36a5a') || inlineStyle.includes('f36a5a')) {
+                return 'exam';
+            }
+            if (inlineStyle.includes('#ffc') || inlineStyle.includes('#ffb') || inlineStyle.includes('f59e0b')) {
+                return 'break';
+            }
+
+            if (element.querySelector('.fa-video-camera') || element.querySelector('[data-joinzoomurl]')) {
+                return 'online';
+            }
+
+            const markerText = removeDiacritics(normalizeWhitespace(element.textContent || '')).toLowerCase();
+            if (element.querySelector('.tamngung') || markerText.includes('tam ngung')) {
+                return 'break';
+            }
+            if (element.querySelector('[lang*="giothi"]') || markerText.includes('gio thi')) {
+                return 'exam';
+            }
+            if (element.querySelector('.lichthi') || markerText.includes('lich thi')) {
+                return 'exam';
+            }
+
+            return 'class';
+        }
+
+        function renderScheduleViews(data) {
+            if (!data) return;
+
+            const activeBtn = document.querySelector('.schedule-tab-btn.active');
+            const activeView = activeBtn ? activeBtn.getAttribute('data-view') : 'all';
+
+            const combinedEntries = []
+                .concat(Array.isArray(data.class) ? data.class : [])
+                .concat(Array.isArray(data.online) ? data.online : [])
+                .concat(Array.isArray(data.exam) ? data.exam : [])
+                .concat(Array.isArray(data.break) ? data.break : []);
+
+            renderScheduleView('scheduleAllContainer', combinedEntries, 'Không có thời gian biểu trong tuần này.', 'mixed');
+            renderScheduleView('scheduleClassContainer', data.class, 'Không có lịch học trong tuần này.', 'class');
+            renderScheduleView('scheduleOnlineContainer', data.online, 'Không có lịch học trực tuyến trong tuần này.', 'online');
+            renderScheduleView('scheduleExamContainer', data.exam, 'Không có lịch thi trong tuần này.', 'exam');
+            renderScheduleView('scheduleBreakContainer', data.break, 'Không có lịch tạm ngưng trong tuần này.', 'break');
+
+            switchScheduleView(activeView || 'all');
+        }
+
+        function renderScheduleView(containerId, entries, emptyMessage, entryType) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (!entries || entries.length === 0) {
+                container.innerHTML = `<div class="no-data">${escapeHtml(emptyMessage)}</div>`;
+                return;
+            }
+
+            const timeline = buildDayTimeline(entries);
+            const dayCards = timeline.map(day => {
+                const dayClasses = ['schedule-day-card', 'animate-in'];
+                if (day.isToday) {
+                    dayClasses.push('schedule-day-card--today');
+                }
+
+                const sessionBlocks = PERIOD_PRIORITY
+                    .map(periodKey => {
+                        const sessionEntries = day.sessions[periodKey];
+                        if (!sessionEntries || sessionEntries.length === 0) return '';
+
+                        const entriesHtml = sessionEntries
+                            .map(item => {
+                                const resolvedType = entryType === 'mixed' ? (item && item.type ? item.type : 'class') : entryType;
+                                return renderScheduleEntry(item, resolvedType);
+                            })
+                            .join('');
+
+                        return `
+                            <div class="schedule-session">
+                                <div class="schedule-session-title">${escapeHtml(PERIOD_LABELS[periodKey] || '🗂️ Khác')}</div>
+                                ${entriesHtml}
+                            </div>
+                        `;
+                    })
+                    .filter(Boolean)
+                    .join('');
+
+                const fallbackBlock = '<div class="schedule-session schedule-session-empty">Không có lịch cho khung giờ này.</div>';
+
+                return `
+                    <article class="${dayClasses.join(' ')}">
+                        <div class="schedule-day-header">
+                            <div class="schedule-day-title">${escapeHtml(day.dayName || '')}</div>
+                            <div class="schedule-day-date">${escapeHtml(day.formattedDate || day.date || '')}</div>
+                        </div>
+                        ${sessionBlocks || fallbackBlock}
+                    </article>
+                `;
+            }).join('');
+
+            container.innerHTML = `<div class="schedule-week-grid">${dayCards}</div>`;
+            applyCascadeAnimation(container.querySelectorAll('.schedule-day-card'), 0.05);
+        }
+
+        function createInfoRow(label, value) {
+            if (!value) return '';
+            return `<div class="schedule-info-row"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`;
+        }
+
+        function renderScheduleEntry(entry, entryType) {
+            const effectiveType = entryType || (entry && entry.type) || 'class';
+            const cardClasses = ['schedule-entry-card'];
+            if (effectiveType && effectiveType !== 'class') {
+                cardClasses.push(`schedule-entry-card--${effectiveType}`);
+            }
+
+            const tags = [];
+            if (entry.slot) {
+                tags.push(`<span class="schedule-entry-tag schedule-entry-tag--slot">${escapeHtml(entry.slot)}</span>`);
+            } else if (entry.period) {
+                tags.push(`<span class="schedule-entry-tag">${escapeHtml(entry.period)}</span>`);
+            }
+
+            const tagSection = tags.length ? `<div class="schedule-entry-tags">${tags.join('')}</div>` : '';
+
+            const metaLines = [];
+            if (entry.period) {
+                metaLines.push(`<div>🕒 Ca: <strong>${escapeHtml(entry.period)}</strong></div>`);
+            }
+            if (entry.room) {
+                metaLines.push(`<div>📍 Phòng: <strong>${escapeHtml(entry.room)}</strong></div>`);
+            }
+            if (entry.teacher) {
+                metaLines.push(`<div>👤 Giảng viên: <strong>${escapeHtml(entry.teacher)}</strong></div>`);
+            }
+            entry.notes.forEach(note => {
+                metaLines.push(`<div>🗒️ ${escapeHtml(note)}</div>`);
+            });
+
+            if (metaLines.length === 0) {
+                metaLines.push('<div>ℹ️ Không có thông tin bổ sung.</div>');
+            }
+
+            const actions = [];
+            if (entry.zoomLink) {
+                actions.push(`<a class="schedule-chip schedule-chip--accent" href="${escapeHtml(entry.zoomLink)}" target="_blank" rel="noopener">${escapeHtml(entry.zoomLabel || 'Vào buổi học')}</a>`);
+            }
+
+            return `
+                <div class="${cardClasses.join(' ')}">
+                    <div class="schedule-entry-header">
+                        <div>
+                            <div class="schedule-entry-title">${escapeHtml(entry.courseName || 'Không xác định')}</div>
+                            ${entry.classInfo ? `<div class="schedule-entry-class">${escapeHtml(entry.classInfo)}</div>` : ''}
+                        </div>
+                        ${tagSection}
+                    </div>
+                    <div class="schedule-entry-meta">
+                        ${metaLines.join('')}
+                    </div>
+                    ${actions.length ? `<div class="schedule-entry-actions">${actions.join('')}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function buildDayTimeline(entries) {
+            const todayKey = formatDateKey(new Date());
+            const dayMap = new Map();
+
+            entries.forEach(entry => {
+                const dayKey = `${entry.dayName}|${entry.date}`;
+                if (!dayMap.has(dayKey)) {
+                    const dateObj = parseVietnameseDate(entry.date);
+                    dayMap.set(dayKey, {
+                        dayName: entry.dayName,
+                        date: entry.date,
+                        formattedDate: dateObj ? formatDateLabel(dateObj, 'dayMonthYear') : entry.date,
+                        timestamp: dateObj ? dateObj.getTime() : null,
+                        isToday: dateObj ? formatDateKey(dateObj) === todayKey : false,
+                        sessions: {
+                            morning: [],
+                            afternoon: [],
+                            evening: [],
+                            other: []
+                        }
+                    });
+                }
+
+                const bucket = dayMap.get(dayKey);
+                const periodKey = getPeriodKey(entry.period);
+                bucket.sessions[periodKey].push(entry);
+            });
+
+            const timeline = Array.from(dayMap.values());
+            timeline.sort((a, b) => {
+                const dayIndexA = getDayOrderIndex(a.dayName);
+                const dayIndexB = getDayOrderIndex(b.dayName);
+                if (dayIndexA !== dayIndexB) return dayIndexA - dayIndexB;
+                if (a.timestamp && b.timestamp) return a.timestamp - b.timestamp;
+                return 0;
+            });
+
+            timeline.forEach(day => {
+                PERIOD_PRIORITY.forEach(key => {
+                    day.sessions[key].sort((left, right) => getSlotStartValue(left.slot) - getSlotStartValue(right.slot));
+                });
+            });
+
+            return timeline;
+        }
+
+        function getDayOrderIndex(dayName) {
+            if (!dayName) return Number.MAX_SAFE_INTEGER;
+            const index = DAY_ORDER.indexOf(dayName);
+            if (index >= 0) return index;
+            const normalized = removeDiacritics(dayName).toLowerCase();
+            const fallback = DAY_ORDER.findIndex(item => removeDiacritics(item).toLowerCase() === normalized);
+            return fallback >= 0 ? fallback : Number.MAX_SAFE_INTEGER;
+        }
+
+        function getPeriodKey(periodLabel) {
+            if (!periodLabel) return 'other';
+            const normalized = removeDiacritics(periodLabel).toLowerCase();
+            if (normalized.includes('sang')) return 'morning';
+            if (normalized.includes('chieu')) return 'afternoon';
+            if (normalized.includes('toi') || normalized.includes('dem')) return 'evening';
+            return 'other';
+        }
+
+        function removeDiacritics(value) {
+            if (!value) return '';
+            return value
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd')
+                .replace(/Đ/g, 'D');
+        }
+
+        function getSlotStartValue(slotText) {
+            if (!slotText) return Number.MAX_SAFE_INTEGER;
+            const match = slotText.match(/\d+/);
+            return match ? parseInt(match[0], 10) : Number.MAX_SAFE_INTEGER;
+        }
+
+        function updateScheduleToolbar(meta) {
+            const labelEl = document.getElementById('scheduleWeekLabel');
+            const rangeEl = document.getElementById('scheduleWeekRange');
+            scheduleMeta = meta || null;
+
+            if (!labelEl || !rangeEl) return;
+
+            if (!meta) {
+                labelEl.textContent = 'Tuần hiện tại';
+                rangeEl.textContent = 'Vui lòng tra cứu MSSV để hiển thị lịch.';
+                setWeekButtonsDisabled(true, true);
+                return;
+            }
+
+            labelEl.textContent = meta.weekLabel || 'Thời gian biểu theo tuần';
+            rangeEl.textContent = meta.weekRange || '';
+            setWeekButtonsDisabled(!meta.prevWeekStart, !meta.nextWeekStart);
+        }
+
+        function setScheduleToolbarMessage(message) {
+            const rangeEl = document.getElementById('scheduleWeekRange');
+            if (rangeEl) {
+                rangeEl.textContent = message || '';
+            }
+        }
+
+        function setWeekButtonsDisabled(prevDisabled, nextDisabled) {
+            const prevBtn = document.getElementById('scheduleWeekPrev');
+            const nextBtn = document.getElementById('scheduleWeekNext');
+            if (prevBtn) prevBtn.disabled = !!prevDisabled;
+            if (nextBtn) nextBtn.disabled = !!nextDisabled;
+        }
+
+        function buildScheduleCacheKey(token, dateText, timestamp) {
+            if (!token) return '';
+            if (dateText) return `${token}::date::${dateText}`;
+            if (timestamp != null) return `${token}::ts::${timestamp}`;
+            return `${token}::current`;
+        }
+
+        function cacheScheduleEntry(token, entry) {
+            if (!token || !entry) return;
+            const keys = new Set();
+            keys.add(buildScheduleCacheKey(token, entry.dateText || null, entry.timestamp ?? null));
+            if (entry.dateText) {
+                keys.add(buildScheduleCacheKey(token, entry.dateText, null));
+            }
+            if (entry.timestamp != null) {
+                keys.add(buildScheduleCacheKey(token, null, entry.timestamp));
+            }
+            if (!entry.dateText && entry.timestamp == null) {
+                keys.add(buildScheduleCacheKey(token, null, null));
+            }
+            keys.forEach(key => {
+                if (key) {
+                    scheduleCache.set(key, entry);
+                }
+            });
+        }
+
+        function getScheduleCacheEntry(token, dateText, timestamp) {
+            if (!token) return null;
+            const keys = [];
+            keys.push(buildScheduleCacheKey(token, dateText || null, timestamp ?? null));
+            if (dateText) {
+                keys.push(buildScheduleCacheKey(token, dateText, null));
+            }
+            if (timestamp != null) {
+                keys.push(buildScheduleCacheKey(token, null, timestamp));
+            }
+            keys.push(buildScheduleCacheKey(token, null, null));
+            const seen = new Set();
+            for (const key of keys) {
+                if (!key || seen.has(key)) continue;
+                seen.add(key);
+                const entry = scheduleCache.get(key);
+                if (entry) return entry;
+            }
+            return null;
+        }
+
+        function changeScheduleWeek(direction) {
+            if (!window.currentStudentUrl) {
+                showToast('Vui lòng tra cứu MSSV trước.', 'warning');
+                return;
+            }
+
+            const fallbackBase = currentScheduleTimestamp || Date.now();
+            let targetTimestamp = null;
+            let targetDateText = null;
+
+            if (direction === 'current') {
+                targetTimestamp = null;
+                targetDateText = null;
+            } else if (direction === 'prev') {
+                if (scheduleMeta && scheduleMeta.prevWeekStart) {
+                    targetTimestamp = scheduleMeta.prevWeekStart;
+                } else {
+                    targetTimestamp = adjustWeekTimestamp(fallbackBase, -1);
+                }
+                if (scheduleMeta && scheduleMeta.prevWeekDateText) {
+                    targetDateText = scheduleMeta.prevWeekDateText;
+                }
+            } else if (direction === 'next') {
+                if (scheduleMeta && scheduleMeta.nextWeekStart) {
+                    targetTimestamp = scheduleMeta.nextWeekStart;
+                } else {
+                    targetTimestamp = adjustWeekTimestamp(fallbackBase, 1);
+                }
+                if (scheduleMeta && scheduleMeta.nextWeekDateText) {
+                    targetDateText = scheduleMeta.nextWeekDateText;
+                }
+            } else {
+                return;
+            }
+
+            if (!targetDateText && targetTimestamp != null) {
+                const derivedDate = new Date(targetTimestamp);
+                if (!Number.isNaN(derivedDate.getTime())) {
+                    targetDateText = formatDateLabel(derivedDate, 'dayMonthYear');
+                }
+            }
+
+            console.log(`[changeScheduleWeek] direction=${direction}, targetTimestamp=${targetTimestamp}, targetDateText=${targetDateText}, scheduleMeta:`, scheduleMeta);
+            currentScheduleTimestamp = targetTimestamp;
+            currentScheduleDateText = targetDateText;
+
+            const scheduleToken = extractScheduleToken(window.currentStudentUrl);
+            if (!scheduleToken) {
+                setScheduleToolbarMessage('Không tìm thấy mã truy xuất thời gian biểu.');
+                return;
+            }
+
+            const cachedEntry = getScheduleCacheEntry(scheduleToken, targetDateText, targetTimestamp);
+
+            if (cachedEntry && cachedEntry.data) {
+                console.log(`[changeScheduleWeek] Using cached data for direction=${direction}`);
+                const cachedMeta = cachedEntry.data.meta || null;
+                scheduleMeta = cachedMeta;
+                currentScheduleTimestamp = cachedEntry.timestamp ?? (cachedMeta && cachedMeta.currentWeekStart != null ? cachedMeta.currentWeekStart : null);
+                currentScheduleDateText = cachedEntry.dateText ?? (cachedMeta && cachedMeta.currentWeekDateText ? cachedMeta.currentWeekDateText : null);
+                updateScheduleToolbar(cachedMeta);
+                renderScheduleViews(cachedEntry.data);
+
+                const loadingEl = document.getElementById('scheduleLoading');
+                if (loadingEl) loadingEl.style.display = 'none';
+
+                const noDataEl = document.getElementById('scheduleNoData');
+                if (noDataEl) {
+                    if (cachedEntry.data.total > 0) {
+                        noDataEl.style.display = 'none';
+                    } else {
+                        noDataEl.textContent = 'Không tìm thấy thời gian biểu cho tuần này.';
+                        noDataEl.style.display = 'block';
+                    }
+                }
+                return;
+            }
+
+            console.log(`[changeScheduleWeek] Fetching new data for direction=${direction}`);
+            setScheduleToolbarMessage('Đang tải thời gian biểu...');
+            loadScheduleData(window.currentStudentUrl);
+        }
+
+        function adjustWeekTimestamp(baseTimestamp, deltaWeeks) {
+            const baseDate = new Date(baseTimestamp);
+            if (Number.isNaN(baseDate.getTime())) {
+                return Date.now();
+            }
+            baseDate.setHours(0, 0, 0, 0);
+            baseDate.setDate(baseDate.getDate() + deltaWeeks * 7);
+            return baseDate.getTime();
+        }
+
+        function formatDateKey(date) {
+            if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '';
+            return `${date.getFullYear()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())}`;
+        }
+
+        function parseVietnameseDate(value) {
+            if (!value) return null;
+            if (value instanceof Date) {
+                return Number.isNaN(value.getTime()) ? null : value;
+            }
+
+            const parts = String(value).split(/[\/]/);
+            if (parts.length < 3) return null;
+
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1;
+            const year = parseInt(parts[2], 10);
+
+            if ([day, month, year].some(Number.isNaN)) return null;
+
+            const dateObj = new Date(year, month, day);
+            return Number.isNaN(dateObj.getTime()) ? null : dateObj;
+        }
+
+        function formatWeekRange(startDate, endDate) {
+            if (!(startDate instanceof Date) || Number.isNaN(startDate.getTime())) return '';
+            if (!(endDate instanceof Date) || Number.isNaN(endDate.getTime())) return '';
+
+            const sameYear = startDate.getFullYear() === endDate.getFullYear();
+            const startText = formatDateLabel(startDate, sameYear ? 'dayMonth' : 'dayMonthYear');
+            const endText = formatDateLabel(endDate, 'dayMonthYear');
+            return `${startText} - ${endText}`;
+        }
+
+        function formatDateLabel(date, mode = 'dayMonthYear') {
+            if (!(date instanceof Date) || Number.isNaN(date.getTime())) return '';
+            const day = pad2(date.getDate());
+            const month = pad2(date.getMonth() + 1);
+            if (mode === 'dayMonth') {
+                return `${day}/${month}`;
+            }
+            return `${day}/${month}/${date.getFullYear()}`;
+        }
+
+        function pad2(value) {
+            return String(value).padStart(2, '0');
+        }
+
+        function getISOWeekNumber(date) {
+            if (!(date instanceof Date) || Number.isNaN(date.getTime())) return null;
+            const tempDate = new Date(date.getTime());
+            tempDate.setHours(0, 0, 0, 0);
+            // Thursday in current week decides the year
+            tempDate.setDate(tempDate.getDate() + 3 - ((tempDate.getDay() + 6) % 7));
+            const week1 = new Date(tempDate.getFullYear(), 0, 4);
+            return 1 + Math.round(((tempDate.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+        }
+
+        function clearScheduleViews() {
+            ['scheduleAllContainer', 'scheduleClassContainer', 'scheduleOnlineContainer', 'scheduleExamContainer', 'scheduleBreakContainer'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.innerHTML = '';
+                }
+            });
+        }
+
+        function normalizeWhitespace(value) {
+            if (!value) return '';
+            return String(value)
+                .replace(/<br\s*\/?>/gi, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+    </script>
+</body>
+</html>
